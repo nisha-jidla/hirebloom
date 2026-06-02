@@ -21,40 +21,14 @@ exports.handler = async (event) => {
   };
 
   try {
-    const body = JSON.parse(event.body);
-    const { name, jobTitle, companyName, skills, resume, jobDescription, tone = "professional" } = body;
+    const { resume, jobDescription } = JSON.parse(event.body);
 
-    if (!name && !resume) {
+    if (!resume || !jobDescription) {
       return {
         statusCode: 400,
         headers,
-        body: JSON.stringify({ error: "Name or resume is required" }),
+        body: JSON.stringify({ error: "Resume and job description are required" }),
       };
-    }
-
-    let userPrompt;
-    if (name) {
-      userPrompt = `Write a cover letter for this applicant.
-
-Name: ${name}
-Job Title: ${jobTitle || "the advertised position"}
-Company: ${companyName || "the company"}
-Skills: ${skills || "not specified"}
-Tone: ${tone}
-
-Respond with ONLY a raw JSON object. No markdown. No backticks. No explanation.
-Example: {"subject":"Application for Software Developer","coverLetter":"Dear Hiring Manager,\\n\\nI am writing..."}`;
-    } else {
-      userPrompt = `Write a cover letter based on this resume and job description. Tone: ${tone}.
-
-RESUME:
-${resume}
-
-JOB DESCRIPTION:
-${jobDescription}
-
-Respond with ONLY a raw JSON object. No markdown. No backticks. No explanation.
-Example: {"subject":"Application for Software Developer","coverLetter":"Dear Hiring Manager,\\n\\nI am writing..."}`;
     }
 
     const response = await fetch("https://api.anthropic.com/v1/messages", {
@@ -65,9 +39,25 @@ Example: {"subject":"Application for Software Developer","coverLetter":"Dear Hir
         "anthropic-version": "2023-06-01",
       },
       body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
+        model: "claude-haiku-4-5-20251001",
         max_tokens: 1000,
-        messages: [{ role: "user", content: userPrompt }],
+        messages: [
+          {
+            role: "user",
+            content: `You are an ATS expert. Analyze this resume against the job description.
+
+You MUST respond with ONLY a raw JSON object. No markdown. No backticks. No explanation. Just the JSON.
+
+Example format:
+{"score":72,"strengths":["Has Python skills"],"improvements":["Add metrics"],"keywords_matched":["Python"],"keywords_missing":["SQL"]}
+
+RESUME:
+${resume}
+
+JOB DESCRIPTION:
+${jobDescription}`,
+          },
+        ],
       }),
     });
 
@@ -78,18 +68,22 @@ Example: {"subject":"Application for Software Developer","coverLetter":"Dear Hir
       throw new Error(data.error?.message || "Anthropic API error");
     }
 
+    // Robust parsing - strip any markdown fences
     let raw = data.content[0].text.trim();
     raw = raw.replace(/^```json\s*/i, "").replace(/^```\s*/i, "").replace(/```\s*$/i, "").trim();
 
     const result = JSON.parse(raw);
 
+    // Ensure score is a number
+    result.score = Number(result.score);
+
     return { statusCode: 200, headers, body: JSON.stringify(result) };
   } catch (err) {
-    console.error("cover-letter error:", err.message);
+    console.error("analyze error:", err.message);
     return {
       statusCode: 500,
       headers,
-      body: JSON.stringify({ error: "Cover letter generation failed", details: err.message }),
+      body: JSON.stringify({ error: "Analysis failed", details: err.message }),
     };
   }
 };
