@@ -22,40 +22,26 @@ exports.handler = async (event) => {
 
   try {
     const body = JSON.parse(event.body);
-
-    // Support BOTH input styles:
-    // Style A (simple UI):  { jobRole }
-    // Style B (advanced):   { resume, jobDescription, questionCount }
     const { jobRole, resume, jobDescription, questionCount = 5 } = body;
 
     if (!jobRole && !resume) {
       return {
         statusCode: 400,
         headers,
-        body: JSON.stringify({ error: "Either jobRole or (resume + jobDescription) are required" }),
+        body: JSON.stringify({ error: "jobRole or resume is required" }),
       };
     }
 
     let userPrompt;
     if (jobRole) {
-      // Simple mode — matches the interview-prep.html UI
-      userPrompt = `Generate ${questionCount} realistic interview questions for a candidate applying for the role of: ${jobRole}.
+      userPrompt = `Generate ${questionCount} interview questions for: ${jobRole}
 
-Include a mix of behavioral, technical, and situational questions. For each, include a helpful answering tip.
+Include behavioral, technical, and situational questions. For each include a tip.
 
-Respond ONLY with a valid JSON object. No markdown, no backticks, no explanation. Format:
-{
-  "questions": [
-    {
-      "type": "behavioral|technical|situational",
-      "question": "<the interview question>",
-      "tip": "<concise tip on how to answer this well>"
-    }
-  ]
-}`;
+Respond with ONLY a raw JSON object. No markdown. No backticks. No explanation.
+Example: {"questions":[{"type":"behavioral","question":"Tell me about yourself","tip":"Focus on relevant experience"}]}`;
     } else {
-      // Advanced mode — resume + job description
-      userPrompt = `Generate ${questionCount} tailored interview questions for this candidate and role.
+      userPrompt = `Generate ${questionCount} interview questions tailored to this candidate.
 
 RESUME:
 ${resume}
@@ -63,18 +49,8 @@ ${resume}
 JOB DESCRIPTION:
 ${jobDescription}
 
-Include behavioral, technical, and situational questions. For each, include a tip personalized to the candidate's background.
-
-Respond ONLY with a valid JSON object. No markdown, no backticks, no explanation. Format:
-{
-  "questions": [
-    {
-      "type": "behavioral|technical|situational",
-      "question": "<the interview question>",
-      "tip": "<personalized tip based on the resume>"
-    }
-  ]
-}`;
+Respond with ONLY a raw JSON object. No markdown. No backticks. No explanation.
+Example: {"questions":[{"type":"technical","question":"Explain Python decorators","tip":"Use a simple example"}]}`;
     }
 
     const response = await fetch("https://api.anthropic.com/v1/messages", {
@@ -94,16 +70,18 @@ Respond ONLY with a valid JSON object. No markdown, no backticks, no explanation
     const data = await response.json();
 
     if (!response.ok) {
-      console.error("Anthropic API error:", data);
+      console.error("Anthropic error:", JSON.stringify(data));
       throw new Error(data.error?.message || "Anthropic API error");
     }
 
-    const raw = data.content[0].text.trim().replace(/```json|```/g, "").trim();
+    let raw = data.content[0].text.trim();
+    raw = raw.replace(/^```json\s*/i, "").replace(/^```\s*/i, "").replace(/```\s*$/i, "").trim();
+
     const result = JSON.parse(raw);
 
     return { statusCode: 200, headers, body: JSON.stringify(result) };
   } catch (err) {
-    console.error("interview error:", err);
+    console.error("interview error:", err.message);
     return {
       statusCode: 500,
       headers,

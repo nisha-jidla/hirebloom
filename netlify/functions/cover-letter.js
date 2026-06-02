@@ -22,39 +22,30 @@ exports.handler = async (event) => {
 
   try {
     const body = JSON.parse(event.body);
-
-    // Support BOTH input styles:
-    // Style A (simple UI): { name, jobTitle, companyName, skills }
-    // Style B (advanced):  { resume, jobDescription, tone }
     const { name, jobTitle, companyName, skills, resume, jobDescription, tone = "professional" } = body;
 
     if (!name && !resume) {
       return {
         statusCode: 400,
         headers,
-        body: JSON.stringify({ error: "Either (name + jobTitle + companyName) or (resume + jobDescription) are required" }),
+        body: JSON.stringify({ error: "Name or resume is required" }),
       };
     }
 
     let userPrompt;
     if (name) {
-      // Simple mode — matches the cover-letter.html UI
-      userPrompt = `Write a compelling, professional cover letter for the following applicant.
+      userPrompt = `Write a cover letter for this applicant.
 
-Applicant Name: ${name}
-Job Title Applying For: ${jobTitle || "the advertised position"}
-Company Name: ${companyName || "the company"}
-${skills ? `Key Skills / Background: ${skills}` : ""}
+Name: ${name}
+Job Title: ${jobTitle || "the advertised position"}
+Company: ${companyName || "the company"}
+Skills: ${skills || "not specified"}
 Tone: ${tone}
 
-Respond ONLY with a valid JSON object. No markdown, no backticks, no explanation. Format:
-{
-  "subject": "<email subject line>",
-  "coverLetter": "<full cover letter with \\n for paragraph breaks>"
-}`;
+Respond with ONLY a raw JSON object. No markdown. No backticks. No explanation.
+Example: {"subject":"Application for Software Developer","coverLetter":"Dear Hiring Manager,\\n\\nI am writing..."}`;
     } else {
-      // Advanced mode — resume + job description
-      userPrompt = `Write a compelling cover letter based on this resume and job description. Tone: ${tone}.
+      userPrompt = `Write a cover letter based on this resume and job description. Tone: ${tone}.
 
 RESUME:
 ${resume}
@@ -62,11 +53,8 @@ ${resume}
 JOB DESCRIPTION:
 ${jobDescription}
 
-Respond ONLY with a valid JSON object. No markdown, no backticks, no explanation. Format:
-{
-  "subject": "<email subject line>",
-  "coverLetter": "<full cover letter with \\n for paragraph breaks>"
-}`;
+Respond with ONLY a raw JSON object. No markdown. No backticks. No explanation.
+Example: {"subject":"Application for Software Developer","coverLetter":"Dear Hiring Manager,\\n\\nI am writing..."}`;
     }
 
     const response = await fetch("https://api.anthropic.com/v1/messages", {
@@ -86,16 +74,18 @@ Respond ONLY with a valid JSON object. No markdown, no backticks, no explanation
     const data = await response.json();
 
     if (!response.ok) {
-      console.error("Anthropic API error:", data);
+      console.error("Anthropic error:", JSON.stringify(data));
       throw new Error(data.error?.message || "Anthropic API error");
     }
 
-    const raw = data.content[0].text.trim().replace(/```json|```/g, "").trim();
+    let raw = data.content[0].text.trim();
+    raw = raw.replace(/^```json\s*/i, "").replace(/^```\s*/i, "").replace(/```\s*$/i, "").trim();
+
     const result = JSON.parse(raw);
 
     return { statusCode: 200, headers, body: JSON.stringify(result) };
   } catch (err) {
-    console.error("cover-letter error:", err);
+    console.error("cover-letter error:", err.message);
     return {
       statusCode: 500,
       headers,
