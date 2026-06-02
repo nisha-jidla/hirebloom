@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>HireBloom — Function Test Dashboard</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',sans-serif;background:#f0f4ff;color:#1a1a2e;padding:20px 16px;min-height:100vh}
+  header{text-align:center;margin-bottom:28px}
+  header h1{font-size:1.8rem;color:#4f46e5}
+  header .sub{color:#666;font-size:0.9rem;margin-top:4px}
+  .url-badge{display:inline-block;background:#e0e7ff;color:#4f46e5;padding:3px 12px;border-radius:20px;font-family:monospace;font-size:0.8rem;margin-top:8px}
+  .status-bar{display:flex;gap:10px;justify-content:center;margin-bottom:24px;flex-wrap:wrap}
+  .fn-status{background:white;border-radius:12px;padding:10px 16px;box-shadow:0 2px 8px rgba(0,0,0,0.07);font-size:0.85rem;font-weight:600;display:flex;align-items:center;gap:8px}
+  .dot{width:10px;height:10px;border-radius:50%;background:#e2e8f0}
+  .dot.ok{background:#22c55e}
+  .dot.err{background:#ef4444}
+  .dot.loading{background:#f59e0b;animation:pulse 1s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+
+  .grid{display:grid;grid-template-columns:1fr;gap:20px;max-width:900px;margin:0 auto}
+  @media(min-width:700px){.grid{grid-template-columns:1fr 1fr}}
+
+  .card{background:white;border-radius:16px;padding:22px;box-shadow:0 2px 12px rgba(0,0,0,0.07)}
+  .card-title{font-size:1rem;font-weight:700;color:#4f46e5;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+  .endpoint{font-family:monospace;font-size:0.75rem;color:#94a3b8;margin-bottom:14px}
+  label{font-size:0.82rem;font-weight:500;color:#555;display:block;margin-bottom:5px;margin-top:10px}
+  input,textarea,select{width:100%;padding:9px 12px;border:1px solid #e2e8f0;border-radius:8px;font-family:inherit;font-size:0.88rem;background:#fafafa;transition:border 0.2s;color:#333}
+  input:focus,textarea:focus,select:focus{outline:none;border-color:#4f46e5;background:white}
+  textarea{resize:vertical}
+
+  .btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:9px;border:none;cursor:pointer;font-weight:600;font-size:0.9rem;transition:all 0.2s;margin-top:14px;width:100%;justify-content:center}
+  .btn-primary{background:#4f46e5;color:white}
+  .btn-primary:hover{background:#4338ca}
+  .btn-primary:disabled{background:#a5b4fc;cursor:not-allowed}
+  .spinner{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,0.4);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  .result{margin-top:14px;font-size:0.85rem}
+  .r-score{text-align:center;padding:14px;background:linear-gradient(135deg,#4f46e5,#7c3aed);border-radius:12px;color:white;margin-bottom:12px}
+  .r-score .num{font-size:2.5rem;font-weight:800}
+  .r-score .lbl{font-size:0.8rem;opacity:0.85}
+  .section{font-weight:600;color:#333;margin:10px 0 5px;font-size:0.85rem}
+  .tags{display:flex;flex-wrap:wrap;gap:5px}
+  .tag{padding:3px 9px;border-radius:20px;font-size:0.78rem;font-weight:500}
+  .tg{background:#dcfce7;color:#15803d}
+  .tr{background:#fee2e2;color:#dc2626}
+  .tb{background:#e0e7ff;color:#4338ca}
+  ul.bul{padding-left:16px;line-height:1.9;color:#444;font-size:0.85rem}
+  .letter-box{white-space:pre-wrap;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px;font-size:0.83rem;line-height:1.7;color:#333;margin-top:8px;max-height:280px;overflow-y:auto}
+  .subject-line{background:#e0e7ff;color:#4338ca;padding:6px 12px;border-radius:8px;font-size:0.82rem;font-weight:500;margin-bottom:8px;word-break:break-word}
+  .q-card{border:1px solid #e2e8f0;border-radius:9px;padding:12px;margin-bottom:10px}
+  .q-type{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;padding:2px 8px;border-radius:10px;display:inline-block;margin-bottom:6px}
+  .q-behavioral{background:#fef3c7;color:#b45309}
+  .q-technical{background:#e0e7ff;color:#4338ca}
+  .q-situational{background:#dcfce7;color:#15803d}
+  .q-text{font-weight:600;font-size:0.87rem;color:#1a1a2e;margin-bottom:6px}
+  .q-tip{font-size:0.8rem;color:#64748b;background:#f8fafc;padding:7px 10px;border-radius:7px;border-left:3px solid #4f46e5}
+  .copy-btn{background:#e0e7ff;color:#4f46e5;border:none;padding:6px 14px;border-radius:7px;cursor:pointer;font-weight:600;font-size:0.8rem;margin-top:8px;transition:background 0.2s}
+  .copy-btn:hover{background:#c7d2fe}
+  .err-box{color:#dc2626;background:#fee2e2;border-radius:8px;padding:10px 12px;font-size:0.83rem;margin-top:10px}
+
+  .full-width{grid-column:1/-1}
+  .run-all{width:100%;max-width:900px;margin:0 auto 24px;display:flex;padding:14px 24px;border-radius:12px;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:white;border:none;cursor:pointer;font-weight:700;font-size:1rem;justify-content:center;align-items:center;gap:8px;transition:opacity 0.2s;box-shadow:0 4px 14px rgba(79,70,229,0.35)}
+  .run-all:hover{opacity:0.9}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🌸 HireBloom</h1>
+  <div class="sub">Live Function Test Dashboard</div>
+  <div class="url-badge">starlit-bombolone-2f8b8d.netlify.app</div>
+</header>
+
+<div class="status-bar">
+  <div class="fn-status"><div class="dot" id="dot-analyze"></div> analyze.js</div>
+  <div class="fn-status"><div class="dot" id="dot-cover"></div> cover-letter.js</div>
+  <div class="fn-status"><div class="dot" id="dot-interview"></div> interview.js</div>
+</div>
+
+<button class="run-all" onclick="runAll()">⚡ Test All 3 Functions</button>
+
+<div class="grid">
+
+  <!-- ANALYZE -->
+  <div class="card full-width">
+    <div class="card-title">📊 Resume Analyzer</div>
+    <div class="endpoint">POST /.netlify/functions/analyze</div>
+    <label>Resume Text</label>
+    <textarea id="a-resume" rows="4">John Smith
+Software Developer
+Skills: Python, JavaScript, React
+Experience: 2 years at Tech Company
+Education: BSc Computer Science</textarea>
+    <label>Job Description</label>
+    <textarea id="a-jd" rows="3">Software Developer with Python and JavaScript skills required. React preferred. 1+ years experience. BSc Computer Science preferred.</textarea>
+    <button class="btn btn-primary" id="btn-analyze" onclick="runAnalyze()">
+      <span id="sp-analyze" style="display:none" class="spinner"></span>Run Analysis
+    </button>
+    <div id="res-analyze"></div>
+  </div>
+
+  <!-- COVER LETTER -->
+  <div class="card">
+    <div class="card-title">✉️ Cover Letter Generator</div>
+    <div class="endpoint">POST /.netlify/functions/cover-letter</div>
+    <label>Your Name</label>
+    <input id="c-name" type="text" placeholder="e.g. Nisha Jidla" value="John Smith"/>
+    <label>Job Title</label>
+    <input id="c-title" type="text" placeholder="e.g. Junior IT Support Analyst" value="Software Developer"/>
+    <label>Company Name</label>
+    <input id="c-company" type="text" placeholder="e.g. ABC Technology" value="Tech Corp"/>
+    <label>Key Skills (optional)</label>
+    <input id="c-skills" type="text" placeholder="e.g. Python, JavaScript, React" value="Python, JavaScript, React"/>
+    <button class="btn btn-primary" id="btn-cover" onclick="runCoverLetter()">
+      <span id="sp-cover" style="display:none" class="spinner"></span>Generate Cover Letter
+    </button>
+    <div id="res-cover"></div>
+  </div>
+
+  <!-- INTERVIEW PREP -->
+  <div class="card">
+    <div class="card-title">🎤 Interview Prep</div>
+    <div class="endpoint">POST /.netlify/functions/interview</div>
+    <label>Job Role</label>
+    <textarea id="i-role" rows="3" placeholder="e.g. ServiceNow Developer, IT Support Analyst, DevOps Engineer">Software Developer</textarea>
+    <label>Number of Questions</label>
+    <select id="i-count">
+      <option value="3">3 questions</option>
+      <option value="5" selected>5 questions</option>
+      <option value="8">8 questions</option>
+    </select>
+    <button class="btn btn-primary" id="btn-interview" onclick="runInterview()">
+      <span id="sp-interview" style="display:none" class="spinner"></span>Generate Questions
+    </button>
+    <div id="res-interview"></div>
+  </div>
+
+</div>
+
+<script>
+const BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'http://localhost:8888'
+  : 'https://starlit-bombolone-2f8b8d.netlify.app';
+
+function setDot(fn, state) {
+  const d = document.getElementById('dot-' + fn);
+  d.className = 'dot' + (state ? ' ' + state : '');
+}
+
+function setLoading(fn, on) {
+  document.getElementById('btn-' + fn).disabled = on;
+  document.getElementById('sp-' + fn).style.display = on ? 'inline-block' : 'none';
+  if (on) setDot(fn === 'analyze' ? 'analyze' : fn === 'cover' ? 'cover' : 'interview', 'loading');
+}
+
+async function callFn(path, payload) {
+  const res = await fetch(`${BASE}/.netlify/functions/${path}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+  return data;
+}
+
+async function runAnalyze() {
+  setLoading('analyze', true);
+  const box = document.getElementById('res-analyze');
+  try {
+    const data = await callFn('analyze', {
+      resume: document.getElementById('a-resume').value,
+      jobDescription: document.getElementById('a-jd').value,
+    });
+    setDot('analyze', 'ok');
+    box.innerHTML = `
+      <div class="result">
+        <div class="r-score"><div class="num">${data.score}%</div><div class="lbl">ATS Match Score</div></div>
+        <div class="section">✅ Strengths</div>
+        <ul class="bul">${(data.strengths||[]).map(s=>`<li>${s}</li>`).join('')}</ul>
+        <div class="section">🔧 Improvements</div>
+        <ul class="bul">${(data.improvements||[]).map(i=>`<li>${i}</li>`).join('')}</ul>
+        <div class="section">🔑 Keywords Matched</div>
+        <div class="tags">${(data.keywords_matched||[]).map(k=>`<span class="tag tg">${k}</span>`).join('')}</div>
+        <div class="section">❌ Keywords Missing</div>
+        <div class="tags">${(data.keywords_missing||[]).map(k=>`<span class="tag tr">${k}</span>`).join('')}</div>
+      </div>`;
+  } catch(e) {
+    setDot('analyze', 'err');
+    box.innerHTML = `<div class="err-box">❌ ${e.message}</div>`;
+  }
+  setLoading('analyze', false);
+}
+
+async function runCoverLetter() {
+  setLoading('cover', true);
+  const box = document.getElementById('res-cover');
+  try {
+    const data = await callFn('cover-letter', {
+      name: document.getElementById('c-name').value,
+      jobTitle: document.getElementById('c-title').value,
+      companyName: document.getElementById('c-company').value,
+      skills: document.getElementById('c-skills').value,
+    });
+    setDot('cover', 'ok');
+    box.innerHTML = `
+      <div class="result">
+        <div class="section">📧 Subject</div>
+        <div class="subject-line">${data.subject}</div>
+        <div class="section">📝 Letter</div>
+        <div class="letter-box" id="letter-text">${data.coverLetter}</div>
+        <button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('letter-text').innerText);this.textContent='✅ Copied!'">📋 Copy Letter</button>
+      </div>`;
+  } catch(e) {
+    setDot('cover', 'err');
+    box.innerHTML = `<div class="err-box">❌ ${e.message}</div>`;
+  }
+  setLoading('cover', false);
+}
+
+async function runInterview() {
+  setLoading('interview', true);
+  const box = document.getElementById('res-interview');
+  try {
+    const data = await callFn('interview', {
+      jobRole: document.getElementById('i-role').value,
+      questionCount: parseInt(document.getElementById('i-count').value),
+    });
+    setDot('interview', 'ok');
+    box.innerHTML = `<div class="result">${(data.questions||[]).map((q,i)=>`
+      <div class="q-card">
+        <span class="q-type q-${q.type||'behavioral'}">${q.type||'behavioral'}</span>
+        <div class="q-text">Q${i+1}. ${q.question}</div>
+        <div class="q-tip">💡 ${q.tip}</div>
+      </div>`).join('')}</div>`;
+  } catch(e) {
+    setDot('interview', 'err');
+    box.innerHTML = `<div class="err-box">❌ ${e.message}</div>`;
+  }
+  setLoading('interview', false);
+}
+
+function runAll() {
+  runAnalyze();
+  runCoverLetter();
+  runInterview();
+}
+</script>
+</body>
+</html>
