@@ -61,7 +61,7 @@ Example: {"questions":[{"type":"technical","question":"Explain Python decorators
         "anthropic-version": "2023-06-01",
       },
       body: JSON.stringify({
-        model: "claude-opus-4-5-20251001",
+        model: "claude-opus-4-8",
         max_tokens: 1000,
         messages: [{ role: "user", content: userPrompt }],
       }),
