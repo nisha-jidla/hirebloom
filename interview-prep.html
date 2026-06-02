@@ -1,78 +1,223 @@
-<script>
-async function generateQuestions() {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interview Prep - HireBloom</title>
 
-    const role = document.getElementById("jobrole").value.trim();
-    const result = document.getElementById("result");
-
-    if (role === "") {
-        alert("Please enter a job role.");
-        return;
-    }
-
-    result.style.display = "block";
-    result.innerHTML = "<h3>Generating interview questions...</h3>";
-
-    try {
-
-        const response = await fetch("/.netlify/functions/interview", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                jobRole: role
-            })
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.error || "Failed to generate questions");
-        }
-
-        let questionsHtml = `<h3>Interview Questions for ${role}</h3>`;
-
-        if (data.questions && data.questions.length > 0) {
-
-            data.questions.forEach((item, index) => {
-
-                if (typeof item === "object") {
-
-                    questionsHtml += `
-                        <p>
-                        <strong>${index + 1}. ${item.question}</strong><br>
-                        <em>Tip:</em> ${item.tip || ""}
-                        </p>
-                    `;
-
-                } else {
-
-                    questionsHtml += `
-                        <p>
-                        <strong>${index + 1}. ${item}</strong>
-                        </p>
-                    `;
-                }
-
-            });
-
-        } else {
-
-            questionsHtml += `
-                <p>No interview questions returned.</p>
-            `;
-        }
-
-        result.innerHTML = questionsHtml;
-
-    } catch (error) {
-
-        console.error(error);
-
-        result.innerHTML = `
-            <h3>Error</h3>
-            <p>${error.message}</p>
-        `;
-    }
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
+
+body{
+font-family:'Segoe UI',sans-serif;
+background:#f5f0ff;
+min-height:100vh;
+}
+
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:white;
+padding:20px 60px;
+box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+.logo{
+font-size:24px;
+font-weight:bold;
+color:#6c3fc5;
+text-decoration:none;
+}
+
+.logo span{
+color:#f59e0b;
+}
+
+.home-btn{
+background:#6c3fc5;
+color:white;
+padding:10px 22px;
+border-radius:25px;
+text-decoration:none;
+font-weight:600;
+}
+
+.container{
+max-width:900px;
+margin:50px auto;
+padding:20px;
+}
+
+.card{
+background:white;
+padding:32px;
+border-radius:16px;
+box-shadow:0 4px 20px rgba(0,0,0,.08);
+}
+
+h1{
+text-align:center;
+font-size:36px;
+color:#1a1a2e;
+margin-bottom:10px;
+}
+
+.subtitle{
+text-align:center;
+color:#666;
+margin-bottom:30px;
+}
+
+label{
+display:block;
+font-weight:600;
+color:#1a1a2e;
+margin-bottom:8px;
+}
+
+textarea{
+width:100%;
+padding:15px;
+border:2px solid #ddd;
+border-radius:10px;
+font-size:15px;
+font-family:'Segoe UI',sans-serif;
+resize:vertical;
+outline:none;
+}
+
+textarea:focus{
+border-color:#6c3fc5;
+}
+
+button{
+margin-top:20px;
+width:100%;
+padding:15px;
+border:none;
+border-radius:30px;
+background:#6c3fc5;
+color:white;
+font-size:18px;
+font-weight:600;
+cursor:pointer;
+}
+
+button:hover{
+background:#5630a3;
+}
+
+#result{
+margin-top:25px;
+background:#f9f6ff;
+padding:25px;
+border-radius:12px;
+display:none;
+line-height:1.8;
+color:#333;
+}
+
+#result h3{
+color:#1a1a2e;
+margin-bottom:15px;
+}
+
+@media(max-width:700px){
+nav{
+padding:20px;
+}
+
+h1{
+font-size:30px;
+}
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+<a href="index.html" class="logo">Hire<span>Bloom</span> 🌸</a>
+<a href="index.html" class="home-btn">← Home</a>
+</nav>
+
+<div class="container">
+
+<h1>🎤 Interview Prep</h1>
+
+<p class="subtitle">
+Enter a job role and generate interview questions instantly.
+</p>
+
+<div class="card">
+
+<label>Job Role</label>
+
+<textarea
+id="jobrole"
+rows="4"
+placeholder="Example: ServiceNow Developer, IT Support Analyst, DevOps Engineer"></textarea>
+
+<button onclick="generateQuestions()">
+Generate Interview Questions
+</button>
+
+<div id="result"></div>
+
+</div>
+
+</div>
+
+<script>
+
+function generateQuestions() {
+
+const role = document.getElementById("jobrole").value.trim();
+
+if(role === ""){
+alert("Please enter a job role.");
+return;
+}
+
+const result = document.getElementById("result");
+
+result.style.display = "block";
+
+result.innerHTML = `
+<h3>Interview Questions for ${role}</h3>
+
+<p><strong>1.</strong> Tell us about yourself.</p><br>
+
+<p><strong>2.</strong> Why are you interested in the ${role} role?</p><br>
+
+<p><strong>3.</strong> What skills and experience make you suitable for this role?</p><br>
+
+<p><strong>4.</strong> Can you describe a challenging situation and how you handled it?</p><br>
+
+<p><strong>5.</strong> How do you organise your work when you have multiple tasks?</p><br>
+
+<p><strong>6.</strong> What are your strengths?</p><br>
+
+<p><strong>7.</strong> What is one weakness you are working to improve?</p><br>
+
+<p><strong>8.</strong> Why should we hire you for this position?</p><br>
+
+<p><strong>9.</strong> Where do you see yourself in five years?</p><br>
+
+<p><strong>10.</strong> Do you have any questions for us?</p><br>
+
+<p><strong>Tip:</strong> Prepare answers using the STAR method:
+Situation, Task, Action, Result.</p>
+`;
+
+}
+
 </script>
+
+</body>
+</html>
