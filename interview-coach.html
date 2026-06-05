@@ -96,26 +96,23 @@ display:none;
 </nav>
 
 <div class="container">
-
 <h1>🎤 AI Interview Coach</h1>
 
 <input type="text" id="role" placeholder="Enter Job Role">
 
 <select id="level">
-<option>Beginner</option>
-<option>Intermediate</option>
-<option>Experienced</option>
+<option value="Beginner">Beginner</option>
+<option value="Intermediate">Intermediate</option>
+<option value="Experienced">Experienced</option>
 </select>
 
 <button onclick="generateQuestions()">Generate Interview Questions</button>
 
 <div class="result" id="result"></div>
-
 </div>
 
 <script>
 function generateQuestions(){
-
 const role = document.getElementById("role").value.trim();
 const level = document.getElementById("level").value;
 
@@ -126,7 +123,6 @@ return;
 
 const questions = `
 <h3>Interview Questions for ${role} (${level})</h3>
-
 <ol>
 <li>Tell me about yourself.</li>
 <li>Why do you want this role?</li>
