@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interview Coach - HireBloom</title>
+<style>
+body{
+font-family:'Segoe UI',sans-serif;
+background:#f5f0ff;
+padding:40px;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+background:white;
+padding:30px;
+border-radius:15px;
+box-shadow:0 4px 15px rgba(0,0,0,.1);
+}
+
+h1{
+text-align:center;
+color:#6c3fc5;
+}
+
+input,select{
+width:100%;
+padding:12px;
+margin:10px 0;
+border:1px solid #ddd;
+border-radius:8px;
+}
+
+button{
+width:100%;
+padding:14px;
+background:#6c3fc5;
+color:white;
+border:none;
+border-radius:25px;
+cursor:pointer;
+font-size:16px;
+}
+
+.result{
+margin-top:20px;
+padding:20px;
+background:#f9f6ff;
+border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🎤 AI Interview Coach</h1>
+
+<input type="text" id="role" placeholder="Enter Job Role">
+
+<select id="level">
+<option>Beginner</option>
+<option>Intermediate</option>
+<option>Experienced</option>
+</select>
+
+<button onclick="generateQuestions()">
+Generate Interview Questions
+</button>
+
+<div class="result" id="result"></div>
+
+</div>
+
+<script>
+function generateQuestions(){
+
+let role=document.getElementById("role").value;
+
+let questions=`
+<h3>Interview Questions for ${role}</h3>
+
+<ol>
+<li>Tell me about yourself.</li>
+<li>Why do you want this role?</li>
+<li>What are your strengths?</li>
+<li>What are your weaknesses?</li>
+<li>Describe a challenging situation.</li>
+<li>How do you handle pressure?</li>
+<li>What experience do you have?</li>
+<li>Why should we hire you?</li>
+<li>Where do you see yourself in 5 years?</li>
+<li>Do you have any questions for us?</li>
+</ol>
+`;
+
+document.getElementById("result").innerHTML=questions;
+}
+</script>
+
+</body>
+</html>
