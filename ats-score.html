@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATS Score Checker - HireBloom</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+font-family:'Segoe UI',sans-serif;
+background:#f5f0ff;
+}
+
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 60px;
+background:white;
+box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+.logo{
+font-size:24px;
+font-weight:700;
+color:#6c3fc5;
+text-decoration:none;
+}
+
+.logo span{color:#f59e0b}
+
+.home-btn{
+background:#6c3fc5;
+color:white;
+padding:10px 22px;
+border-radius:25px;
+text-decoration:none;
+font-weight:600;
+}
+
+.container{
+max-width:900px;
+margin:50px auto;
+padding:0 20px;
+}
+
+h1{
+text-align:center;
+font-size:36px;
+color:#1a1a2e;
+margin-bottom:10px;
+}
+
+.subtitle{
+text-align:center;
+color:#666;
+margin-bottom:35px;
+}
+
+.card,.result{
+background:white;
+border-radius:16px;
+padding:30px;
+box-shadow:0 4px 20px rgba(0,0,0,.06);
+margin-bottom:25px;
+}
+
+label{
+display:block;
+font-weight:600;
+color:#1a1a2e;
+margin-bottom:8px;
+}
+
+textarea{
+width:100%;
+padding:14px;
+border:2px solid #e5e7eb;
+border-radius:10px;
+font-size:14px;
+font-family:inherit;
+resize:vertical;
+outline:none;
+margin-bottom:20px;
+}
+
+textarea:focus{
+border-color:#6c3fc5;
+}
+
+.btn{
+width:100%;
+padding:16px;
+background:#6c3fc5;
+color:white;
+border:none;
+border-radius:30px;
+font-size:18px;
+font-weight:600;
+cursor:pointer;
+}
+
+.btn:hover{
+background:#5630a3;
+}
+
+.result{
+display:none;
+}
+
+.score-box{
+background:linear-gradient(135deg,#6c3fc5,#f59e0b);
+color:white;
+padding:28px;
+border-radius:14px;
+text-align:center;
+margin-bottom:25px;
+}
+
+.score{
+font-size:64px;
+font-weight:800;
+}
+
+.section{
+background:#f9f6ff;
+padding:20px;
+border-radius:12px;
+margin-bottom:18px;
+}
+
+.section h3{
+color:#1a1a2e;
+margin-bottom:12px;
+}
+
+ul{
+margin-left:22px;
+line-height:1.8;
+}
+
+.good{color:#166534}
+.bad{color:#991b1b}
+
+@media(max-width:700px){
+nav{
+padding:20px;
+}
+
+h1{
+font-size:30px;
+}
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+<a href="index.html" class="logo">Hire<span>Bloom</span> 🌸</a>
+<a href="index.html" class="home-btn">← Home</a>
+</nav>
+
+<div class="container">
+
+<h1>🎯 ATS Score Checker</h1>
+<p class="subtitle">Check how well your resume matches a job description.</p>
+
+<div class="card">
+
+<label>📄 Paste Your Resume</label>
+<textarea id="resume" rows="9" placeholder="Paste your resume here..."></textarea>
+
+<label>💼 Paste Job Description</label>
+<textarea id="jobdesc" rows="7" placeholder="Paste the job description here..."></textarea>
+
+<button class="btn" onclick="checkATS()">Check ATS Score</button>
+
+</div>
+
+<div class="result" id="result">
+
+<div class="score-box">
+<div class="score" id="score">0%</div>
+<p>ATS Match Score</p>
+</div>
+
+<div class="section">
+<h3>✅ Matched Keywords</h3>
+<ul id="matchedList"></ul>
+</div>
+
+<div class="section">
+<h3>⚠️ Missing Keywords</h3>
+<ul id="missingList"></ul>
+</div>
+
+<div class="section">
+<h3>💡 Suggestions</h3>
+<ul id="suggestionsList"></ul>
+</div>
+
+</div>
+
+</div>
+
+<script>
+function checkATS(){
+
+const resume=document.getElementById("resume").value.toLowerCase();
+const jobdesc=document.getElementById("jobdesc").value.toLowerCase();
+
+if(!resume || !jobdesc){
+alert("Please paste both resume and job description.");
+return;
+}
+
+const keywords=[
+"aws","azure","linux","windows","docker","kubernetes","terraform",
+"jenkins","github","git","ci/cd","devops","python","javascript",
+"sql","servicenow","active directory","networking","troubleshooting",
+"customer service","agile","jira","testing","security","monitoring"
+];
+
+let matched=[];
+let missing=[];
+
+keywords.forEach(keyword=>{
+if(jobdesc.includes(keyword)){
+if(resume.includes(keyword)){
+matched.push(keyword);
+}else{
+missing.push(keyword);
+}
+}
+});
+
+let total=matched.length+missing.length;
+let score=total===0 ? 50 : Math.round((matched.length/total)*100);
+
+document.getElementById("score").textContent=score+"%";
+
+document.getElementById("matchedList").innerHTML=
+matched.length ? matched.map(k=>`<li class="good">${k}</li>`).join("") : "<li>No strong matches found</li>";
+
+document.getElementById("missingList").innerHTML=
+missing.length ? missing.map(k=>`<li class="bad">${k}</li>`).join("") : "<li>No major missing keywords found</li>";
+
+document.getElementById("suggestionsList").innerHTML=
+missing.length ? missing.map(k=>`<li>Add or mention your experience with <strong>${k}</strong> if you have it.</li>`).join("") : "<li>Your resume already matches the main keywords well.</li>";
+
+document.getElementById("result").style.display="block";
+}
+
+</script>
+
+</body>
+</html>
