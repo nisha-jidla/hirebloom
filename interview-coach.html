@@ -77,6 +77,12 @@ Generate Interview Questions
 
 <script>
 function generateQuestions(){
+    const role = document.getElementById("jobRole").value.trim();
+
+if(role === ""){
+    alert("Please enter a Job Role");
+    return;
+}
 
 let role=document.getElementById("role").value;
 
