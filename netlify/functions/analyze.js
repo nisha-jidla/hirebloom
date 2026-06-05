@@ -12,7 +12,10 @@ exports.handler = async (event) => {
   }
 
   if (event.httpMethod !== "POST") {
-    return { statusCode: 405, body: "Method Not Allowed" };
+    return {
+      statusCode: 405,
+      body: "Method Not Allowed",
+    };
   }
 
   const headers = {
@@ -21,69 +24,111 @@ exports.handler = async (event) => {
   };
 
   try {
-    const { resume, jobDescription } = JSON.parse(event.body);
+    const { resume, jobdesc } = JSON.parse(event.body);
 
-    if (!resume || !jobDescription) {
+    if (!resume || !jobdesc) {
       return {
         statusCode: 400,
         headers,
-        body: JSON.stringify({ error: "Resume and job description are required" }),
+        body: JSON.stringify({
+          error: "Resume and job description are required",
+        }),
       };
     }
 
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": process.env.ANTHROPIC_API_KEY,
-        "anthropic-version": "2023-06-01",
-      },
-      body: JSON.stringify({
-        model: "claude-opus-4-8",
-        max_tokens: 1000,
-        messages: [
-          {
-            role: "user",
-            content: `You are an ATS expert. Analyze this resume against the job description.
+    const response = await fetch(
+      "https://api.anthropic.com/v1/messages",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": process.env.ANTHROPIC_API_KEY,
+          "anthropic-version": "2023-06-01",
+        },
+        body: JSON.stringify({
+          model: "claude-opus-4-1-20250805",
+          max_tokens: 1000,
+          messages: [
+            {
+              role: "user",
+              content: `
+You are an ATS Resume Expert.
 
-You MUST respond with ONLY a raw JSON object. No markdown. No backticks. No explanation. Just the JSON.
+Analyze the resume against the job description.
 
-Example format:
-{"score":72,"strengths":["Has Python skills"],"improvements":["Add metrics"],"keywords_matched":["Python"],"keywords_missing":["SQL"]}
+Return ONLY valid JSON in this exact format:
+
+{
+  "score": 85,
+  "strengths": [
+    "Strong experience in AWS",
+    "Good Terraform knowledge"
+  ],
+  "improvements": [
+    "Add more measurable achievements",
+    "Include CI/CD project details"
+  ],
+  "keywords_matched": [
+    "AWS",
+    "Terraform"
+  ],
+  "keywords_missing": [
+    "Docker",
+    "Kubernetes"
+  ]
+}
 
 RESUME:
 ${resume}
 
 JOB DESCRIPTION:
-${jobDescription}`,
-          },
-        ],
-      }),
-    });
+${jobdesc}
+`,
+            },
+          ],
+        }),
+      }
+    );
 
     const data = await response.json();
 
     if (!response.ok) {
       console.error("Anthropic error:", JSON.stringify(data));
-      throw new Error(data.error?.message || "Anthropic API error");
+
+      return {
+        statusCode: 500,
+        headers,
+        body: JSON.stringify({
+          error:
+            data.error?.message || "Anthropic API error",
+        }),
+      };
     }
 
-    // Robust parsing - strip any markdown fences
     let raw = data.content[0].text.trim();
-    raw = raw.replace(/^```json\s*/i, "").replace(/^```\s*/i, "").replace(/```\s*$/i, "").trim();
+
+    raw = raw
+      .replace(/^```json/i, "")
+      .replace(/^```/i, "")
+      .replace(/```$/i, "")
+      .trim();
 
     const result = JSON.parse(raw);
 
-    // Ensure score is a number
-    result.score = Number(result.score);
-
-    return { statusCode: 200, headers, body: JSON.stringify(result) };
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify(result),
+    };
   } catch (err) {
-    console.error("analyze error:", err.message);
+    console.error("Analyze error:", err);
+
     return {
       statusCode: 500,
       headers,
-      body: JSON.stringify({ error: "Analysis failed", details: err.message }),
+      body: JSON.stringify({
+        error: err.message,
+      }),
     };
   }
 };
