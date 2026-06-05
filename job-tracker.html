@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job Tracker - HireBloom</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+font-family:'Segoe UI',sans-serif;
+background:#f5f0ff;
+}
+
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 60px;
+background:white;
+box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+.logo{
+font-size:24px;
+font-weight:700;
+color:#6c3fc5;
+text-decoration:none;
+}
+
+.logo span{color:#f59e0b}
+
+.home-btn{
+background:#6c3fc5;
+color:white;
+padding:10px 22px;
+border-radius:25px;
+text-decoration:none;
+font-weight:600;
+}
+
+.container{
+max-width:1000px;
+margin:50px auto;
+padding:0 20px;
+}
+
+h1{
+text-align:center;
+font-size:36px;
+color:#1a1a2e;
+margin-bottom:10px;
+}
+
+.subtitle{
+text-align:center;
+color:#666;
+margin-bottom:35px;
+}
+
+.card{
+background:white;
+border-radius:16px;
+padding:30px;
+box-shadow:0 4px 20px rgba(0,0,0,.06);
+margin-bottom:30px;
+}
+
+.form-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:20px;
+}
+
+label{
+font-weight:600;
+color:#1a1a2e;
+margin-bottom:8px;
+display:block;
+}
+
+input,select{
+width:100%;
+padding:13px;
+border:2px solid #e5e7eb;
+border-radius:10px;
+font-size:14px;
+outline:none;
+}
+
+input:focus,select:focus{
+border-color:#6c3fc5;
+}
+
+.btn{
+margin-top:22px;
+width:100%;
+padding:15px;
+border:none;
+border-radius:30px;
+background:#6c3fc5;
+color:white;
+font-size:17px;
+font-weight:600;
+cursor:pointer;
+}
+
+.btn:hover{
+background:#5630a3;
+}
+
+.table-card{
+background:white;
+border-radius:16px;
+padding:25px;
+box-shadow:0 4px 20px rgba(0,0,0,.06);
+overflow-x:auto;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
+}
+
+th,td{
+padding:14px;
+border-bottom:1px solid #eee;
+text-align:left;
+font-size:14px;
+}
+
+th{
+background:#f9f6ff;
+color:#1a1a2e;
+}
+
+.status{
+padding:6px 12px;
+border-radius:20px;
+font-size:13px;
+font-weight:600;
+display:inline-block;
+}
+
+.applied{background:#e0f2fe;color:#0369a1}
+.interview{background:#fef3c7;color:#92400e}
+.rejected{background:#fee2e2;color:#991b1b}
+.offer{background:#dcfce7;color:#166534}
+
+.delete-btn{
+background:#ef4444;
+color:white;
+border:none;
+padding:8px 12px;
+border-radius:8px;
+cursor:pointer;
+}
+
+.empty{
+text-align:center;
+color:#777;
+padding:25px;
+}
+
+@media(max-width:700px){
+nav{
+padding:20px;
+}
+
+.form-grid{
+grid-template-columns:1fr;
+}
+
+h1{
+font-size:30px;
+}
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+<a href="index.html" class="logo">Hire<span>Bloom</span> 🌸</a>
+<a href="index.html" class="home-btn">← Home</a>
+</nav>
+
+<div class="container">
+
+<h1>📋 Job Application Tracker</h1>
+<p class="subtitle">Track your job applications, interview status, and progress in one place.</p>
+
+<div class="card">
+
+<div class="form-grid">
+
+<div>
+<label>Company Name</label>
+<input type="text" id="company" placeholder="Example: Amazon">
+</div>
+
+<div>
+<label>Job Title</label>
+<input type="text" id="jobTitle" placeholder="Example: Junior DevOps Engineer">
+</div>
+
+<div>
+<label>Applied Date</label>
+<input type="date" id="date">
+</div>
+
+<div>
+<label>Status</label>
+<select id="status">
+<option value="Applied">Applied</option>
+<option value="Interview">Interview</option>
+<option value="Rejected">Rejected</option>
+<option value="Offer">Offer</option>
+</select>
+</div>
+
+</div>
+
+<button class="btn" onclick="addJob()">Add Job Application</button>
+
+</div>
+
+<div class="table-card">
+<h2>My Applications</h2>
+
+<table>
+<thead>
+<tr>
+<th>Company</th>
+<th>Job Title</th>
+<th>Date</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="jobList"></tbody>
+</table>
+
+<div id="emptyMessage" class="empty">
+No job applications added yet.
+</div>
+
+</div>
+
+</div>
+
+<script>
+let jobs=JSON.parse(localStorage.getItem("hirebloomJobs")) || [];
+
+function saveJobs(){
+localStorage.setItem("hirebloomJobs",JSON.stringify(jobs));
+}
+
+function addJob(){
+const company=document.getElementById("company").value.trim();
+const jobTitle=document.getElementById("jobTitle").value.trim();
+const date=document.getElementById("date").value;
+const status=document.getElementById("status").value;
+
+if(!company || !jobTitle || !date){
+alert("Please fill company name, job title, and date.");
+return;
+}
+
+jobs.push({
+company,
+jobTitle,
+date,
+status
+});
+
+saveJobs();
+renderJobs();
+
+document.getElementById("company").value="";
+document.getElementById("jobTitle").value="";
+document.getElementById("date").value="";
+document.getElementById("status").value="Applied";
+}
+
+function deleteJob(index){
+if(confirm("Are you sure you want to delete this application?")){
+jobs.splice(index,1);
+saveJobs();
+renderJobs();
+}
+}
+
+function getStatusClass(status){
+return status.toLowerCase();
+}
+
+function renderJobs(){
+const jobList=document.getElementById("jobList");
+const emptyMessage=document.getElementById("emptyMessage");
+
+jobList.innerHTML="";
+
+if(jobs.length===0){
+emptyMessage.style.display="block";
+return;
+}
+
+emptyMessage.style.display="none";
+
+jobs.forEach((job,index)=>{
+const row=document.createElement("tr");
+
+row.innerHTML=`
+<td>${job.company}</td>
+<td>${job.jobTitle}</td>
+<td>${job.date}</td>
+<td><span class="status ${getStatusClass(job.status)}">${job.status}</span></td>
+<td><button class="delete-btn" onclick="deleteJob(${index})">Delete</button></td>
+`;
+
+jobList.appendChild(row);
+});
+}
+
+renderJobs();
+</script>
+
+</body>
+</html>
