@@ -7,175 +7,50 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:#f5f0ff}
 
-body{
-font-family:'Segoe UI',sans-serif;
-background:#f5f0ff;
-}
-
-nav{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:20px 60px;
-background:white;
-box-shadow:0 2px 10px rgba(0,0,0,.08);
-}
-
-.logo{
-font-size:24px;
-font-weight:700;
-color:#6c3fc5;
-text-decoration:none;
-}
-
+nav{display:flex;justify-content:space-between;align-items:center;padding:20px 60px;background:white;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.logo{font-size:24px;font-weight:700;color:#6c3fc5;text-decoration:none}
 .logo span{color:#f59e0b}
+.home-btn{background:#6c3fc5;color:white;padding:10px 22px;border-radius:25px;text-decoration:none;font-weight:600}
 
-.home-btn{
-background:#6c3fc5;
-color:white;
-padding:10px 22px;
-border-radius:25px;
-text-decoration:none;
-font-weight:600;
-}
+.container{max-width:1000px;margin:50px auto;padding:0 20px}
+h1{text-align:center;font-size:36px;color:#1a1a2e;margin-bottom:10px}
+.subtitle{text-align:center;color:#666;margin-bottom:35px}
 
-.container{
-max-width:1000px;
-margin:50px auto;
-padding:0 20px;
-}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:30px}
+.stat-card{background:white;padding:22px;border-radius:16px;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.06)}
+.stat-card h3{font-size:32px;color:#6c3fc5}
+.stat-card p{color:#666;font-weight:600}
 
-h1{
-text-align:center;
-font-size:36px;
-color:#1a1a2e;
-margin-bottom:10px;
-}
+.card{background:white;border-radius:16px;padding:30px;box-shadow:0 4px 20px rgba(0,0,0,.06);margin-bottom:30px}
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+label{font-weight:600;color:#1a1a2e;margin-bottom:8px;display:block}
+input,select{width:100%;padding:13px;border:2px solid #e5e7eb;border-radius:10px;font-size:14px;outline:none}
+input:focus,select:focus{border-color:#6c3fc5}
 
-.subtitle{
-text-align:center;
-color:#666;
-margin-bottom:35px;
-}
+.btn{margin-top:22px;width:100%;padding:15px;border:none;border-radius:30px;background:#6c3fc5;color:white;font-size:17px;font-weight:600;cursor:pointer}
+.btn:hover{background:#5630a3}
 
-.card{
-background:white;
-border-radius:16px;
-padding:30px;
-box-shadow:0 4px 20px rgba(0,0,0,.06);
-margin-bottom:30px;
-}
+.table-card{background:white;border-radius:16px;padding:25px;box-shadow:0 4px 20px rgba(0,0,0,.06);overflow-x:auto}
+table{width:100%;border-collapse:collapse;margin-top:15px}
+th,td{padding:14px;border-bottom:1px solid #eee;text-align:left;font-size:14px}
+th{background:#f9f6ff;color:#1a1a2e}
 
-.form-grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:20px;
-}
-
-label{
-font-weight:600;
-color:#1a1a2e;
-margin-bottom:8px;
-display:block;
-}
-
-input,select{
-width:100%;
-padding:13px;
-border:2px solid #e5e7eb;
-border-radius:10px;
-font-size:14px;
-outline:none;
-}
-
-input:focus,select:focus{
-border-color:#6c3fc5;
-}
-
-.btn{
-margin-top:22px;
-width:100%;
-padding:15px;
-border:none;
-border-radius:30px;
-background:#6c3fc5;
-color:white;
-font-size:17px;
-font-weight:600;
-cursor:pointer;
-}
-
-.btn:hover{
-background:#5630a3;
-}
-
-.table-card{
-background:white;
-border-radius:16px;
-padding:25px;
-box-shadow:0 4px 20px rgba(0,0,0,.06);
-overflow-x:auto;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:15px;
-}
-
-th,td{
-padding:14px;
-border-bottom:1px solid #eee;
-text-align:left;
-font-size:14px;
-}
-
-th{
-background:#f9f6ff;
-color:#1a1a2e;
-}
-
-.status{
-padding:6px 12px;
-border-radius:20px;
-font-size:13px;
-font-weight:600;
-display:inline-block;
-}
-
+.status{padding:6px 12px;border-radius:20px;font-size:13px;font-weight:600;display:inline-block}
 .applied{background:#e0f2fe;color:#0369a1}
 .interview{background:#fef3c7;color:#92400e}
 .rejected{background:#fee2e2;color:#991b1b}
 .offer{background:#dcfce7;color:#166534}
 
-.delete-btn{
-background:#ef4444;
-color:white;
-border:none;
-padding:8px 12px;
-border-radius:8px;
-cursor:pointer;
-}
-
-.empty{
-text-align:center;
-color:#777;
-padding:25px;
-}
+.delete-btn{background:#ef4444;color:white;border:none;padding:8px 12px;border-radius:8px;cursor:pointer}
+.empty{text-align:center;color:#777;padding:25px}
 
 @media(max-width:700px){
-nav{
-padding:20px;
-}
-
-.form-grid{
-grid-template-columns:1fr;
-}
-
-h1{
-font-size:30px;
-}
+nav{padding:20px}
+.form-grid{grid-template-columns:1fr}
+.stats{grid-template-columns:1fr 1fr}
+h1{font-size:30px}
 }
 </style>
 </head>
@@ -192,8 +67,14 @@ font-size:30px;
 <h1>📋 Job Application Tracker</h1>
 <p class="subtitle">Track your job applications, interview status, and progress in one place.</p>
 
-<div class="card">
+<div class="stats">
+<div class="stat-card"><h3 id="totalCount">0</h3><p>Total</p></div>
+<div class="stat-card"><h3 id="appliedCount">0</h3><p>Applied</p></div>
+<div class="stat-card"><h3 id="interviewCount">0</h3><p>Interview</p></div>
+<div class="stat-card"><h3 id="offerCount">0</h3><p>Offers</p></div>
+</div>
 
+<div class="card">
 <div class="form-grid">
 
 <div>
@@ -224,7 +105,6 @@ font-size:30px;
 </div>
 
 <button class="btn" onclick="addJob()">Add Job Application</button>
-
 </div>
 
 <div class="table-card">
@@ -243,10 +123,7 @@ font-size:30px;
 <tbody id="jobList"></tbody>
 </table>
 
-<div id="emptyMessage" class="empty">
-No job applications added yet.
-</div>
-
+<div id="emptyMessage" class="empty">No job applications added yet.</div>
 </div>
 
 </div>
@@ -269,13 +146,7 @@ alert("Please fill company name, job title, and date.");
 return;
 }
 
-jobs.push({
-company,
-jobTitle,
-date,
-status
-});
-
+jobs.push({company,jobTitle,date,status});
 saveJobs();
 renderJobs();
 
@@ -297,11 +168,19 @@ function getStatusClass(status){
 return status.toLowerCase();
 }
 
+function updateStats(){
+document.getElementById("totalCount").textContent=jobs.length;
+document.getElementById("appliedCount").textContent=jobs.filter(j=>j.status==="Applied").length;
+document.getElementById("interviewCount").textContent=jobs.filter(j=>j.status==="Interview").length;
+document.getElementById("offerCount").textContent=jobs.filter(j=>j.status==="Offer").length;
+}
+
 function renderJobs(){
 const jobList=document.getElementById("jobList");
 const emptyMessage=document.getElementById("emptyMessage");
 
 jobList.innerHTML="";
+updateStats();
 
 if(jobs.length===0){
 emptyMessage.style.display="block";
@@ -312,7 +191,6 @@ emptyMessage.style.display="none";
 
 jobs.forEach((job,index)=>{
 const row=document.createElement("tr");
-
 row.innerHTML=`
 <td>${job.company}</td>
 <td>${job.jobTitle}</td>
@@ -320,7 +198,6 @@ row.innerHTML=`
 <td><span class="status ${getStatusClass(job.status)}">${job.status}</span></td>
 <td><button class="delete-btn" onclick="deleteJob(${index})">Delete</button></td>
 `;
-
 jobList.appendChild(row);
 });
 }
