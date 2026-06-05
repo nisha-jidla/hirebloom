@@ -1,177 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cover Letter Generator - HireBloom</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f5f0ff;
-    }
-
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 60px;
-      background: white;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-    }
-
-    .logo {
-      font-size: 24px;
-      font-weight: 700;
-      color: #6c3fc5;
-      text-decoration: none;
-    }
-
-    .logo span { color: #f59e0b; }
-
-    .home-btn {
-      background: #6c3fc5;
-      color: white;
-      padding: 10px 22px;
-      border-radius: 25px;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .container {
-      max-width: 850px;
-      margin: 50px auto;
-      padding: 0 20px;
-    }
-
-    h1 {
-      text-align: center;
-      font-size: 36px;
-      color: #1a1a2e;
-      margin-bottom: 10px;
-    }
-
-    .subtitle {
-      text-align: center;
-      color: #666;
-      margin-bottom: 40px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 16px;
-      padding: 32px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-    }
-
-    label {
-      display: block;
-      font-weight: 600;
-      color: #1a1a2e;
-      margin-bottom: 8px;
-      margin-top: 18px;
-    }
-
-    input, textarea {
-      width: 100%;
-      padding: 14px;
-      border: 2px solid #e5e7eb;
-      border-radius: 10px;
-      font-size: 14px;
-      font-family: inherit;
-      outline: none;
-    }
-
-    textarea { resize: vertical; }
-
-    input:focus, textarea:focus {
-      border-color: #6c3fc5;
-    }
-
-    .btn {
-      width: 100%;
-      padding: 16px;
-      background: #6c3fc5;
-      color: white;
-      border: none;
-      border-radius: 30px;
-      font-size: 18px;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 24px;
-    }
-
-    .result {
-      display: none;
-      margin-top: 24px;
-      background: white;
-      border-radius: 16px;
-      padding: 32px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-    }
-
-    .letter {
-      background: #f9f6ff;
-      padding: 22px;
-      border-radius: 12px;
-      color: #333;
-      line-height: 1.8;
-      white-space: pre-wrap;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cover Letter Generator - HireBloom</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:#f5f0ff}
+nav{display:flex;justify-content:space-between;align-items:center;padding:20px 60px;background:white;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.logo{font-size:24px;font-weight:700;color:#6c3fc5;text-decoration:none}
+.logo span{color:#f59e0b}
+.home-btn{background:#6c3fc5;color:white;padding:10px 22px;border-radius:25px;text-decoration:none;font-weight:600}
+.container{max-width:850px;margin:50px auto;padding:0 20px}
+h1{text-align:center;font-size:36px;color:#1a1a2e;margin-bottom:10px}
+.subtitle{text-align:center;color:#666;margin-bottom:40px}
+.card,.result{background:white;border-radius:16px;padding:32px;box-shadow:0 4px 20px rgba(0,0,0,.06)}
+label{display:block;font-weight:600;color:#1a1a2e;margin-bottom:8px;margin-top:18px}
+input,textarea{width:100%;padding:14px;border:2px solid #e5e7eb;border-radius:10px;font-size:14px;font-family:inherit;outline:none}
+textarea{resize:vertical}
+input:focus,textarea:focus{border-color:#6c3fc5}
+.btn{width:100%;padding:16px;background:#6c3fc5;color:white;border:none;border-radius:30px;font-size:18px;font-weight:600;cursor:pointer;margin-top:24px}
+.result{display:none;margin-top:24px}
+.letter{background:#f9f6ff;padding:22px;border-radius:12px;color:#333;line-height:1.8;white-space:pre-wrap}
+</style>
 </head>
-
 <body>
 
-  <nav>
-    <a href="index.html" class="logo">Hire<span>Bloom</span> 🌸</a>
-    <a href="index.html" class="home-btn">← Home</a>
-  </nav>
+<nav>
+<a href="index.html" class="logo">Hire<span>Bloom</span> 🌸</a>
+<a href="index.html" class="home-btn">← Home</a>
+</nav>
 
-  <div class="container">
-    <h1>✉️ Cover Letter Generator</h1>
-    <p class="subtitle">Create a simple professional cover letter using your details.</p>
+<div class="container">
+<h1>✉️ Cover Letter Generator</h1>
+<p class="subtitle">Create a professional cover letter using your details.</p>
 
-    <div class="card">
-      <label>Your Name</label>
-      <input id="name" placeholder="Example: Nisha Jidla">
+<div class="card">
+<label>Your Name</label>
+<input id="name" placeholder="Example: Nisha Jidla">
 
-      <label>Job Title</label>
-      <input id="jobTitle" placeholder="Example: Junior IT Support Analyst">
+<label>Job Title</label>
+<input id="jobTitle" placeholder="Example: Junior IT Support Analyst">
 
-      <label>Company Name</label>
-      <input id="company" placeholder="Example: ABC Technology">
+<label>Company Name</label>
+<input id="company" placeholder="Example: ABC Technology">
 
-      <label>Your Skills</label>
-      <textarea id="skills" rows="5" placeholder="Example: IT support, troubleshooting, customer service, ServiceNow, software testing"></textarea>
+<label>Your Skills</label>
+<textarea id="skills" rows="5" placeholder="Example: IT support, troubleshooting, customer service, ServiceNow"></textarea>
 
-      <label>Why do you want this job?</label>
-      <textarea id="reason" rows="5" placeholder="Example: I am interested in this role because it matches my technical and customer support experience."></textarea>
+<label>Why do you want this job?</label>
+<textarea id="reason" rows="5" placeholder="Example: I am interested in this role because it matches my experience and career goals."></textarea>
 
-      <button class="btn" onclick="generateLetter()">Generate Cover Letter</button>
-    </div>
+<button class="btn" onclick="generateLetter()">Generate Cover Letter</button>
+</div>
 
-    <div class="result" id="result">
-      <h2>Your Cover Letter</h2>
-      <div class="letter" id="letter"></div>
-    </div>
-  </div>
+<div class="result" id="result">
+<h2>Your Cover Letter</h2>
+<div class="letter" id="letter"></div>
+</div>
+</div>
 
-  <script>
-    function generateLetter() {
-      const name = document.getElementById('name').value.trim();
-      const jobTitle = document.getElementById('jobTitle').value.trim();
-      const company = document.getElementById('company').value.trim();
-      const skills = document.getElementById('skills').value.trim();
-      const reason = document.getElementById('reason').value.trim();
+<script>
+function generateLetter(){
+const name=document.getElementById('name').value.trim();
+const jobTitle=document.getElementById('jobTitle').value.trim();
+const company=document.getElementById('company').value.trim();
+const skills=document.getElementById('skills').value.trim();
+const reason=document.getElementById('reason').value.trim();
 
-      if (!name || !jobTitle || !company || !skills || !reason) {
-        alert('Please fill in all fields.');
-        return;
-      }
+if(!name||!jobTitle||!company||!skills||!reason){
+alert('Please fill in all fields.');
+return;
+}
 
-      const letter = `Dear Hiring Manager,
+const letter=`Dear Hiring Manager,
 
 I am writing to express my interest in the ${jobTitle} position at ${company}.
 
@@ -186,10 +88,10 @@ Thank you for considering my application. I would welcome the opportunity to dis
 Kind regards,
 ${name}`;
 
-      document.getElementById('letter').textContent = letter;
-      document.getElementById('result').style.display = 'block';
-    }
-  </script>
+document.getElementById('letter').textContent=letter;
+document.getElementById('result').style.display='block';
+}
+</script>
 
 </body>
 </html>

@@ -1,264 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Resume Analyzer - HireBloom</title>
-
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f5f0ff;
-    }
-
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 60px;
-      background: white;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-    }
-
-    .logo {
-      font-size: 24px;
-      font-weight: 700;
-      color: #6c3fc5;
-      text-decoration: none;
-    }
-
-    .logo span { color: #f59e0b; }
-
-    .home-btn {
-      background: #6c3fc5;
-      color: white;
-      padding: 10px 22px;
-      border-radius: 25px;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .container {
-      max-width: 800px;
-      margin: 50px auto;
-      padding: 0 20px;
-    }
-
-    h1 {
-      text-align: center;
-      font-size: 36px;
-      color: #1a1a2e;
-      margin-bottom: 10px;
-    }
-
-    .subtitle {
-      text-align: center;
-      color: #666;
-      margin-bottom: 40px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 16px;
-      padding: 32px;
-      margin-bottom: 24px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-    }
-
-    label {
-      display: block;
-      font-weight: 600;
-      color: #1a1a2e;
-      margin-bottom: 8px;
-    }
-
-    textarea {
-      width: 100%;
-      padding: 14px;
-      border: 2px solid #e5e7eb;
-      border-radius: 10px;
-      font-size: 14px;
-      font-family: inherit;
-      resize: vertical;
-      outline: none;
-    }
-
-    textarea:focus { border-color: #6c3fc5; }
-
-    .btn {
-      width: 100%;
-      padding: 16px;
-      background: #6c3fc5;
-      color: white;
-      border: none;
-      border-radius: 30px;
-      font-size: 18px;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 20px;
-    }
-
-    .btn:disabled {
-      background: #999;
-      cursor: not-allowed;
-    }
-
-    .result {
-      display: none;
-      background: white;
-      border-radius: 16px;
-      padding: 32px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-    }
-
-    .result h2 {
-      color: #1a1a2e;
-      margin-bottom: 20px;
-      font-size: 24px;
-    }
-
-    .score-box {
-      background: linear-gradient(135deg, #6c3fc5, #f59e0b);
-      border-radius: 12px;
-      padding: 24px;
-      text-align: center;
-      color: white;
-      margin-bottom: 20px;
-    }
-
-    .score-box .score {
-      font-size: 64px;
-      font-weight: 800;
-    }
-
-    .score-box p {
-      font-size: 16px;
-      opacity: 0.9;
-    }
-
-    .feedback {
-      background: #f9f6ff;
-      border-radius: 10px;
-      padding: 20px;
-      color: #333;
-      line-height: 1.8;
-      white-space: pre-wrap;
-    }
-
-    .loading {
-      display: none;
-      text-align: center;
-      padding: 40px;
-      color: #6c3fc5;
-      font-size: 18px;
-    }
-
-    .error {
-      display: none;
-      background: #fff0f0;
-      border: 2px solid #ffcccc;
-      border-radius: 10px;
-      padding: 20px;
-      color: #cc0000;
-      margin-top: 20px;
-    }
-
-    @media (max-width: 700px) {
-      nav {
-        padding: 20px;
-      }
-
-      h1 {
-        font-size: 30px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resume Analyzer - HireBloom</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:#f5f0ff}
+nav{display:flex;justify-content:space-between;align-items:center;padding:20px 60px;background:white;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.logo{font-size:24px;font-weight:700;color:#6c3fc5;text-decoration:none}
+.logo span{color:#f59e0b}
+.home-btn{background:#6c3fc5;color:white;padding:10px 22px;border-radius:25px;text-decoration:none;font-weight:600}
+.container{max-width:800px;margin:50px auto;padding:0 20px}
+h1{text-align:center;font-size:36px;color:#1a1a2e;margin-bottom:10px}
+.subtitle{text-align:center;color:#666;margin-bottom:40px}
+.card,.result{background:white;border-radius:16px;padding:32px;margin-bottom:24px;box-shadow:0 4px 20px rgba(0,0,0,.06)}
+label{display:block;font-weight:600;color:#1a1a2e;margin-bottom:8px}
+textarea{width:100%;padding:14px;border:2px solid #e5e7eb;border-radius:10px;font-size:14px;font-family:inherit;resize:vertical;outline:none}
+textarea:focus{border-color:#6c3fc5}
+.btn{width:100%;padding:16px;background:#6c3fc5;color:white;border:none;border-radius:30px;font-size:18px;font-weight:600;cursor:pointer;margin-top:20px}
+.btn:disabled{background:#999}
+.result{display:none}
+.score-box{background:linear-gradient(135deg,#6c3fc5,#f59e0b);border-radius:12px;padding:24px;text-align:center;color:white;margin-bottom:20px}
+.score{font-size:64px;font-weight:800}
+.feedback{background:#f9f6ff;border-radius:10px;padding:20px;color:#333;line-height:1.8;white-space:pre-wrap}
+.loading{display:none;text-align:center;padding:30px;color:#6c3fc5;font-size:18px}
+.error{display:none;background:#fff0f0;border:2px solid #ffcccc;border-radius:10px;padding:20px;color:#cc0000;margin-top:20px}
+</style>
 </head>
-
 <body>
 
-  <nav>
-    <a href="index.html" class="logo">Hire<span>Bloom</span> 🌸</a>
-    <a href="index.html" class="home-btn">← Home</a>
-  </nav>
+<nav>
+<a href="index.html" class="logo">Hire<span>Bloom</span> 🌸</a>
+<a href="index.html" class="home-btn">← Home</a>
+</nav>
 
-  <div class="container">
-    <h1>🎯 Resume Analyzer</h1>
-    <p class="subtitle">Paste your resume and job description to get your AI match score!</p>
+<div class="container">
+<h1>🎯 Resume Analyzer</h1>
+<p class="subtitle">Paste your resume and job description to get your ATS match score.</p>
 
-    <div class="card">
-      <label>📄 Your Resume</label>
-      <textarea id="resume" rows="10" placeholder="Paste your full resume here..."></textarea>
+<div class="card">
+<label>📄 Your Resume</label>
+<textarea id="resume" rows="10" placeholder="Paste your resume here..."></textarea>
 
-      <label style="margin-top: 20px;">💼 Job Description</label>
-      <textarea id="jobdesc" rows="6" placeholder="Paste the job description here..."></textarea>
+<label style="margin-top:20px;">💼 Job Description</label>
+<textarea id="jobdesc" rows="6" placeholder="Paste the job description here..."></textarea>
 
-      <button class="btn" id="analyzeBtn" onclick="analyzeResume()">🚀 Analyze My Resume</button>
-    </div>
+<button class="btn" id="analyzeBtn" onclick="analyzeResume()">🚀 Analyze My Resume</button>
+<div class="error" id="errorBox"></div>
+</div>
 
-    <div class="loading" id="loading">⏳ AI is analyzing your resume... please wait!</div>
-    <div class="error" id="errorBox"></div>
+<div class="loading" id="loading">⏳ Analyzing your resume...</div>
 
-    <div class="result" id="result">
-      <h2>📊 Your Results</h2>
+<div class="result" id="result">
+<h2>📊 Your Results</h2>
+<div class="score-box">
+<div class="score" id="score">--</div>
+<p>ATS Match Score</p>
+</div>
+<div class="feedback" id="feedback"></div>
+</div>
+</div>
 
-      <div class="score-box">
-        <div class="score" id="score">--</div>
-        <p>ATS Match Score</p>
-      </div>
+<script>
+async function analyzeResume(){
+const resume=document.getElementById('resume').value.trim();
+const jobdesc=document.getElementById('jobdesc').value.trim();
+const btn=document.getElementById('analyzeBtn');
+const errorBox=document.getElementById('errorBox');
 
-      <div class="feedback" id="feedback"></div>
-    </div>
-  </div>
+errorBox.style.display='none';
 
-  <script>
-    async function analyzeResume() {
-      const resume = document.getElementById('resume').value.trim();
-      const jobdesc = document.getElementById('jobdesc').value.trim();
-      const btn = document.getElementById('analyzeBtn');
-      const errorBox = document.getElementById('errorBox');
+if(!resume||!jobdesc){
+alert('Please paste both resume and job description.');
+return;
+}
 
-      errorBox.style.display = 'none';
+btn.disabled=true;
+btn.textContent='⏳ Analyzing...';
+document.getElementById('loading').style.display='block';
+document.getElementById('result').style.display='none';
 
-      if (!resume || !jobdesc) {
-        alert('Please paste both your resume and the job description!');
-        return;
-      }
+try{
+const response=await fetch('/.netlify/functions/analyze',{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify({resume,jobdesc})
+});
 
-      btn.disabled = true;
-      btn.textContent = '⏳ Analyzing...';
-      document.getElementById('loading').style.display = 'block';
-      document.getElementById('result').style.display = 'none';
+const data=await response.json();
 
-      try {
-        const response = await fetch('/.netlify/functions/analyze', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ resume, jobdesc })
-        });
+if(!response.ok){
+throw new Error(data.error || 'Analysis failed');
+}
 
-        const data = await response.json();
+const text=data.content?.[0]?.text || data.text || JSON.stringify(data,null,2);
+const scoreMatch=text.match(/SCORE:\s*(\d+)/i);
+const score=scoreMatch ? scoreMatch[1]+'%' : '75%';
 
-        const text = data.content[0].text;
-        const scoreMatch = text.match(/SCORE:\s*(\d+)/);
-        const score = scoreMatch ? scoreMatch[1] + '%' : '75%';
+document.getElementById('score').textContent=score;
+document.getElementById('feedback').textContent=text.replace(/SCORE:\s*\d+/i,'').trim();
+document.getElementById('result').style.display='block';
 
-        document.getElementById('score').textContent = score;
-        document.getElementById('feedback').textContent = text.replace(/SCORE:\s*\d+/, '').trim();
-        document.getElementById('result').style.display = 'block';
-
-      } catch (error) {
-        errorBox.textContent = '❌ Error: ' + error.message;
-        errorBox.style.display = 'block';
-      } finally {
-        document.getElementById('loading').style.display = 'none';
-        btn.disabled = false;
-        btn.textContent = '🚀 Analyze My Resume';
-      }
-    }
-  </script>
+}catch(error){
+errorBox.textContent='❌ Error: '+error.message;
+errorBox.style.display='block';
+}finally{
+document.getElementById('loading').style.display='none';
+btn.disabled=false;
+btn.textContent='🚀 Analyze My Resume';
+}
+}
+</script>
 
 </body>
 </html>

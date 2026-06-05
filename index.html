@@ -4,180 +4,39 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HireBloom - AI Career Platform</title>
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-
-body{
-font-family:'Segoe UI',sans-serif;
-background:white;
-}
-
-nav{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:20px 60px;
-background:white;
-box-shadow:0 2px 10px rgba(0,0,0,0.08);
-}
-
-.logo{
-font-size:24px;
-font-weight:700;
-color:#6c3fc5;
-}
-
+body{font-family:'Segoe UI',sans-serif;background:white}
+nav{display:flex;justify-content:space-between;align-items:center;padding:20px 60px;background:white;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.logo{font-size:24px;font-weight:700;color:#6c3fc5}
 .logo span{color:#f59e0b}
-
-nav ul{
-list-style:none;
-display:flex;
-gap:30px;
-align-items:center;
-}
-
-nav ul li a{
-text-decoration:none;
-color:#444;
-font-weight:500;
-}
-
-.nav-btn{
-background:#6c3fc5;
-color:white!important;
-padding:10px 24px;
-border-radius:25px;
-}
-
-.hero{
-text-align:center;
-padding:100px 20px;
-background:linear-gradient(135deg,#f5f0ff,#fff7ed);
-}
-
-.hero h1{
-font-size:52px;
-color:#1a1a2e;
-margin-bottom:20px;
-}
-
+nav ul{list-style:none;display:flex;gap:30px;align-items:center}
+nav a{text-decoration:none;color:#444;font-weight:500}
+.nav-btn{background:#6c3fc5;color:white!important;padding:10px 24px;border-radius:25px}
+.hero{text-align:center;padding:100px 20px;background:linear-gradient(135deg,#f5f0ff,#fff7ed)}
+.hero h1{font-size:52px;color:#1a1a2e;margin-bottom:20px}
 .hero h1 span{color:#6c3fc5}
-
-.hero p{
-font-size:18px;
-color:#666;
-max-width:650px;
-margin:0 auto 40px;
-}
-
-.hero-buttons{
-display:flex;
-justify-content:center;
-gap:16px;
-flex-wrap:wrap;
-}
-
-.btn-primary,.btn-secondary{
-padding:14px 32px;
-border-radius:30px;
-text-decoration:none;
-font-weight:600;
-}
-
-.btn-primary{
-background:#6c3fc5;
-color:white;
-}
-
-.btn-secondary{
-background:white;
-color:#6c3fc5;
-border:2px solid #6c3fc5;
-}
-
-.features{
-padding:80px 60px;
-text-align:center;
-}
-
-.features h2{
-font-size:36px;
-color:#1a1a2e;
-margin-bottom:50px;
-}
-
-.cards{
-display:flex;
-gap:24px;
-justify-content:center;
-flex-wrap:wrap;
-}
-
-.card-link{
-text-decoration:none;
-color:inherit;
-}
-
-.card{
-background:#f9f6ff;
-border-radius:16px;
-padding:32px 24px;
-width:240px;
-text-align:center;
-cursor:pointer;
-transition:0.3s;
-}
-
-.card:hover{
-transform:translateY(-6px);
-box-shadow:0 8px 20px rgba(0,0,0,0.12);
-}
-
-.icon{
-font-size:40px;
-margin-bottom:16px;
-}
-
-.card h3{
-color:#1a1a2e;
-margin-bottom:10px;
-}
-
-.card p{
-color:#777;
-font-size:14px;
-}
-
-.about{
-padding:80px 60px;
-text-align:center;
-background:#f9f6ff;
-}
-
-.about h2{
-font-size:34px;
-margin-bottom:20px;
-color:#1a1a2e;
-}
-
-.about p{
-max-width:800px;
-margin:auto;
-color:#666;
-line-height:1.8;
-}
-
-footer{
-text-align:center;
-padding:30px;
-background:#1a1a2e;
-color:#aaa;
-font-size:14px;
-}
+.hero p{font-size:18px;color:#666;max-width:650px;margin:0 auto 40px}
+.hero-buttons{display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
+.btn-primary,.btn-secondary{padding:14px 32px;border-radius:30px;text-decoration:none;font-weight:600}
+.btn-primary{background:#6c3fc5;color:white}
+.btn-secondary{background:white;color:#6c3fc5;border:2px solid #6c3fc5}
+.features{padding:80px 60px;text-align:center}
+.features h2{font-size:36px;color:#1a1a2e;margin-bottom:50px}
+.cards{display:flex;gap:24px;justify-content:center;flex-wrap:wrap}
+.card-link{text-decoration:none;color:inherit}
+.card{background:#f9f6ff;border-radius:16px;padding:32px 24px;width:240px;text-align:center;cursor:pointer;transition:.3s}
+.card:hover{transform:translateY(-6px);box-shadow:0 8px 20px rgba(0,0,0,.12)}
+.icon{font-size:40px;margin-bottom:16px}
+.card h3{color:#1a1a2e;margin-bottom:10px}
+.card p{color:#777;font-size:14px}
+.about{padding:80px 60px;text-align:center;background:#f9f6ff}
+.about h2{font-size:34px;margin-bottom:20px;color:#1a1a2e}
+.about p{max-width:800px;margin:auto;color:#666;line-height:1.8}
+footer{text-align:center;padding:30px;background:#1a1a2e;color:#aaa;font-size:14px}
+@media(max-width:700px){nav{padding:20px;flex-direction:column;gap:15px}.hero h1{font-size:36px}.features{padding:60px 20px}}
 </style>
 </head>
-
 <body>
 
 <nav>
@@ -191,8 +50,7 @@ font-size:14px;
 
 <section class="hero">
 <h1>Land Your Dream Job<br><span>with AI Power</span></h1>
-<p>HireBloom analyzes your resume, matches you to jobs, generates cover letters, and prepares you for interviews — all in seconds.</p>
-
+<p>HireBloom helps job seekers improve resumes, check ATS match, generate cover letters, and prepare for interviews.</p>
 <div class="hero-buttons">
 <a href="analyzer.html" class="btn-primary">🚀 Get Started Free</a>
 <a href="#features" class="btn-secondary">See How It Works</a>
@@ -201,39 +59,22 @@ font-size:14px;
 
 <section class="features" id="features">
 <h2>Everything You Need to Get Hired</h2>
-
 <div class="cards">
 
 <a href="analyzer.html" class="card-link">
-<div class="card">
-<div class="icon">📄</div>
-<h3>Resume Analyzer</h3>
-<p>Get instant AI feedback on your resume and fix it fast.</p>
-</div>
+<div class="card"><div class="icon">📄</div><h3>Resume Analyzer</h3><p>Get feedback on your resume and improve it quickly.</p></div>
 </a>
 
 <a href="analyzer.html" class="card-link">
-<div class="card">
-<div class="icon">🎯</div>
-<h3>ATS Score</h3>
-<p>See how well your resume matches any job description.</p>
-</div>
+<div class="card"><div class="icon">🎯</div><h3>ATS Score</h3><p>Check how well your resume matches a job description.</p></div>
 </a>
 
 <a href="cover-letter.html" class="card-link">
-<div class="card">
-<div class="icon">✉️</div>
-<h3>Cover Letter</h3>
-<p>Generate a cover letter instantly.</p>
-</div>
+<div class="card"><div class="icon">✉️</div><h3>Cover Letter</h3><p>Generate a simple professional cover letter.</p></div>
 </a>
 
 <a href="interview-prep.html" class="card-link">
-<div class="card">
-<div class="icon">🎤</div>
-<h3>Interview Prep</h3>
-<p>Practice interview questions instantly.</p>
-</div>
+<div class="card"><div class="icon">🎤</div><h3>Interview Prep</h3><p>Practice interview questions for any job role.</p></div>
 </a>
 
 </div>
@@ -241,7 +82,7 @@ font-size:14px;
 
 <section class="about" id="about">
 <h2>About HireBloom</h2>
-<p>HireBloom is an AI-powered career platform created to help job seekers improve resumes, understand ATS scores, generate cover letters, and practise interview questions.</p>
+<p>HireBloom is a career support platform designed to help job seekers feel more confident when applying for jobs.</p>
 </section>
 
 <footer>
