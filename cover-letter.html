@@ -29,7 +29,9 @@ color:#6c3fc5;
 text-decoration:none;
 }
 
-.logo span{color:#f59e0b}
+.logo span{
+color:#f59e0b;
+}
 
 .home-btn{
 background:#6c3fc5;
@@ -114,6 +116,19 @@ background:#f59e0b;
 margin-top:15px;
 }
 
+.copy-btn:hover{
+background:#d97706;
+}
+
+.print-btn{
+background:#1a1a2e;
+margin-top:15px;
+}
+
+.print-btn:hover{
+background:#111827;
+}
+
 .result{
 display:none;
 margin-top:24px;
@@ -161,11 +176,11 @@ font-size:30px;
 <div class="container">
 
 <h1>✉️ Cover Letter Generator</h1>
-<p class="subtitle">Create a professional cover letter using your details.</p>
+<p class="subtitle">Create a professional cover letter using your details without using API credits.</p>
 
 <div class="card">
 
-<label>Your Name</label>
+<label>Your Full Name</label>
 <input id="name" placeholder="Example: Nisha Jidla">
 
 <label>Job Title</label>
@@ -195,10 +210,14 @@ font-size:30px;
 <h2>Your Cover Letter</h2>
 <div class="letter" id="letter"></div>
 
-<button class="btn copy-btn" onclick="copyLetter()">Copy Cover Letter</button>
+<button class="btn copy-btn" onclick="copyLetter()">📋 Copy Cover Letter</button>
+<button class="btn print-btn" onclick="printLetter()">🖨️ Print / Save as PDF</button>
+<button class="btn" onclick="saveCoverLetter()">
+💾 Save to Dashboard
+</button>
 
 <div class="note">
-<strong>Tip:</strong> Always review the cover letter before sending. Add real achievements, company details, and examples from your own experience.
+<strong>Tip:</strong> Always review before sending. Add real achievements, company details, and examples from your own experience.
 </div>
 </div>
 
@@ -221,13 +240,18 @@ return;
 
 let opening="I am writing to express my interest";
 let personality="I am motivated, reliable, and eager to contribute positively to your team.";
+let closingConfidence="I would welcome the opportunity to discuss how my skills and experience match the requirements of this role.";
 
 if(tone==="friendly"){
 opening="I am excited to apply";
 personality="I enjoy working with people, solving problems, and supporting teams in a positive and practical way.";
-}else if(tone==="confident"){
+closingConfidence="I would be grateful for the opportunity to discuss how I could contribute to your team.";
+}
+
+if(tone==="confident"){
 opening="I am confident in applying";
 personality="I believe my skills, experience, and commitment make me a strong candidate for this opportunity.";
+closingConfidence="I am confident that my background and motivation would allow me to make a positive contribution to your organisation.";
 }
 
 const letter=`Dear Hiring Manager,
@@ -240,7 +264,7 @@ ${reason}
 
 ${personality} I am also willing to continue learning, adapt to new systems, and take responsibility for the tasks given to me.
 
-Thank you for considering my application. I would welcome the opportunity to discuss how my skills and experience match the requirements of this role.
+Thank you for considering my application. ${closingConfidence}
 
 Kind regards,
 ${name}`;
@@ -260,6 +284,72 @@ return;
 navigator.clipboard.writeText(letterText).then(()=>{
 alert("Cover letter copied successfully.");
 });
+}
+function saveCoverLetter(){
+
+const letter=document.getElementById('letter').textContent;
+
+if(!letter){
+alert('Generate a cover letter first!');
+return;
+}
+
+let savedLetters=
+JSON.parse(localStorage.getItem('hirebloomCoverLetters')) || [];
+
+savedLetters.push({
+date:new Date().toLocaleDateString(),
+content:letter
+});
+
+localStorage.setItem(
+'hirebloomCoverLetters',
+JSON.stringify(savedLetters)
+);
+
+alert('Cover Letter saved successfully!');
+}
+
+function printLetter(){
+const letterText=document.getElementById("letter").textContent;
+
+if(!letterText){
+alert("Please generate a cover letter first.");
+return;
+}
+
+const printWindow=window.open("","","width=800,height=900");
+
+printWindow.document.write(`
+<html>
+<head>
+<title>Cover Letter</title>
+<style>
+body{
+font-family:Arial, sans-serif;
+padding:40px;
+line-height:1.8;
+color:#222;
+}
+h1{
+text-align:center;
+}
+pre{
+white-space:pre-wrap;
+font-family:Arial, sans-serif;
+font-size:15px;
+}
+</style>
+</head>
+<body>
+<h1>Cover Letter</h1>
+<pre>${letterText}</pre>
+</body>
+</html>
+`);
+
+printWindow.document.close();
+printWindow.print();
 }
 </script>
 

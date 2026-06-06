@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - HireBloom</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+font-family:'Segoe UI',sans-serif;
+background:#f5f0ff;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+.card{
+background:white;
+padding:40px;
+border-radius:16px;
+width:400px;
+box-shadow:0 4px 20px rgba(0,0,0,.08);
+}
+h1{
+text-align:center;
+color:#6c3fc5;
+margin-bottom:25px;
+}
+input{
+width:100%;
+padding:14px;
+margin-bottom:15px;
+border:2px solid #e5e7eb;
+border-radius:10px;
+}
+button{
+width:100%;
+padding:14px;
+background:#6c3fc5;
+color:white;
+border:none;
+border-radius:30px;
+font-size:16px;
+font-weight:600;
+cursor:pointer;
+}
+button:hover{
+background:#5630a3;
+}
+.link{
+text-align:center;
+margin-top:15px;
+}
+a{
+color:#6c3fc5;
+text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h1>🌸 HireBloom Login</h1>
+
+<input type="email" id="email" placeholder="Email Address">
+
+<input type="password" id="password" placeholder="Password">
+
+<button onclick="login()">Login</button>
+
+<div class="link">
+<p>New user? <a href="#" onclick="register()">Register</a></p>
+</div>
+
+</div>
+
+<script>
+
+function register(){
+
+const email=document.getElementById("email").value;
+const password=document.getElementById("password").value;
+
+if(!email || !password){
+alert("Enter email and password.");
+return;
+}
+
+localStorage.setItem("hirebloomUser",JSON.stringify({
+email:email,
+password:password
+}));
+
+alert("Registration successful!");
+}
+
+function login(){
+
+const email=document.getElementById("email").value;
+const password=document.getElementById("password").value;
+
+const user=JSON.parse(localStorage.getItem("hirebloomUser"));
+
+if(!user){
+alert("No account found. Please register first.");
+return;
+}
+
+if(user.email===email && user.password===password){
+
+localStorage.setItem("hirebloomLoggedIn","true");
+
+alert("Login successful!");
+
+window.location.href="dashboard.html";
+
+}else{
+
+alert("Invalid email or password.");
+
+}
+}
+
+</script>
+
+</body>
+</html>
