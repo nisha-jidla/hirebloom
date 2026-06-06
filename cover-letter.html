@@ -4,26 +4,153 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cover Letter Generator - HireBloom</title>
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Segoe UI',sans-serif;background:#f5f0ff}
-nav{display:flex;justify-content:space-between;align-items:center;padding:20px 60px;background:white;box-shadow:0 2px 10px rgba(0,0,0,.08)}
-.logo{font-size:24px;font-weight:700;color:#6c3fc5;text-decoration:none}
+
+body{
+font-family:'Segoe UI',sans-serif;
+background:#f5f0ff;
+}
+
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 60px;
+background:white;
+box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+.logo{
+font-size:24px;
+font-weight:700;
+color:#6c3fc5;
+text-decoration:none;
+}
+
 .logo span{color:#f59e0b}
-.home-btn{background:#6c3fc5;color:white;padding:10px 22px;border-radius:25px;text-decoration:none;font-weight:600}
-.container{max-width:850px;margin:50px auto;padding:0 20px}
-h1{text-align:center;font-size:36px;color:#1a1a2e;margin-bottom:10px}
-.subtitle{text-align:center;color:#666;margin-bottom:40px}
-.card,.result{background:white;border-radius:16px;padding:32px;box-shadow:0 4px 20px rgba(0,0,0,.06)}
-label{display:block;font-weight:600;color:#1a1a2e;margin-bottom:8px;margin-top:18px}
-input,textarea{width:100%;padding:14px;border:2px solid #e5e7eb;border-radius:10px;font-size:14px;font-family:inherit;outline:none}
-textarea{resize:vertical}
-input:focus,textarea:focus{border-color:#6c3fc5}
-.btn{width:100%;padding:16px;background:#6c3fc5;color:white;border:none;border-radius:30px;font-size:18px;font-weight:600;cursor:pointer;margin-top:24px}
-.result{display:none;margin-top:24px}
-.letter{background:#f9f6ff;padding:22px;border-radius:12px;color:#333;line-height:1.8;white-space:pre-wrap}
+
+.home-btn{
+background:#6c3fc5;
+color:white;
+padding:10px 22px;
+border-radius:25px;
+text-decoration:none;
+font-weight:600;
+}
+
+.container{
+max-width:900px;
+margin:50px auto;
+padding:0 20px;
+}
+
+h1{
+text-align:center;
+font-size:36px;
+color:#1a1a2e;
+margin-bottom:10px;
+}
+
+.subtitle{
+text-align:center;
+color:#666;
+margin-bottom:40px;
+}
+
+.card,.result{
+background:white;
+border-radius:16px;
+padding:32px;
+box-shadow:0 4px 20px rgba(0,0,0,.06);
+}
+
+label{
+display:block;
+font-weight:600;
+color:#1a1a2e;
+margin-bottom:8px;
+margin-top:18px;
+}
+
+input,textarea,select{
+width:100%;
+padding:14px;
+border:2px solid #e5e7eb;
+border-radius:10px;
+font-size:14px;
+font-family:inherit;
+outline:none;
+}
+
+textarea{
+resize:vertical;
+}
+
+input:focus,textarea:focus,select:focus{
+border-color:#6c3fc5;
+}
+
+.btn{
+width:100%;
+padding:16px;
+background:#6c3fc5;
+color:white;
+border:none;
+border-radius:30px;
+font-size:18px;
+font-weight:600;
+cursor:pointer;
+margin-top:24px;
+}
+
+.btn:hover{
+background:#5630a3;
+}
+
+.copy-btn{
+background:#f59e0b;
+margin-top:15px;
+}
+
+.result{
+display:none;
+margin-top:24px;
+}
+
+.letter{
+background:#f9f6ff;
+padding:24px;
+border-radius:12px;
+color:#333;
+line-height:1.8;
+white-space:pre-wrap;
+margin-top:15px;
+}
+
+.note{
+background:#fff7ed;
+border-left:5px solid #f59e0b;
+padding:15px;
+border-radius:10px;
+margin-top:20px;
+color:#444;
+line-height:1.7;
+}
+
+@media(max-width:700px){
+nav{
+padding:20px;
+}
+
+h1{
+font-size:30px;
+}
+}
 </style>
 </head>
+
 <body>
 
 <nav>
@@ -32,10 +159,12 @@ input:focus,textarea:focus{border-color:#6c3fc5}
 </nav>
 
 <div class="container">
+
 <h1>✉️ Cover Letter Generator</h1>
 <p class="subtitle">Create a professional cover letter using your details.</p>
 
 <div class="card">
+
 <label>Your Name</label>
 <input id="name" placeholder="Example: Nisha Jidla">
 
@@ -45,51 +174,92 @@ input:focus,textarea:focus{border-color:#6c3fc5}
 <label>Company Name</label>
 <input id="company" placeholder="Example: ABC Technology">
 
-<label>Your Skills</label>
-<textarea id="skills" rows="5" placeholder="Example: IT support, troubleshooting, customer service, ServiceNow"></textarea>
+<label>Your Key Skills</label>
+<textarea id="skills" rows="5" placeholder="Example: IT support, troubleshooting, Active Directory, customer service, ServiceNow"></textarea>
 
 <label>Why do you want this job?</label>
 <textarea id="reason" rows="5" placeholder="Example: I am interested in this role because it matches my experience and career goals."></textarea>
 
+<label>Cover Letter Tone</label>
+<select id="tone">
+<option value="professional">Professional</option>
+<option value="friendly">Friendly</option>
+<option value="confident">Confident</option>
+</select>
+
 <button class="btn" onclick="generateLetter()">Generate Cover Letter</button>
+
 </div>
 
 <div class="result" id="result">
 <h2>Your Cover Letter</h2>
 <div class="letter" id="letter"></div>
+
+<button class="btn copy-btn" onclick="copyLetter()">Copy Cover Letter</button>
+
+<div class="note">
+<strong>Tip:</strong> Always review the cover letter before sending. Add real achievements, company details, and examples from your own experience.
 </div>
+</div>
+
 </div>
 
 <script>
 function generateLetter(){
-const name=document.getElementById('name').value.trim();
-const jobTitle=document.getElementById('jobTitle').value.trim();
-const company=document.getElementById('company').value.trim();
-const skills=document.getElementById('skills').value.trim();
-const reason=document.getElementById('reason').value.trim();
 
-if(!name||!jobTitle||!company||!skills||!reason){
-alert('Please fill in all fields.');
+const name=document.getElementById("name").value.trim();
+const jobTitle=document.getElementById("jobTitle").value.trim();
+const company=document.getElementById("company").value.trim();
+const skills=document.getElementById("skills").value.trim();
+const reason=document.getElementById("reason").value.trim();
+const tone=document.getElementById("tone").value;
+
+if(!name || !jobTitle || !company || !skills || !reason){
+alert("Please fill in all fields.");
 return;
+}
+
+let opening="I am writing to express my interest";
+let personality="I am motivated, reliable, and eager to contribute positively to your team.";
+
+if(tone==="friendly"){
+opening="I am excited to apply";
+personality="I enjoy working with people, solving problems, and supporting teams in a positive and practical way.";
+}else if(tone==="confident"){
+opening="I am confident in applying";
+personality="I believe my skills, experience, and commitment make me a strong candidate for this opportunity.";
 }
 
 const letter=`Dear Hiring Manager,
 
-I am writing to express my interest in the ${jobTitle} position at ${company}.
+${opening} for the ${jobTitle} position at ${company}.
 
-I believe I would be a strong candidate for this role because I have experience and skills in ${skills}. I am confident that my background, willingness to learn, and practical approach would allow me to contribute positively to your team.
+I believe I would be a strong candidate for this role because I have skills and experience in ${skills}. These strengths would allow me to support your organisation effectively and contribute to the success of your team.
 
 ${reason}
 
-I am particularly interested in this opportunity because it allows me to use my existing skills while continuing to grow professionally. I am motivated, reliable, and eager to support the success of your organisation.
+${personality} I am also willing to continue learning, adapt to new systems, and take responsibility for the tasks given to me.
 
-Thank you for considering my application. I would welcome the opportunity to discuss how my skills and experience match this role.
+Thank you for considering my application. I would welcome the opportunity to discuss how my skills and experience match the requirements of this role.
 
 Kind regards,
 ${name}`;
 
-document.getElementById('letter').textContent=letter;
-document.getElementById('result').style.display='block';
+document.getElementById("letter").textContent=letter;
+document.getElementById("result").style.display="block";
+}
+
+function copyLetter(){
+const letterText=document.getElementById("letter").textContent;
+
+if(!letterText){
+alert("Please generate a cover letter first.");
+return;
+}
+
+navigator.clipboard.writeText(letterText).then(()=>{
+alert("Cover letter copied successfully.");
+});
 }
 </script>
 

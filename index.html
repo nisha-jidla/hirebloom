@@ -16,7 +16,7 @@ nav a{text-decoration:none;color:#444;font-weight:500}
 .hero{text-align:center;padding:100px 20px;background:linear-gradient(135deg,#f5f0ff,#fff7ed)}
 .hero h1{font-size:52px;color:#1a1a2e;margin-bottom:20px}
 .hero h1 span{color:#6c3fc5}
-.hero p{font-size:18px;color:#666;max-width:650px;margin:0 auto 40px}
+.hero p{font-size:18px;color:#666;max-width:720px;margin:0 auto 40px}
 .hero-buttons{display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
 .btn-primary,.btn-secondary{padding:14px 32px;border-radius:30px;text-decoration:none;font-weight:600}
 .btn-primary{background:#6c3fc5;color:white}
@@ -25,18 +25,56 @@ nav a{text-decoration:none;color:#444;font-weight:500}
 .features h2{font-size:36px;color:#1a1a2e;margin-bottom:50px}
 .cards{display:flex;gap:24px;justify-content:center;flex-wrap:wrap}
 .card-link{text-decoration:none;color:inherit}
-.card{background:#f9f6ff;border-radius:16px;padding:32px 24px;width:240px;text-align:center;cursor:pointer;transition:.3s}
+.card{background:#f9f6ff;border-radius:16px;padding:32px 24px;width:240px;text-align:center;cursor:pointer;transition:.3s;min-height:190px}
 .card:hover{transform:translateY(-6px);box-shadow:0 8px 20px rgba(0,0,0,.12)}
 .icon{font-size:40px;margin-bottom:16px}
 .card h3{color:#1a1a2e;margin-bottom:10px}
 .card p{color:#777;font-size:14px}
-.about{padding:80px 60px;text-align:center;background:#f9f6ff}
-.about h2{font-size:34px;margin-bottom:20px;color:#1a1a2e}
-.about p{max-width:800px;margin:auto;color:#666;line-height:1.8}
-footer{text-align:center;padding:30px;background:#1a1a2e;color:#aaa;font-size:14px}
-@media(max-width:700px){nav{padding:20px;flex-direction:column;gap:15px}.hero h1{font-size:36px}.features{padding:60px 20px}}
+.about{
+padding:80px 60px;
+text-align:center;
+background:#f9f6ff;
+}
+
+.about h2{
+font-size:34px;
+margin-bottom:20px;
+color:#1a1a2e;
+}
+
+.about p{
+max-width:800px;
+margin:auto;
+color:#666;
+line-height:1.8;
+}
+
+footer{
+text-align:center;
+padding:30px;
+background:#1a1a2e;
+color:#aaa;
+font-size:14px;
+}
+
+@media(max-width:700px){
+nav{
+padding:20px;
+flex-direction:column;
+gap:15px;
+}
+
+.hero h1{
+font-size:36px;
+}
+
+.features{
+padding:60px 20px;
+}
+}
 </style>
 </head>
+
 <body>
 
 <nav>
@@ -51,6 +89,7 @@ footer{text-align:center;padding:30px;background:#1a1a2e;color:#aaa;font-size:14
 <section class="hero">
 <h1>Land Your Dream Job<br><span>with AI Power</span></h1>
 <p>HireBloom helps job seekers improve resumes, check ATS match, generate cover letters, prepare for interviews, and track job applications.</p>
+
 <div class="hero-buttons">
 <a href="analyzer.html" class="btn-primary">🚀 Get Started Free</a>
 <a href="#features" class="btn-secondary">See How It Works</a>
@@ -59,33 +98,54 @@ footer{text-align:center;padding:30px;background:#1a1a2e;color:#aaa;font-size:14
 
 <section class="features" id="features">
 <h2>Everything You Need to Get Hired</h2>
+
 <div class="cards">
 
 <a href="analyzer.html" class="card-link">
-<div class="card"><div class="icon">📄</div><h3>Resume Analyzer</h3><p>Get feedback on your resume and improve it quickly.</p></div>
+<div class="card">
+<div class="icon">📄</div>
+<h3>Resume Analyzer</h3>
+<p>Get feedback on your resume and improve it quickly.</p>
+</div>
 </a>
 
-<a href="analyzer.html" class="card-link">
-<div class="card"><div class="icon">🎯</div><h3>ATS Score</h3><p>Check how well your resume matches a job description.</p></div>
+<a href="ats-score.html" class="card-link">
+<div class="card">
+<div class="icon">🎯</div>
+<h3>ATS Score</h3>
+<p>Check how well your resume matches a job description.</p>
+</div>
 </a>
 
 <a href="cover-letter.html" class="card-link">
-<div class="card"><div class="icon">✉️</div><h3>Cover Letter</h3><p>Generate a simple professional cover letter.</p></div>
+<div class="card">
+<div class="icon">✉️</div>
+<h3>Cover Letter</h3>
+<p>Generate a professional cover letter instantly.</p>
+</div>
 </a>
 
 <a href="interview-prep.html" class="card-link">
-<div class="card"><div class="icon">🎤</div><h3>Interview Prep</h3><p>Practice interview questions for any job role.</p></div>
+<div class="card">
+<div class="icon">🎤</div>
+<h3>Interview Prep</h3>
+<p>Practice interview questions for any role.</p>
+</div>
 </a>
 
 <a href="job-tracker.html" class="card-link">
-<div class="card"><div class="icon">📋</div><h3>Job Tracker</h3><p>Track job applications, dates, and interview status.</p></div>
+<div class="card">
+<div class="icon">📋</div>
+<h3>Job Tracker</h3>
+<p>Track job applications and interview status.</p>
+</div>
 </a>
 
 <a href="interview-coach.html" class="card-link">
 <div class="card">
 <div class="icon">🎙️</div>
 <h3>AI Interview Coach</h3>
-<p>Generate interview questions based on job role and experience level.</p>
+<p>Generate interview questions by role and experience.</p>
 </div>
 </a>
 
@@ -94,7 +154,9 @@ footer{text-align:center;padding:30px;background:#1a1a2e;color:#aaa;font-size:14
 
 <section class="about" id="about">
 <h2>About HireBloom</h2>
-<p>HireBloom is a career support platform designed to help job seekers feel more confident when applying for jobs. It includes resume analysis, ATS matching, cover letter generation, interview preparation, and job application tracking.</p>
+<p>
+HireBloom is an AI-powered career platform designed to help job seekers improve resumes, increase ATS scores, create cover letters, prepare for interviews, and manage job applications more effectively.
+</p>
 </section>
 
 <footer>
