@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Resume Rewrite - HireBloom</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+--purple:#6c3fc5;
+--purple-dark:#5630a3;
+--orange:#f59e0b;
+--green:#16a34a;
+--red:#ef4444;
+--ink:#1a1a2e;
+--muted:#666;
+--page:#f5f0ff;
+--soft:#f9f6ff;
+}
+
+body{
+font-family:'Segoe UI',sans-serif;
+background:var(--page);
+color:var(--ink);
+}
+
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 60px;
+background:white;
+box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+.logo{
+font-size:24px;
+font-weight:700;
+color:var(--purple);
+text-decoration:none;
+}
+
+.logo span{color:var(--orange)}
+
+.nav-links{
+display:flex;
+gap:12px;
+align-items:center;
+}
+
+.nav-btn{
+background:var(--purple);
+color:white;
+padding:10px 20px;
+border-radius:25px;
+text-decoration:none;
+font-weight:600;
+}
+
+.dashboard-btn{background:var(--orange)}
+
+.container{
+max-width:1100px;
+margin:48px auto;
+padding:0 20px;
+}
+
+.hero{
+text-align:center;
+background:linear-gradient(135deg,#fff,#f9f6ff);
+padding:42px 25px;
+border-radius:22px;
+box-shadow:0 5px 24px rgba(0,0,0,.08);
+margin-bottom:28px;
+}
+
+.hero h1{
+font-size:40px;
+margin-bottom:12px;
+}
+
+.hero p{
+max-width:780px;
+margin:auto;
+color:var(--muted);
+line-height:1.7;
+}
+
+.badge{
+display:inline-block;
+margin-top:15px;
+background:#ede9fe;
+color:#5b21b6;
+padding:7px 14px;
+border-radius:20px;
+font-weight:700;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:24px;
+}
+
+.card{
+background:white;
+padding:28px;
+border-radius:18px;
+box-shadow:0 4px 20px rgba(0,0,0,.06);
+margin-bottom:25px;
+}
+
+.card h2{
+font-size:23px;
+margin-bottom:18px;
+}
+
+label{
+display:block;
+font-weight:700;
+margin-bottom:8px;
+}
+
+input,select,textarea{
+width:100%;
+padding:13px;
+border:2px solid #e5e7eb;
+border-radius:10px;
+font-size:14px;
+font-family:inherit;
+outline:none;
+margin-bottom:18px;
+}
+
+textarea{
+resize:vertical;
+min-height:210px;
+line-height:1.65;
+}
+
+input:focus,select:focus,textarea:focus{
+border-color:var(--purple);
+}
+
+.btn{
+width:100%;
+padding:15px;
+border:none;
+border-radius:30px;
+font-size:16px;
+font-weight:700;
+cursor:pointer;
+background:var(--purple);
+color:white;
+}
+
+.btn:hover{background:var(--purple-dark)}
+
+.btn-row{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px;
+margin-top:16px;
+}
+
+.copy-btn{background:var(--green)}
+.copy-btn:hover{background:#15803d}
+
+.save-btn{background:var(--orange)}
+.save-btn:hover{background:#d97706}
+
+.clear-btn{background:var(--red)}
+.clear-btn:hover{background:#dc2626}
+
+.output{
+background:var(--soft);
+padding:20px;
+border-radius:14px;
+min-height:260px;
+white-space:pre-wrap;
+line-height:1.75;
+color:#333;
+}
+
+.score-row{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px;
+margin-bottom:18px;
+}
+
+.score-box{
+background:var(--soft);
+padding:15px;
+border-radius:12px;
+text-align:center;
+}
+
+.score-box strong{
+display:block;
+font-size:28px;
+color:var(--purple);
+margin-bottom:4px;
+}
+
+.score-box span{
+font-size:13px;
+color:var(--muted);
+}
+
+.note{
+background:#fff7ed;
+border-left:5px solid var(--orange);
+padding:16px;
+border-radius:10px;
+line-height:1.7;
+color:#444;
+}
+
+.history-item{
+background:var(--soft);
+padding:16px;
+border-radius:12px;
+margin-bottom:12px;
+}
+
+.history-item h3{
+margin-bottom:6px;
+font-size:17px;
+}
+
+.history-item p{
+color:#666;
+font-size:13px;
+margin-bottom:8px;
+}
+
+.small-btn{
+border:none;
+padding:8px 12px;
+border-radius:18px;
+cursor:pointer;
+font-weight:700;
+color:white;
+margin-right:6px;
+background:var(--purple);
+}
+
+.delete-small{background:var(--red)}
+
+.empty{
+color:#777;
+padding:10px 0;
+}
+
+@media(max-width:850px){
+.grid{grid-template-columns:1fr}
+.score-row,.btn-row{grid-template-columns:1fr}
+nav{
+padding:20px;
+flex-direction:column;
+gap:15px;
+}
+.nav-links{
+flex-direction:column;
+width:100%;
+}
+.nav-btn{
+width:100%;
+text-align:center;
+}
+.hero h1{font-size:32px}
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+<a href="index.html" class="logo">Hire<span>Bloom</span> 🌸</a>
+
+<div class="nav-links">
+<a href="index.html" class="nav-btn">🏠 Home</a>
+<a href="dashboard.html" class="nav-btn dashboard-btn">📊 Dashboard</a>
+</div>
+</nav>
+
+<div class="container">
+
+<section class="hero">
+<h1>🤖 AI Resume Rewrite</h1>
+<p>Transform basic resume statements into stronger, professional, achievement-focused wording suitable for job applications.</p>
+<span class="badge" id="planBadge">Smart Rewrite Demo</span>
+</section>
+
+<div class="grid">
+
+<section class="card">
+<h2>✍️ Enter Your Resume Statement</h2>
+
+<label>Target Role</label>
+<input id="targetRole" placeholder="Example: Software Tester">
+
+<label>Rewrite Style</label>
+<select id="rewriteStyle">
+<option value="professional">Professional</option>
+<option value="achievement">Achievement Focused</option>
+<option value="technical">Technical</option>
+<option value="concise">Concise</option>
+</select>
+
+<label>Focus Area</label>
+<select id="focusArea">
+<option value="general">General Resume Improvement</option>
+<option value="testing">Software Testing</option>
+<option value="support">IT Support</option>
+<option value="devops">Cloud / DevOps</option>
+<option value="data">Data / Power BI</option>
+<option value="customer">Customer Service</option>
+</select>
+
+<label>Original Resume Statement</label>
+<textarea id="originalText" placeholder="Example: Tested websites and reported bugs."></textarea>
+
+<button class="btn" onclick="rewriteResume()">✨ Rewrite My Resume Statement</button>
+</section>
+
+<section class="card">
+<h2>📊 Rewrite Quality</h2>
+
+<div class="score-row">
+<div class="score-box">
+<strong id="clarityScore">0%</strong>
+<span>Clarity</span>
+</div>
+
+<div class="score-box">
+<strong id="impactScore">0%</strong>
+<span>Impact</span>
+</div>
+
+<div class="score-box">
+<strong id="keywordScore">0%</strong>
+<span>Keywords</span>
+</div>
+</div>
+
+<h2>✅ Improved Version</h2>
+<div id="rewrittenOutput" class="output">Your rewritten resume statement will appear here.</div>
+
+<div class="btn-row">
+<button class="btn copy-btn" onclick="copyRewrite()">Copy</button>
+<button class="btn save-btn" onclick="saveRewrite()">Save</button>
+<button class="btn clear-btn" onclick="clearRewrite()">Clear</button>
+</div>
+</section>
+
+</div>
+
+<section class="card">
+<h2>💡 Resume Writing Guidance</h2>
+
+<div class="note">
+<strong>Good resume statements usually include:</strong> a strong action verb, the task you performed, the tools or methods you used, and the outcome or value created. Only keep claims that are truthful and reflect your genuine experience.
+</div>
+</section>
+
+<section class="card">
+<h2>📚 Saved Rewrites</h2>
+<div id="rewriteHistory"></div>
+</section>
+
+</div>
+
+<script>
+let savedRewrites=
+JSON.parse(localStorage.getItem("hirebloomResumeRewrites")) || [];
+
+let latestRewrite="";
+
+const actionVerbs={
+testing:[
+"Executed",
+"Performed",
+"Validated",
+"Evaluated",
+"Analysed",
+"Documented"
+],
+support:[
+"Resolved",
+"Diagnosed",
+"Supported",
+"Configured",
+"Maintained",
+"Assisted"
+],
+devops:[
+"Deployed",
+"Automated",
+"Configured",
+"Monitored",
+"Implemented",
+"Maintained"
+],
+data:[
+"Analysed",
+"Developed",
+"Visualised",
+"Reported",
+"Transformed",
+"Presented"
+],
+customer:[
+"Supported",
+"Resolved",
+"Assisted",
+"Communicated",
+"Managed",
+"Improved"
+],
+general:[
+"Delivered",
+"Supported",
+"Completed",
+"Coordinated",
+"Improved",
+"Managed"
+]
+};
+
+const keywordSets={
+testing:[
+"functional testing",
+"regression testing",
+"test cases",
+"defect reporting",
+"Jira",
+"API testing",
+"SQL validation",
+"quality assurance"
+],
+support:[
+"troubleshooting",
+"incident resolution",
+"Windows",
+"Microsoft 365",
+"Active Directory",
+"customer support",
+"service desk"
+],
+devops:[
+"CI/CD",
+"cloud infrastructure",
+"Docker",
+"Kubernetes",
+"Terraform",
+"Linux",
+"automation",
+"monitoring"
+],
+data:[
+"Power BI",
+"SQL",
+"data analysis",
+"dashboards",
+"reporting",
+"data visualisation",
+"business insights"
+],
+customer:[
+"customer service",
+"issue resolution",
+"communication",
+"service quality",
+"customer satisfaction",
+"case management"
+],
+general:[
+"collaboration",
+"quality",
+"efficiency",
+"problem solving",
+"continuous improvement"
+]
+};
+
+function cleanText(text){
+return text
+.replace(/\s+/g," ")
+.replace(/\s+([,.])/g,"$1")
+.trim();
+}
+
+function capitalise(text){
+if(!text)return "";
+return text.charAt(0).toUpperCase()+text.slice(1);
+}
+
+function ensurePeriod(text){
+return /[.!?]$/.test(text) ? text : text+".";
+}
+
+function chooseVerb(area,text){
+const lower=text.toLowerCase();
+
+if(area==="testing"){
+if(lower.includes("bug") || lower.includes("defect")){
+return "Identified and documented";
+}
+if(lower.includes("test")){
+return "Executed";
+}
+}
+
+if(area==="support"){
+if(lower.includes("problem") || lower.includes("issue")){
+return "Diagnosed and resolved";
+}
+}
+
+if(area==="devops"){
+if(lower.includes("deploy")){
+return "Deployed and maintained";
+}
+if(lower.includes("autom")){
+return "Automated";
+}
+}
+
+if(area==="data"){
+if(lower.includes("dashboard")){
+return "Developed and maintained";
+}
+if(lower.includes("data")){
+return "Analysed";
+}
+}
+
+return actionVerbs[area][0];
+}
+
+function removeWeakOpening(text){
+return text
+.replace(/^i\s+(was\s+)?responsible\s+for\s+/i,"")
+.replace(/^responsible\s+for\s+/i,"")
+.replace(/^worked\s+on\s+/i,"")
+.replace(/^helped\s+with\s+/i,"")
+.replace(/^i\s+/i,"")
+.trim();
+}
+
+function createTechnicalPhrase(area){
+const keywords=keywordSets[area];
+
+if(area==="testing"){
+return "using structured test cases, defect reporting, and quality assurance practices";
+}
+
+if(area==="support"){
+return "through systematic troubleshooting, clear communication, and timely incident resolution";
+}
+
+if(area==="devops"){
+return "using automation, cloud infrastructure, CI/CD practices, and monitoring tools";
+}
+
+if(area==="data"){
+return "using SQL, reporting, dashboards, and data visualisation techniques";
+}
+
+if(area==="customer"){
+return "through professional communication, accurate case handling, and customer-focused support";
+}
+
+return `using ${keywords.slice(0,3).join(", ")}`;
+}
+
+function createOutcome(area){
+if(area==="testing"){
+return "to improve application quality and support reliable software releases";
+}
+
+if(area==="support"){
+return "to restore service efficiently and improve the user experience";
+}
+
+if(area==="devops"){
+return "to improve deployment consistency, reliability, and operational efficiency";
+}
+
+if(area==="data"){
+return "to provide clear insights and support informed business decisions";
+}
+
+if(area==="customer"){
+return "to resolve enquiries effectively and maintain a positive customer experience";
+}
+
+return "to support quality, efficiency, and continuous improvement";
+}
+
+function rewriteResume(){
+const original=document.getElementById("originalText").value.trim();
+const role=document.getElementById("targetRole").value.trim();
+const style=document.getElementById("rewriteStyle").value;
+const area=document.getElementById("focusArea").value;
+
+if(!original){
+alert("Please enter a resume statement to rewrite.");
+return;
+}
+
+let base=removeWeakOpening(cleanText(original));
+base=base.replace(/[.!?]+$/,"");
+
+const verb=chooseVerb(area,base);
+const lowerBase=base.toLowerCase();
+
+let rewritten="";
+
+if(lowerBase.startsWith(verb.toLowerCase())){
+rewritten=capitalise(base);
+}else{
+rewritten=`${verb} ${base.charAt(0).toLowerCase()+base.slice(1)}`;
+}
+
+if(style==="concise"){
+rewritten=ensurePeriod(rewritten);
+}else if(style==="technical"){
+rewritten=`${rewritten}, ${createTechnicalPhrase(area)}.`;
+}else if(style==="achievement"){
+rewritten=`${rewritten}, ${createTechnicalPhrase(area)}, ${createOutcome(area)}.`;
+}else{
+rewritten=`${rewritten}, ${createOutcome(area)}.`;
+}
+
+rewritten=rewritten
+.replace(/\.\./g,".")
+.replace(/,\s*\./g,".")
+.replace(/\s+/g," ")
+.trim();
+
+if(role){
+rewritten+=`\n\nTarget role alignment: ${role}`;
+}
+
+latestRewrite=rewritten;
+
+document.getElementById("rewrittenOutput").textContent=rewritten;
+
+const wordCount=rewritten.split(/\s+/).length;
+const hasAction=/^(Executed|Performed|Validated|Evaluated|Analysed|Documented|Resolved|Diagnosed|Supported|Configured|Maintained|Assisted|Deployed|Automated|Implemented|Developed|Visualised|Reported|Transformed|Presented|Delivered|Completed|Coordinated|Improved|Managed|Identified)/i.test(rewritten);
+
+const keywords=keywordSets[area];
+const matchedKeywords=keywords.filter(keyword=>
+rewritten.toLowerCase().includes(keyword.toLowerCase())
+).length;
+
+const clarity=Math.min(100,55+(wordCount>=12?20:10)+(wordCount<=45?20:5));
+const impact=Math.min(100,45+(hasAction?30:10)+(rewritten.includes(" to ")?20:5));
+const keyword=Math.min(100,40+(matchedKeywords*12)+(role?10:0));
+
+document.getElementById("clarityScore").textContent=clarity+"%";
+document.getElementById("impactScore").textContent=impact+"%";
+document.getElementById("keywordScore").textContent=keyword+"%";
+}
+
+async function copyRewrite(){
+if(!latestRewrite){
+alert("Create a rewrite first.");
+return;
+}
+
+try{
+await navigator.clipboard.writeText(latestRewrite);
+alert("Rewritten statement copied.");
+}catch(error){
+alert("Copy failed. Select and copy the text manually.");
+}
+}
+
+function saveRewrite(){
+if(!latestRewrite){
+alert("Create a rewrite first.");
+return;
+}
+
+const rewrite={
+role:document.getElementById("targetRole").value.trim() || "General Resume",
+style:document.getElementById("rewriteStyle").value,
+area:document.getElementById("focusArea").value,
+original:document.getElementById("originalText").value.trim(),
+rewritten:latestRewrite,
+date:new Date().toLocaleString()
+};
+
+savedRewrites.push(rewrite);
+
+localStorage.setItem(
+"hirebloomResumeRewrites",
+JSON.stringify(savedRewrites)
+);
+
+renderHistory();
+
+alert("Resume rewrite saved successfully.");
+}
+
+function loadRewrite(index){
+const item=savedRewrites[index];
+
+document.getElementById("targetRole").value=item.role==="General Resume" ? "" : item.role;
+document.getElementById("rewriteStyle").value=item.style || "professional";
+document.getElementById("focusArea").value=item.area || "general";
+document.getElementById("originalText").value=item.original || "";
+
+latestRewrite=item.rewritten || "";
+
+document.getElementById("rewrittenOutput").textContent=
+latestRewrite || "No saved rewrite content.";
+
+window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function deleteRewrite(index){
+if(!confirm("Delete this saved rewrite?")){
+return;
+}
+
+savedRewrites.splice(index,1);
+
+localStorage.setItem(
+"hirebloomResumeRewrites",
+JSON.stringify(savedRewrites)
+);
+
+renderHistory();
+}
+
+function clearRewrite(){
+document.getElementById("targetRole").value="";
+document.getElementById("rewriteStyle").value="professional";
+document.getElementById("focusArea").value="general";
+document.getElementById("originalText").value="";
+document.getElementById("rewrittenOutput").textContent=
+"Your rewritten resume statement will appear here.";
+document.getElementById("clarityScore").textContent="0%";
+document.getElementById("impactScore").textContent="0%";
+document.getElementById("keywordScore").textContent="0%";
+
+latestRewrite="";
+}
+
+function renderHistory(){
+const box=document.getElementById("rewriteHistory");
+
+if(savedRewrites.length===0){
+box.innerHTML='<p class="empty">No resume rewrites saved yet.</p>';
+return;
+}
+
+box.innerHTML=savedRewrites
+.map((item,index)=>`
+<div class="history-item">
+<h3>${item.role}</h3>
+<p>${item.date}</p>
+<button class="small-btn" onclick="loadRewrite(${index})">Open</button>
+<button class="small-btn delete-small" onclick="deleteRewrite(${index})">Delete</button>
+</div>
+`)
+.reverse()
+.join("");
+}
+
+const currentPlan=
+localStorage.getItem("hirebloomPlan") || "Free";
+
+document.getElementById("planBadge").textContent=
+currentPlan==="Pro"
+? "👑 Pro Smart Rewrite"
+: "Smart Rewrite Demo";
+
+renderHistory();
+</script>
+
+</body>
+</html>

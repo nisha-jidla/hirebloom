@@ -56,6 +56,25 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:20px 6
 .saved-content{display:none;white-space:pre-wrap;font-family:'Segoe UI',sans-serif;margin-top:15px;background:white;padding:15px;border-radius:10px;line-height:1.7}
 .profile-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:12px}
 .profile-box{background:white;padding:14px;border-radius:10px}.profile-box strong{color:var(--purple)}
+
+.activity-list{display:flex;flex-direction:column;gap:12px}
+.activity-item{background:var(--soft);padding:14px;border-radius:12px;border-left:4px solid var(--purple)}
+.activity-item strong{display:block;margin-bottom:4px}
+.activity-item span{color:#666;font-size:13px}
+.task-list{display:flex;flex-direction:column;gap:12px}
+.task-item{background:var(--soft);padding:14px;border-radius:12px;display:flex;justify-content:space-between;gap:15px;align-items:center}
+.task-item .task-main{flex:1}
+.task-item strong{display:block;margin-bottom:4px}
+.task-item span{color:#666;font-size:13px}
+.task-status{padding:6px 10px;border-radius:20px;font-size:12px;font-weight:700}
+.task-upcoming{background:#e0f2fe;color:#0369a1}
+.task-overdue{background:#fee2e2;color:#991b1b}
+.task-done{background:#dcfce7;color:#166534}
+
+
+.job-match-card{background:linear-gradient(135deg,#fff,#f9f6ff);padding:28px;border-radius:18px;box-shadow:0 4px 20px rgba(0,0,0,.06);margin-bottom:28px}
+.job-match-card h2{margin-bottom:18px}.job-match-grid{display:grid;grid-template-columns:180px 1fr;gap:24px;align-items:center}.match-score-ring{width:150px;height:150px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:auto;background:conic-gradient(var(--green) 0deg,#e5e7eb 0deg);position:relative}.match-score-ring::before{content:"";position:absolute;width:112px;height:112px;background:white;border-radius:50%}.match-score-ring strong{position:relative;z-index:1;font-size:34px;color:var(--green)}.match-meta h3{font-size:24px;margin-bottom:5px}.match-company{color:#666;margin-bottom:10px}.match-stars{font-size:22px;margin-bottom:8px}.match-label{font-weight:700;color:var(--purple);margin-bottom:12px}.match-columns{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:15px}.match-list{margin-left:20px;line-height:1.8;color:#555}.match-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.match-actions a{text-decoration:none;padding:10px 16px;border-radius:22px;font-weight:700}.match-primary{background:var(--green);color:white}.match-secondary{background:var(--purple);color:white}.match-empty{background:var(--soft);padding:20px;border-radius:14px;color:#555}@media(max-width:760px){.job-match-grid,.match-columns{grid-template-columns:1fr}}
+
 @media(max-width:1050px){.overview{grid-template-columns:repeat(3,1fr)}.analytics-grid{grid-template-columns:repeat(3,1fr)}.tool-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:760px){nav{padding:18px;flex-direction:column;gap:14px}.hero{grid-template-columns:1fr}.overview,.analytics-grid,.tool-grid,.smart-grid,.profile-grid{grid-template-columns:1fr}.hero h1{font-size:30px}.container{margin-top:25px}}
 </style>
@@ -84,6 +103,7 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:20px 6
 <a href="pro.html" class="plan-btn">View Plan</a>
 </div>
 </section>
+<section class="job-match-card"><h2>🎯 AI Job Match Engine</h2><div id="jobMatchContent"></div></section>
 
 <section class="overview">
 <div class="metric"><div class="icon">📋</div><h3 id="jobCount">0</h3><p>Applications</p></div>
@@ -106,6 +126,16 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:20px 6
 <ul id="missingProfileFields" class="missing-list"></ul>
 </div>
 <div class="panel"><h2>🔥 Career Tip</h2><div id="careerTip" class="tip"></div></div>
+
+<div class="panel">
+<h2>🕒 Recent Activity</h2>
+<div id="recentActivity" class="activity-list"></div>
+</div>
+
+<div class="panel">
+<h2>✅ Today’s Tasks</h2>
+<div id="todayTasks" class="task-list"></div>
+</div>
 </section>
 
 <section class="tools">
@@ -275,12 +305,118 @@ if(!items.length){container.innerHTML=`<p>No ${kind} saved yet.</p>`;return}
 container.innerHTML=items.map((x,i)=>`<div class="saved-item"><h3>${kind} ${i+1}${x.score!==undefined?" — "+(Number(x.score)||0)+"%":""}</h3><p><strong>Date:</strong> ${safe(x.date)}</p>${x.message?`<p><strong>Status:</strong> ${safe(x.message)}</p>`:""}<button class="view-btn" onclick="toggleContent('${kind.replaceAll(" ","-")}-${i}')">View / Hide</button><pre id="${kind.replaceAll(" ","-")}-${i}" class="saved-content">${safe(x.content,"No content")}</pre></div>`).join("");
 }
 
-renderHero();renderOverview();renderNextReminder();renderLatestLead();renderLatestResume();renderATSPerformance();renderTip();renderAnalytics();renderProfile();
+renderHero();renderJobMatch();renderOverview();renderNextReminder();renderLatestLead();renderLatestResume();renderATSPerformance();renderTip();renderAnalytics();renderProfile();renderRecentActivity();renderTodayTasks();
 renderList(builtResumesList,builtResumes,"Built Resume");
 renderList(resumeReportsList,resumeReports,"Resume Report");
 renderList(coverLettersList,coverLetters,"Cover Letter");
 renderList(atsReportsList,atsReports,"ATS Report");
 renderList(interviewSessionsList,interviewSessions,"Interview Session");
+
+
+function parseDateValue(value){
+if(!value)return null;
+const direct=new Date(value);
+if(!Number.isNaN(direct.getTime()))return direct;
+return null;
+}
+
+function renderRecentActivity(){
+const activities=[];
+
+jobs.forEach(j=>{
+activities.push({
+title:`Job application: ${safe(j.jobTitle,"Role")} at ${safe(j.company,"Company")}`,
+date:parseDateValue(j.date),
+label:j.status||"Saved"
+});
+});
+
+jobLeads.forEach(j=>{
+activities.push({
+title:`Saved job lead: ${safe(j.jobTitle,"Role")} at ${safe(j.company,"Company")}`,
+date:parseDateValue(j.closingDate),
+label:"Job lead"
+});
+});
+
+builtResumes.forEach(r=>{
+activities.push({
+title:`Built resume: ${safe(r.name,"Resume")}`,
+date:parseDateValue(r.date),
+label:"Resume"
+});
+});
+
+atsReports.forEach(r=>{
+activities.push({
+title:`ATS report saved: ${Number(r.score)||0}%`,
+date:parseDateValue(r.date),
+label:"ATS"
+});
+});
+
+reminders.forEach(r=>{
+activities.push({
+title:`Reminder: ${safe(r.title,"Reminder")}`,
+date:parseDateValue(r.date),
+label:reminderStatus(r)
+});
+});
+
+activities.sort((a,b)=>(b.date?.getTime()||0)-(a.date?.getTime()||0));
+
+if(!activities.length){
+recentActivity.innerHTML='<p>No recent activity yet.</p>';
+return;
+}
+
+recentActivity.innerHTML=activities.slice(0,6).map(a=>`
+<div class="activity-item">
+<strong>${a.title}</strong>
+<span>${a.label}${a.date ? " • "+a.date.toLocaleDateString("en-GB") : ""}</span>
+</div>
+`).join("");
+}
+
+function renderTodayTasks(){
+const today=new Date();
+today.setHours(0,0,0,0);
+
+const tasks=reminders
+.filter(r=>!r.completed)
+.map(r=>{
+const d=new Date(r.date);
+d.setHours(0,0,0,0);
+let status="Upcoming";
+let css="task-upcoming";
+if(d<today){status="Overdue";css="task-overdue";}
+else if(d.getTime()===today.getTime()){status="Today";css="task-upcoming";}
+return {...r,_date:d,_status:status,_css:css};
+})
+.sort((a,b)=>a._date-b._date);
+
+if(!tasks.length){
+todayTasks.innerHTML='<p>No open tasks. You are all caught up.</p><a class="action-link" href="reminders.html">Add Reminder</a>';
+return;
+}
+
+todayTasks.innerHTML=tasks.slice(0,5).map(t=>`
+<div class="task-item">
+<div class="task-main">
+<strong>${safe(t.title,"Reminder")}</strong>
+<span>${formatDate(t.date)}${t.time ? " at "+t.time : ""}</span>
+</div>
+<span class="task-status ${t._css}">${t._status}</span>
+</div>
+`).join("");
+}
+
+
+function normaliseWords(text){return String(text||"").toLowerCase().replace(/[^a-z0-9+#./\-\s]/g," ").split(/[\s,;|/]+/).map(x=>x.trim()).filter(x=>x.length>1)}
+function uniqueWords(items){return [...new Set(items)]}
+function textSimilarity(profileText,jobText){const p=uniqueWords(normaliseWords(profileText)),j=uniqueWords(normaliseWords(jobText));if(!j.length)return{percent:0,matched:[],missing:[]};const matched=j.filter(w=>p.includes(w));return{percent:Math.round(matched.length/j.length*100),matched,missing:j.filter(w=>!p.includes(w))}}
+function calculateJobMatch(lead){let score=0;const reasons=[],improvements=[];const target=String(profile.targetRole||"").toLowerCase(),title=String(lead.jobTitle||"").toLowerCase();if(target&&title){const a=normaliseWords(target),b=normaliseWords(title);if(a.some(w=>b.includes(w))||b.some(w=>a.includes(w))){score+=30;reasons.push("Target role matches the job title")}else improvements.push("Target role does not closely match")}else improvements.push("Add a target role to your profile");const ptext=[profile.skills,profile.summary,profile.certifications,profile.education,profile.careerGoal].filter(Boolean).join(" ");const jtext=[lead.jobTitle,lead.notes,lead.company,lead.location,lead.workType].filter(Boolean).join(" ");const skills=textSimilarity(ptext,jtext);score+=Math.round(skills.percent*.25);if(skills.matched.length)reasons.push(`Skills or keywords matched: ${skills.matched.slice(0,5).join(", ")}`);else improvements.push("No clear skills match found in the saved job details");if(skills.missing.length)improvements.push(`Consider adding relevant experience with: ${skills.missing.slice(0,5).join(", ")}`);const pt=String(profile.jobType||"").toLowerCase(),lt=String(lead.workType||"").toLowerCase();if(pt&&lt){if(pt==="flexible"||pt===lt){score+=15;reasons.push("Preferred work type matches")}else improvements.push("Work type preference differs")}else improvements.push("Add preferred job type to your profile");const pl=String(profile.location||"").toLowerCase(),ll=String(lead.location||"").toLowerCase();if(lt==="remote"){score+=10;reasons.push("Remote role has flexible location")}else if(pl&&ll){const a=normaliseWords(pl),b=normaliseWords(ll);if(a.some(w=>b.includes(w))||b.some(w=>a.includes(w))){score+=10;reasons.push("Location appears compatible")}else improvements.push("Location may not match")}else improvements.push("Add location details for a better match");if(lead.priority==="High"){score+=5;reasons.push("Marked as high priority")}else if(lead.priority==="Medium")score+=3;const ats=atsData();score+=Math.round(Math.min(ats.average,100)*.15);if(ats.average>=70)reasons.push("Strong ATS performance supports this application");else improvements.push("Improve ATS average above 70%");if(profile.experienceLevel){score+=5;reasons.push(`Profile includes ${profile.experienceLevel} experience level`)}else improvements.push("Add experience level to your profile");return{score:Math.max(0,Math.min(100,score)),reasons,improvements,lead}}
+function renderJobMatch(){const box=document.getElementById("jobMatchContent");if(!jobLeads.length){box.innerHTML='<div class="match-empty"><p>No saved job leads yet. Add a job in Job Search Hub to calculate a match score.</p><a class="action-link" href="job-search-hub.html">Open Job Search Hub</a></div>';return}const best=jobLeads.map(calculateJobMatch).sort((a,b)=>b.score-a.score)[0];let label="Low Match";if(best.score>=85)label="Excellent Match";else if(best.score>=70)label="Strong Match";else if(best.score>=55)label="Fair Match";else if(best.score>=40)label="Possible Match";const filled=Math.max(1,Math.ceil(best.score/20)),stars="★".repeat(filled)+"☆".repeat(5-filled);box.innerHTML=`<div class="job-match-grid"><div id="matchScoreRing" class="match-score-ring"><strong>${best.score}%</strong></div><div class="match-meta"><h3>${safe(best.lead.jobTitle,"Saved Job")}</h3><div class="match-company">${safe(best.lead.company,"Company not added")}</div><div class="match-stars">${stars}</div><div class="match-label">${label}</div><div class="match-columns"><div><h4>Why it matches</h4><ul class="match-list">${best.reasons.length?best.reasons.slice(0,6).map(x=>`<li>✔ ${x}</li>`).join(""):"<li>No strong match reasons found yet.</li>"}</ul></div><div><h4>Recommended improvements</h4><ul class="match-list">${best.improvements.length?best.improvements.slice(0,6).map(x=>`<li>${x}</li>`).join(""):"<li>You are well aligned with this role.</li>"}</ul></div></div><div class="match-actions"><a href="job-search-hub.html" class="match-primary">View Saved Job</a><a href="ats-score.html" class="match-secondary">Improve ATS Match</a></div></div></div>`;document.getElementById("matchScoreRing").style.background=`conic-gradient(var(--green) ${best.score*3.6}deg,#e5e7eb ${best.score*3.6}deg)`}
 
 function logout(){localStorage.removeItem("hirebloomLoggedIn");alert("Logged out successfully.");window.location.href="login.html"}
 </script>
