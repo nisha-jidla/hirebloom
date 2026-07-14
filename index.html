@@ -8,11 +8,14 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Segoe UI',sans-serif;background:white}
 nav{display:flex;justify-content:space-between;align-items:center;padding:20px 60px;background:white;box-shadow:0 2px 10px rgba(0,0,0,.08)}
-.logo{font-size:24px;font-weight:700;color:#6c3fc5}
+.logo{font-size:24px;font-weight:700;color:#6c3fc5;text-decoration:none}
 .logo span{color:#f59e0b}
-nav ul{list-style:none;display:flex;gap:30px;align-items:center}
+nav ul{list-style:none;display:flex;gap:24px;align-items:center;flex-wrap:wrap}
 nav a{text-decoration:none;color:#444;font-weight:500}
 .nav-btn{background:#6c3fc5;color:white!important;padding:10px 24px;border-radius:25px}
+.logout-link{background:#ef4444;color:white;border:none;padding:10px 20px;border-radius:25px;cursor:pointer;font-weight:600}
+.user-badge{background:#f9f6ff;color:#6c3fc5;padding:8px 14px;border-radius:20px;font-size:14px;font-weight:700}
+.hidden{display:none!important}
 .hero{text-align:center;padding:100px 20px;background:linear-gradient(135deg,#f5f0ff,#fff7ed)}
 .hero h1{font-size:52px;color:#1a1a2e;margin-bottom:20px}
 .hero h1 span{color:#6c3fc5}
@@ -30,165 +33,109 @@ nav a{text-decoration:none;color:#444;font-weight:500}
 .icon{font-size:40px;margin-bottom:16px}
 .card h3{color:#1a1a2e;margin-bottom:10px}
 .card p{color:#777;font-size:14px}
-.about{
-padding:80px 60px;
-text-align:center;
-background:#f9f6ff;
-}
-
-.about h2{
-font-size:34px;
-margin-bottom:20px;
-color:#1a1a2e;
-}
-
-.about p{
-max-width:800px;
-margin:auto;
-color:#666;
-line-height:1.8;
-}
-
-footer{
-text-align:center;
-padding:30px;
-background:#1a1a2e;
-color:#aaa;
-font-size:14px;
-}
-
-@media(max-width:700px){
-nav{
-padding:20px;
-flex-direction:column;
-gap:15px;
-}
-
-.hero h1{
-font-size:36px;
-}
-
-.features{
-padding:60px 20px;
-}
+.about{padding:80px 60px;text-align:center;background:#f9f6ff}
+.about h2{font-size:34px;margin-bottom:20px;color:#1a1a2e}
+.about p{max-width:800px;margin:auto;color:#666;line-height:1.8}
+footer{text-align:center;padding:30px;background:#1a1a2e;color:#aaa;font-size:14px}
+@media(max-width:800px){
+nav{padding:20px;flex-direction:column;gap:15px}
+nav ul{justify-content:center;gap:14px}
+.hero h1{font-size:36px}
+.features{padding:60px 20px}
 }
 </style>
 </head>
-
 <body>
-
 <nav>
-<div class="logo">Hire<span>Bloom</span> 🌸</div>
+<a href="index.html" class="logo">Hire<span>Bloom</span> 🌸</a>
 <ul>
 <li><a href="#features">Features</a></li>
 <li><a href="#about">About</a></li>
 <li><a href="pro.html">Pro</a></li>
-<li><a href="login.html">Login</a></li>
-<li><a href="dashboard.html">Dashboard</a></li>
-<li><a href="analyzer.html" class="nav-btn">Get Started</a></li>
+<li id="loginNav"><a href="login.html">Login</a></li>
+<li id="dashboardNav"><a href="dashboard.html">Dashboard</a></li>
+<li id="userNav" class="hidden"><span class="user-badge" id="homeUserEmail"></span></li>
+<li id="logoutNav" class="hidden"><button class="logout-link" onclick="logoutFromHome()">Logout</button></li>
+<li><a href="login.html" class="nav-btn" id="getStartedNav">Get Started</a></li>
 </ul>
 </nav>
 
 <section class="hero">
 <h1>Land Your Dream Job<br><span>with AI Power</span></h1>
 <p>HireBloom helps job seekers improve resumes, check ATS match, generate cover letters, prepare for interviews, and track job applications.</p>
-
 <div class="hero-buttons">
-<a href="analyzer.html" class="btn-primary">🚀 Get Started Free</a>
+<a href="login.html" class="btn-primary" id="heroStartButton">🚀 Get Started Free</a>
 <a href="#features" class="btn-secondary">See How It Works</a>
 </div>
 </section>
 
 <section class="features" id="features">
 <h2>Everything You Need to Get Hired</h2>
-
 <div class="cards">
-
-    <a href="profile.html" class="card-link">
-<div class="card">
-<div class="icon">👤</div>
-<h3>Profile</h3>
-<p>Create and manage your professional profile.</p>
-</div>
-</a>
-
-<a href="pro.html" class="card-link">
-<div class="card">
-<div class="icon">👑</div>
-<h3>HireBloom Pro</h3>
-<p>Unlock premium AI career tools and advanced features.</p>
-</div>
-</a>
-
-    <a href="resume-builder.html" class="card-link">
-<div class="card">
-<div class="icon">📝</div>
-<h3>Resume Builder</h3>
-<p>Create a professional resume, save it, and download it as PDF.</p>
-</div>
-</a>
-
-<a href="analyzer.html" class="card-link">
-<div class="card">
-<div class="icon">📄</div>
-<h3>Resume Analyzer</h3>
-<p>Get feedback on your resume and improve it quickly.</p>
-</div>
-</a>
-
-<a href="ats-score.html" class="card-link">
-<div class="card">
-<div class="icon">🎯</div>
-<h3>ATS Score</h3>
-<p>Check how well your resume matches a job description.</p>
-</div>
-</a>
-
-<a href="cover-letter.html" class="card-link">
-<div class="card">
-<div class="icon">✉️</div>
-<h3>Cover Letter</h3>
-<p>Generate a professional cover letter instantly.</p>
-</div>
-</a>
-
-<a href="interview-prep.html" class="card-link">
-<div class="card">
-<div class="icon">🎤</div>
-<h3>Interview Prep</h3>
-<p>Practice interview questions for any role.</p>
-</div>
-</a>
-
-<a href="job-tracker.html" class="card-link">
-<div class="card">
-<div class="icon">📋</div>
-<h3>Job Tracker</h3>
-<p>Track job applications and interview status.</p>
-</div>
-</a>
-
-<a href="interview-coach.html" class="card-link">
-<div class="card">
-<div class="icon">🎙️</div>
-<h3>AI Interview Coach</h3>
-<p>Generate interview questions by role and experience.</p>
-</div>
-</a>
-
+<a href="profile.html" class="card-link"><div class="card"><div class="icon">👤</div><h3>Profile</h3><p>Create and manage your professional profile.</p></div></a>
+<a href="pro.html" class="card-link"><div class="card"><div class="icon">👑</div><h3>HireBloom Pro</h3><p>Unlock premium AI career tools and advanced features.</p></div></a>
+<a href="resume-builder.html" class="card-link"><div class="card"><div class="icon">📝</div><h3>Resume Builder</h3><p>Create a professional resume, save it, and download it as PDF.</p></div></a>
+<a href="analyzer.html" class="card-link"><div class="card"><div class="icon">📄</div><h3>Resume Analyzer</h3><p>Get feedback on your resume and improve it quickly.</p></div></a>
+<a href="ats-score.html" class="card-link"><div class="card"><div class="icon">🎯</div><h3>ATS Score</h3><p>Check how well your resume matches a job description.</p></div></a>
+<a href="cover-letter.html" class="card-link"><div class="card"><div class="icon">✉️</div><h3>Cover Letter</h3><p>Generate a professional cover letter instantly.</p></div></a>
+<a href="interview-prep.html" class="card-link"><div class="card"><div class="icon">🎤</div><h3>Interview Prep</h3><p>Practice interview questions for any role.</p></div></a>
+<a href="job-tracker.html" class="card-link"><div class="card"><div class="icon">📋</div><h3>Job Tracker</h3><p>Track job applications and interview status.</p></div></a>
+<a href="interview-coach.html" class="card-link"><div class="card"><div class="icon">🎙️</div><h3>AI Interview Coach</h3><p>Generate interview questions by role and experience.</p></div></a>
+<a href="job-search-hub.html" class="card-link"><div class="card"><div class="icon">🔍</div><h3>Job Search Hub</h3><p>Save jobs, organise priorities, and move them into your tracker.</p></div></a>
+<a href="reminders.html" class="card-link"><div class="card"><div class="icon">📅</div><h3>Reminder Center</h3><p>Track interviews, deadlines, follow-ups, and career tasks.</p></div></a>
+<a href="settings.html" class="card-link"><div class="card"><div class="icon">⚙️</div><h3>Settings</h3><p>Manage your account, plan, backups, and saved data.</p></div></a>
 </div>
 </section>
 
 <section class="about" id="about">
 <h2>About HireBloom</h2>
-<p>
-HireBloom is an AI-powered career platform designed to help job seekers improve resumes, increase ATS scores, create cover letters, prepare for interviews, and manage job applications more effectively.
-</p>
+<p>HireBloom is an AI-powered career platform designed to help job seekers improve resumes, increase ATS scores, create cover letters, prepare for interviews, and manage job applications more effectively.</p>
 </section>
 
-<footer>
-<p>© 2026 HireBloom. All rights reserved. 🌸</p>
-</footer>
+<footer><p>© 2026 HireBloom. All rights reserved. 🌸</p></footer>
 
+<script>
+function updateHomeNavigation(){
+const loggedIn=localStorage.getItem("hirebloomLoggedIn")==="true";
+const user=JSON.parse(localStorage.getItem("hirebloomUser")||"{}");
+
+const loginNav=document.getElementById("loginNav");
+const dashboardNav=document.getElementById("dashboardNav");
+const userNav=document.getElementById("userNav");
+const logoutNav=document.getElementById("logoutNav");
+const email=document.getElementById("homeUserEmail");
+const getStarted=document.getElementById("getStartedNav");
+const heroButton=document.getElementById("heroStartButton");
+
+if(loggedIn){
+loginNav.classList.add("hidden");
+dashboardNav.classList.remove("hidden");
+userNav.classList.remove("hidden");
+logoutNav.classList.remove("hidden");
+email.textContent=user.email||"Signed in";
+getStarted.href="dashboard.html";
+getStarted.textContent="Open Dashboard";
+heroButton.href="dashboard.html";
+heroButton.textContent="📊 Open My Dashboard";
+}else{
+loginNav.classList.remove("hidden");
+dashboardNav.classList.add("hidden");
+userNav.classList.add("hidden");
+logoutNav.classList.add("hidden");
+getStarted.href="login.html";
+getStarted.textContent="Get Started";
+heroButton.href="login.html";
+heroButton.textContent="🚀 Get Started Free";
+}
+}
+
+function logoutFromHome(){
+localStorage.removeItem("hirebloomLoggedIn");
+alert("Logged out successfully.");
+window.location.href="index.html";
+}
+
+updateHomeNavigation();
+</script>
 </body>
 </html>
