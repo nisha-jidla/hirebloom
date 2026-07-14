@@ -4,33 +4,35 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Interview Prep - HireBloom</title>
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Segoe UI',sans-serif;background:#f5f0ff}
+body{font-family:'Segoe UI',sans-serif;background:#f5f0ff;color:#1a1a2e}
 nav{display:flex;justify-content:space-between;align-items:center;padding:20px 60px;background:white;box-shadow:0 2px 10px rgba(0,0,0,.08)}
 .logo{font-size:24px;font-weight:700;color:#6c3fc5;text-decoration:none}
 .logo span{color:#f59e0b}
 .home-btn{background:#6c3fc5;color:white;padding:10px 22px;border-radius:25px;text-decoration:none;font-weight:600}
-.container{max-width:800px;margin:50px auto;padding:0 20px}
-h1{text-align:center;font-size:36px;color:#1a1a2e;margin-bottom:10px}
-.subtitle{text-align:center;color:#666;margin-bottom:40px}
-.card{background:white;border-radius:16px;padding:32px;box-shadow:0 4px 20px rgba(0,0,0,.06);margin-bottom:24px}
-label{display:block;font-weight:600;color:#1a1a2e;margin-bottom:8px}
-input,select{width:100%;padding:14px;border:2px solid #e5e7eb;border-radius:10px;font-size:14px;font-family:inherit;outline:none}
+.container{max-width:900px;margin:50px auto;padding:0 20px}
+h1{text-align:center;font-size:36px;margin-bottom:10px}
+.subtitle{text-align:center;color:#666;margin-bottom:35px}
+.card{background:white;border-radius:16px;padding:30px;box-shadow:0 4px 20px rgba(0,0,0,.06);margin-bottom:25px}
+label{display:block;font-weight:600;margin-bottom:8px}
+input,select{width:100%;padding:13px;border:2px solid #e5e7eb;border-radius:10px;font-size:14px;outline:none;margin-bottom:20px}
 input:focus,select:focus{border-color:#6c3fc5}
-.btn{width:100%;padding:16px;background:#6c3fc5;color:white;border:none;border-radius:30px;font-size:18px;font-weight:600;cursor:pointer;margin-top:24px}
-.btn:hover{background:#5630a3}
+.btn{width:100%;padding:15px;border:none;border-radius:30px;background:#6c3fc5;color:white;font-size:17px;font-weight:700;cursor:pointer}
 .btn:disabled{background:#999;cursor:not-allowed}
-.loading{display:none;text-align:center;padding:30px;color:#6c3fc5;font-size:18px}
-.error{display:none;background:#fff0f0;border:2px solid #ffcccc;border-radius:10px;padding:20px;color:#cc0000;margin-top:20px}
-.results{display:none}
-.question-card{background:white;border-radius:14px;padding:24px;box-shadow:0 4px 20px rgba(0,0,0,.06);margin-bottom:16px;border-left:5px solid #6c3fc5}
-.question-card h3{color:#6c3fc5;font-size:16px;margin-bottom:10px}
-.question-card p{color:#1a1a2e;font-size:15px;font-weight:600;margin-bottom:10px}
-.tip{background:#f9f6ff;padding:12px;border-radius:8px;color:#555;font-size:14px;line-height:1.6}
-.tip strong{color:#6c3fc5}
+.loading{display:none;text-align:center;color:#6c3fc5;font-weight:600;padding:20px}
+.error{display:none;background:#fff0f0;border:2px solid #fecaca;color:#b91c1c;padding:16px;border-radius:10px;margin-top:18px}
+.result{display:none}
+.question-card{background:#f9f6ff;padding:20px;border-radius:14px;margin-bottom:16px}
+.question-type{display:inline-block;background:#ede9fe;color:#5b21b6;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:700;text-transform:capitalize;margin-bottom:10px}
+.question-card h3{font-size:18px;line-height:1.5;margin-bottom:12px}
+.tip{background:#fff7ed;border-left:4px solid #f59e0b;padding:12px;border-radius:8px;color:#555;line-height:1.6}
+.save-btn{margin-top:10px;background:#f59e0b}
+@media(max-width:700px){nav{padding:20px;flex-direction:column;gap:15px}h1{font-size:30px}}
 </style>
 </head>
+
 <body>
 
 <nav>
@@ -39,89 +41,227 @@ input:focus,select:focus{border-color:#6c3fc5}
 </nav>
 
 <div class="container">
+
 <h1>🎤 Interview Prep</h1>
-<p class="subtitle">Get AI-generated interview questions specific to your job role!</p>
+<p class="subtitle">Get AI-generated interview questions specific to your job role.</p>
 
 <div class="card">
-  <label>Job Role</label>
-  <input id="jobRole" placeholder="Example: ServiceNow Developer, IT Support Analyst, DevOps Engineer">
 
-  <label style="margin-top:18px">Experience Level</label>
-  <select id="level">
-    <option value="entry level">Entry Level / Graduate</option>
-    <option value="junior">Junior (1-2 years)</option>
-    <option value="mid level">Mid Level (3-5 years)</option>
-    <option value="senior">Senior (5+ years)</option>
-  </select>
+<label>Job Role</label>
+<input id="role" placeholder="Example: Software Tester">
 
-  <button class="btn" id="generateBtn" onclick="generateQuestions()">🎯 Generate Interview Questions</button>
+<label>Experience Level</label>
+<select id="level">
+<option value="Beginner">Beginner</option>
+<option value="Junior">Junior (1-2 years)</option>
+<option value="Mid-level">Mid-level (3-5 years)</option>
+<option value="Senior">Senior (5+ years)</option>
+</select>
+
+<label>Number of Questions</label>
+<select id="count">
+<option value="5">5 questions</option>
+<option value="8">8 questions</option>
+<option value="10">10 questions</option>
+</select>
+
+<button class="btn" id="generateBtn" onclick="generateQuestions()">🎯 Generate Interview Questions</button>
+
+<div class="error" id="errorBox"></div>
 </div>
 
-<div class="loading" id="loading">⏳ AI is generating your questions... please wait!</div>
-<div class="error" id="errorBox"></div>
-<div class="results" id="results"></div>
+<div class="loading" id="loading">⏳ Generating interview questions...</div>
+
+<div class="card result" id="result">
+<h2 style="margin-bottom:20px;">Your Interview Questions</h2>
+<div id="questionsList"></div>
+<button class="btn save-btn" onclick="saveSession()">💾 Save Interview Session</button>
+</div>
+
 </div>
 
 <script>
-async function generateQuestions() {
-  const jobRole = document.getElementById('jobRole').value.trim();
-  const level = document.getElementById('level').value;
-  const btn = document.getElementById('generateBtn');
-  const errorBox = document.getElementById('errorBox');
+let latestQuestions=[];
 
-  errorBox.style.display = 'none';
+function normaliseQuestion(item,index){
+if(typeof item==="string"){
+return {
+type:"general",
+question:item,
+tip:"Prepare a clear example and structure your answer using the STAR method where appropriate."
+};
+}
 
-  if (!jobRole) {
-    alert('Please enter a job role!');
-    return;
-  }
+return {
+type:item.type || item.category || "general",
+question:item.question || item.text || item.prompt || `Question ${index+1}`,
+tip:item.tip || item.guidance || item.answerTip || item.answer_tip || "Explain your thinking clearly and support your answer with a relevant example."
+};
+}
 
-  btn.disabled = true;
-  btn.textContent = '⏳ Generating...';
-  document.getElementById('loading').style.display = 'block';
-  document.getElementById('results').style.display = 'none';
-  document.getElementById('results').innerHTML = '';
+function extractQuestions(data){
+if(Array.isArray(data)){
+return data.map(normaliseQuestion);
+}
 
-  try {
-    const response = await fetch('/.netlify/functions/interview', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ jobRole, level })
-    });
+if(Array.isArray(data.questions)){
+return data.questions.map(normaliseQuestion);
+}
 
-    const data = await response.json();
-    if (data.error) throw new Error(data.error);
+if(Array.isArray(data.interviewQuestions)){
+return data.interviewQuestions.map(normaliseQuestion);
+}
 
-    const text = data.content[0].text;
-    const resultsDiv = document.getElementById('results');
+if(Array.isArray(data.content)){
+const textBlocks=data.content
+.filter(block=>block && block.type==="text" && block.text)
+.map(block=>block.text);
 
-    const questions = text.split(/Q\d+:/).filter(q => q.trim());
+if(textBlocks.length){
+try{
+const parsed=JSON.parse(textBlocks.join("\n"));
+if(Array.isArray(parsed)){
+return parsed.map(normaliseQuestion);
+}
+if(Array.isArray(parsed.questions)){
+return parsed.questions.map(normaliseQuestion);
+}
+}catch(error){
+return textBlocks.map(normaliseQuestion);
+}
+}
+}
 
-    questions.forEach((q, i) => {
-      const parts = q.split('Tip:');
-      const question = parts[0].trim();
-      const tip = parts[1] ? parts[1].trim() : '';
+if(data.raw && Array.isArray(data.raw.content)){
+const text=data.raw.content
+.filter(block=>block && block.type==="text" && block.text)
+.map(block=>block.text)
+.join("\n");
 
-      const card = document.createElement('div');
-      card.className = 'question-card';
-      card.innerHTML = `
-        <h3>Question ${i + 1}</h3>
-        <p>${question}</p>
-        ${tip ? `<div class="tip"><strong>💡 Tip:</strong> ${tip}</div>` : ''}
-      `;
-      resultsDiv.appendChild(card);
-    });
+try{
+const parsed=JSON.parse(text);
+if(Array.isArray(parsed)){
+return parsed.map(normaliseQuestion);
+}
+if(Array.isArray(parsed.questions)){
+return parsed.questions.map(normaliseQuestion);
+}
+}catch(error){
+if(text){
+return text
+.split(/\n(?=(?:Q?\d+[\).]|behavioral|technical|situational))/i)
+.filter(Boolean)
+.map(normaliseQuestion);
+}
+}
+}
 
-    resultsDiv.style.display = 'block';
+return [];
+}
 
-  } catch (error) {
-    errorBox.textContent = '❌ Error: ' + error.message;
-    errorBox.style.display = 'block';
-  } finally {
-    document.getElementById('loading').style.display = 'none';
-    btn.disabled = false;
-    btn.textContent = '🎯 Generate Interview Questions';
-  }
+async function generateQuestions(){
+const role=document.getElementById("role").value.trim();
+const level=document.getElementById("level").value;
+const count=Number(document.getElementById("count").value);
+const btn=document.getElementById("generateBtn");
+const errorBox=document.getElementById("errorBox");
+
+errorBox.style.display="none";
+document.getElementById("result").style.display="none";
+
+if(!role){
+alert("Please enter a job role.");
+return;
+}
+
+btn.disabled=true;
+btn.textContent="⏳ Generating...";
+document.getElementById("loading").style.display="block";
+
+try{
+const response=await fetch("/.netlify/functions/interview",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+role,
+jobRole:role,
+level,
+experienceLevel:level,
+count,
+numberOfQuestions:count
+})
+});
+
+let data={};
+
+try{
+data=await response.json();
+}catch(error){
+throw new Error("The interview function returned an invalid response.");
+}
+
+if(!response.ok){
+throw new Error(data.error || "Interview question generation failed.");
+}
+
+latestQuestions=extractQuestions(data);
+
+if(latestQuestions.length===0){
+throw new Error("No interview questions were returned.");
+}
+
+renderQuestions();
+
+}catch(error){
+errorBox.textContent="❌ Error: "+error.message;
+errorBox.style.display="block";
+}finally{
+document.getElementById("loading").style.display="none";
+btn.disabled=false;
+btn.textContent="🎯 Generate Interview Questions";
+}
+}
+
+function renderQuestions(){
+const list=document.getElementById("questionsList");
+
+list.innerHTML=latestQuestions.map((item,index)=>`
+<div class="question-card">
+<span class="question-type">${item.type}</span>
+<h3>Q${index+1}. ${item.question}</h3>
+<div class="tip">💡 ${item.tip}</div>
+</div>
+`).join("");
+
+document.getElementById("result").style.display="block";
+}
+
+function saveSession(){
+if(latestQuestions.length===0){
+alert("Generate questions first.");
+return;
+}
+
+const role=document.getElementById("role").value.trim();
+const level=document.getElementById("level").value;
+
+let sessions=JSON.parse(localStorage.getItem("hirebloomInterviewSessions")) || [];
+
+const content=latestQuestions.map((item,index)=>
+`Q${index+1}. ${item.question}\nTip: ${item.tip}`
+).join("\n\n");
+
+sessions.push({
+role,
+level,
+date:new Date().toLocaleString(),
+content,
+questions:latestQuestions
+});
+
+localStorage.setItem("hirebloomInterviewSessions",JSON.stringify(sessions));
+
+alert("Interview session saved to Dashboard.");
 }
 </script>
 
