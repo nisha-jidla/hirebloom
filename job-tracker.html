@@ -8,49 +8,44 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Segoe UI',sans-serif;background:#f5f0ff}
-
 nav{display:flex;justify-content:space-between;align-items:center;padding:20px 60px;background:white;box-shadow:0 2px 10px rgba(0,0,0,.08)}
 .logo{font-size:24px;font-weight:700;color:#6c3fc5;text-decoration:none}
 .logo span{color:#f59e0b}
 .home-btn{background:#6c3fc5;color:white;padding:10px 22px;border-radius:25px;text-decoration:none;font-weight:600}
-
-.container{max-width:1000px;margin:50px auto;padding:0 20px}
+.container{max-width:1100px;margin:50px auto;padding:0 20px}
 h1{text-align:center;font-size:36px;color:#1a1a2e;margin-bottom:10px}
 .subtitle{text-align:center;color:#666;margin-bottom:35px}
-
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:30px}
 .stat-card{background:white;padding:22px;border-radius:16px;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.06)}
 .stat-card h3{font-size:32px;color:#6c3fc5}
 .stat-card p{color:#666;font-weight:600}
-
-.card{background:white;border-radius:16px;padding:30px;box-shadow:0 4px 20px rgba(0,0,0,.06);margin-bottom:30px}
+.card,.table-card{background:white;border-radius:16px;padding:30px;box-shadow:0 4px 20px rgba(0,0,0,.06);margin-bottom:30px}
 .form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
 label{font-weight:600;color:#1a1a2e;margin-bottom:8px;display:block}
-input,select{width:100%;padding:13px;border:2px solid #e5e7eb;border-radius:10px;font-size:14px;outline:none}
-input:focus,select:focus{border-color:#6c3fc5}
-
+input,select,textarea{width:100%;padding:13px;border:2px solid #e5e7eb;border-radius:10px;font-size:14px;outline:none;font-family:inherit}
+textarea{resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:#6c3fc5}
 .btn{margin-top:22px;width:100%;padding:15px;border:none;border-radius:30px;background:#6c3fc5;color:white;font-size:17px;font-weight:600;cursor:pointer}
 .btn:hover{background:#5630a3}
-
-.table-card{background:white;border-radius:16px;padding:25px;box-shadow:0 4px 20px rgba(0,0,0,.06);overflow-x:auto}
+.clear-btn{background:#ef4444}
+.clear-btn:hover{background:#dc2626}
+.button-row{display:grid;grid-template-columns:1fr 1fr;gap:15px}
 table{width:100%;border-collapse:collapse;margin-top:15px}
-th,td{padding:14px;border-bottom:1px solid #eee;text-align:left;font-size:14px}
+th,td{padding:14px;border-bottom:1px solid #eee;text-align:left;font-size:14px;vertical-align:top}
 th{background:#f9f6ff;color:#1a1a2e}
-
 .status{padding:6px 12px;border-radius:20px;font-size:13px;font-weight:600;display:inline-block}
 .applied{background:#e0f2fe;color:#0369a1}
 .interview{background:#fef3c7;color:#92400e}
 .rejected{background:#fee2e2;color:#991b1b}
 .offer{background:#dcfce7;color:#166534}
-
+.edit-btn{background:#f59e0b;color:white;border:none;padding:8px 12px;border-radius:8px;cursor:pointer;margin-right:6px}
 .delete-btn{background:#ef4444;color:white;border:none;padding:8px 12px;border-radius:8px;cursor:pointer}
 .empty{text-align:center;color:#777;padding:25px}
-
-@media(max-width:700px){
-nav{padding:20px}
+a{color:#6c3fc5}
+@media(max-width:800px){
 .form-grid{grid-template-columns:1fr}
 .stats{grid-template-columns:1fr 1fr}
-h1{font-size:30px}
+.button-row{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -65,7 +60,7 @@ h1{font-size:30px}
 <div class="container">
 
 <h1>📋 Job Application Tracker</h1>
-<p class="subtitle">Track your job applications, interview status, and progress in one place.</p>
+<p class="subtitle">Track applications, interviews, notes, links, and progress.</p>
 
 <div class="stats">
 <div class="stat-card"><h3 id="totalCount">0</h3><p>Total</p></div>
@@ -102,9 +97,22 @@ h1{font-size:30px}
 </select>
 </div>
 
+<div>
+<label>Job Link</label>
+<input type="url" id="jobLink" placeholder="Paste job advert link">
 </div>
 
-<button class="btn" onclick="addJob()">Add Job Application</button>
+<div>
+<label>Notes</label>
+<textarea id="notes" rows="3" placeholder="Example: Follow up next week, interview booked, recruiter name..."></textarea>
+</div>
+
+</div>
+
+<div class="button-row">
+<button class="btn" id="saveBtn" onclick="saveJob()">Add Job Application</button>
+<button class="btn clear-btn" onclick="clearAllJobs()">Clear All Jobs</button>
+</div>
 </div>
 
 <div class="table-card">
@@ -117,6 +125,8 @@ h1{font-size:30px}
 <th>Job Title</th>
 <th>Date</th>
 <th>Status</th>
+<th>Link</th>
+<th>Notes</th>
 <th>Action</th>
 </tr>
 </thead>
@@ -130,30 +140,53 @@ h1{font-size:30px}
 
 <script>
 let jobs=JSON.parse(localStorage.getItem("hirebloomJobs")) || [];
+let editIndex=null;
 
 function saveJobs(){
 localStorage.setItem("hirebloomJobs",JSON.stringify(jobs));
 }
 
-function addJob(){
+function saveJob(){
 const company=document.getElementById("company").value.trim();
 const jobTitle=document.getElementById("jobTitle").value.trim();
 const date=document.getElementById("date").value;
 const status=document.getElementById("status").value;
+const jobLink=document.getElementById("jobLink").value.trim();
+const notes=document.getElementById("notes").value.trim();
 
 if(!company || !jobTitle || !date){
 alert("Please fill company name, job title, and date.");
 return;
 }
 
-jobs.push({company,jobTitle,date,status});
+const job={company,jobTitle,date,status,jobLink,notes};
+
+if(editIndex===null){
+jobs.push(job);
+}else{
+jobs[editIndex]=job;
+editIndex=null;
+document.getElementById("saveBtn").textContent="Add Job Application";
+}
+
 saveJobs();
 renderJobs();
+clearForm();
+}
 
-document.getElementById("company").value="";
-document.getElementById("jobTitle").value="";
-document.getElementById("date").value="";
-document.getElementById("status").value="Applied";
+function editJob(index){
+const job=jobs[index];
+
+document.getElementById("company").value=job.company;
+document.getElementById("jobTitle").value=job.jobTitle;
+document.getElementById("date").value=job.date;
+document.getElementById("status").value=job.status;
+document.getElementById("jobLink").value=job.jobLink || "";
+document.getElementById("notes").value=job.notes || "";
+
+editIndex=index;
+document.getElementById("saveBtn").textContent="Update Job Application";
+window.scrollTo({top:0,behavior:"smooth"});
 }
 
 function deleteJob(index){
@@ -162,6 +195,29 @@ jobs.splice(index,1);
 saveJobs();
 renderJobs();
 }
+}
+
+function clearAllJobs(){
+if(jobs.length===0){
+alert("No jobs to clear.");
+return;
+}
+
+if(confirm("Are you sure you want to delete all job applications?")){
+jobs=[];
+saveJobs();
+renderJobs();
+clearForm();
+}
+}
+
+function clearForm(){
+document.getElementById("company").value="";
+document.getElementById("jobTitle").value="";
+document.getElementById("date").value="";
+document.getElementById("status").value="Applied";
+document.getElementById("jobLink").value="";
+document.getElementById("notes").value="";
 }
 
 function getStatusClass(status){
@@ -191,13 +247,20 @@ emptyMessage.style.display="none";
 
 jobs.forEach((job,index)=>{
 const row=document.createElement("tr");
+
 row.innerHTML=`
 <td>${job.company}</td>
 <td>${job.jobTitle}</td>
 <td>${job.date}</td>
 <td><span class="status ${getStatusClass(job.status)}">${job.status}</span></td>
-<td><button class="delete-btn" onclick="deleteJob(${index})">Delete</button></td>
+<td>${job.jobLink ? `<a href="${job.jobLink}" target="_blank">Open</a>` : "No link"}</td>
+<td>${job.notes || "No notes"}</td>
+<td>
+<button class="edit-btn" onclick="editJob(${index})">Edit</button>
+<button class="delete-btn" onclick="deleteJob(${index})">Delete</button>
+</td>
 `;
+
 jobList.appendChild(row);
 });
 }

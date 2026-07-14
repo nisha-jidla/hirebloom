@@ -4,150 +4,31 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Interview Coach - HireBloom</title>
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-
-body{
-font-family:'Segoe UI',sans-serif;
-background:#f5f0ff;
-}
-
-nav{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:20px 60px;
-background:white;
-box-shadow:0 2px 10px rgba(0,0,0,.08);
-}
-
-.logo{
-font-size:24px;
-font-weight:700;
-color:#6c3fc5;
-text-decoration:none;
-}
-
+body{font-family:'Segoe UI',sans-serif;background:#f5f0ff}
+nav{display:flex;justify-content:space-between;align-items:center;padding:20px 60px;background:white;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.logo{font-size:24px;font-weight:700;color:#6c3fc5;text-decoration:none}
 .logo span{color:#f59e0b}
-
-.home-btn{
-background:#6c3fc5;
-color:white;
-padding:10px 22px;
-border-radius:25px;
-text-decoration:none;
-font-weight:600;
-}
-
-.container{
-max-width:950px;
-margin:50px auto;
-background:white;
-padding:30px;
-border-radius:16px;
-box-shadow:0 4px 20px rgba(0,0,0,.08);
-}
-
-h1{
-text-align:center;
-color:#6c3fc5;
-margin-bottom:10px;
-}
-
-.subtitle{
-text-align:center;
-color:#666;
-margin-bottom:25px;
-}
-
-label{
-display:block;
-font-weight:600;
-color:#1a1a2e;
-margin-top:15px;
-margin-bottom:8px;
-}
-
-input,select{
-width:100%;
-padding:14px;
-border:1px solid #ddd;
-border-radius:10px;
-font-size:15px;
-outline:none;
-}
-
-input:focus,select:focus{
-border-color:#6c3fc5;
-}
-
-button{
-width:100%;
-padding:15px;
-background:#6c3fc5;
-color:white;
-border:none;
-border-radius:30px;
-cursor:pointer;
-font-size:17px;
-font-weight:600;
-margin-top:20px;
-}
-
-button:hover{
-background:#5630a3;
-}
-
-.result{
-margin-top:25px;
-padding:24px;
-background:#f9f6ff;
-border-radius:12px;
-line-height:1.8;
-display:none;
-}
-
-.result h3{
-color:#1a1a2e;
-margin-bottom:12px;
-}
-
-.section{
-background:white;
-padding:18px;
-border-radius:12px;
-margin-top:16px;
-}
-
-ol,ul{
-margin-left:22px;
-}
-
-li{
-margin-bottom:10px;
-}
-
-.tip{
-background:#fff7ed;
-border-left:5px solid #f59e0b;
-padding:15px;
-border-radius:10px;
-margin-top:18px;
-}
-
-@media(max-width:700px){
-nav{
-padding:20px;
-}
-
-.container{
-margin:30px 15px;
-}
-}
+.home-btn{background:#6c3fc5;color:white;padding:10px 22px;border-radius:25px;text-decoration:none;font-weight:600}
+.container{max-width:950px;margin:50px auto;background:white;padding:30px;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,.08)}
+h1{text-align:center;color:#6c3fc5;margin-bottom:10px}
+.subtitle{text-align:center;color:#666;margin-bottom:25px}
+label{display:block;font-weight:600;color:#1a1a2e;margin-top:15px;margin-bottom:8px}
+input,select{width:100%;padding:14px;border:1px solid #ddd;border-radius:10px;font-size:15px;outline:none}
+input:focus,select:focus{border-color:#6c3fc5}
+button{width:100%;padding:15px;background:#6c3fc5;color:white;border:none;border-radius:30px;cursor:pointer;font-size:17px;font-weight:600;margin-top:20px}
+button:hover{background:#5630a3}
+.save-btn{background:#f59e0b}
+.result{margin-top:25px;padding:24px;background:#f9f6ff;border-radius:12px;line-height:1.8;display:none}
+.result h3{color:#1a1a2e;margin-bottom:12px}
+.section{background:white;padding:18px;border-radius:12px;margin-top:16px}
+ol,ul{margin-left:22px}
+li{margin-bottom:10px}
+.tip{background:#fff7ed;border-left:5px solid #f59e0b;padding:15px;border-radius:10px;margin-top:18px}
+@media(max-width:700px){nav{padding:20px}.container{margin:30px 15px}}
 </style>
 </head>
-
 <body>
 
 <nav>
@@ -156,7 +37,6 @@ margin:30px 15px;
 </nav>
 
 <div class="container">
-
 <h1>🎤 AI Interview Coach</h1>
 <p class="subtitle">Generate role-based interview questions and preparation tips.</p>
 
@@ -173,12 +53,12 @@ margin:30px 15px;
 <button onclick="generateQuestions()">Generate Interview Questions</button>
 
 <div class="result" id="result"></div>
-
 </div>
 
 <script>
-function generateQuestions(){
+let latestInterviewSession=null;
 
+function generateQuestions(){
 const role=document.getElementById("role").value.trim();
 const level=document.getElementById("level").value;
 
@@ -188,152 +68,74 @@ return;
 }
 
 const lowerRole=role.toLowerCase();
-
-let technicalQuestions=[];
-let roleTips=[];
+let technicalQuestions=[],roleTips=[];
 
 if(lowerRole.includes("devops") || lowerRole.includes("cloud")){
-technicalQuestions=[
-"What is CI/CD and why is it important?",
-"What is the difference between Docker and Kubernetes?",
-"How would you explain Infrastructure as Code?",
-"What is Terraform state?",
-"How do you monitor a production application?"
-];
-
-roleTips=[
-"Prepare examples of GitHub Actions, Jenkins, Docker, Kubernetes, or Terraform projects.",
-"Explain one real deployment pipeline you have built or practised.",
-"Use simple language when explaining cloud and DevOps concepts."
-];
-
+technicalQuestions=["What is CI/CD and why is it important?","What is the difference between Docker and Kubernetes?","How would you explain Infrastructure as Code?","What is Terraform state?","How do you monitor a production application?"];
+roleTips=["Prepare examples of GitHub Actions, Jenkins, Docker, Kubernetes, or Terraform projects.","Explain one real deployment pipeline you have built or practised.","Use simple language when explaining cloud and DevOps concepts."];
 }else if(lowerRole.includes("service now") || lowerRole.includes("servicenow")){
-technicalQuestions=[
-"What is a Business Rule in ServiceNow?",
-"What is a Client Script?",
-"What is the difference between UI Policy and Client Script?",
-"What is GlideRecord used for?",
-"How would you create a simple ServiceNow application?"
-];
-
-roleTips=[
-"Revise tables, forms, lists, Business Rules, Client Scripts, and Flow Designer.",
-"Prepare one project example, such as an onboarding app or healthcare app.",
-"Explain how ServiceNow improves workflow automation."
-];
-
+technicalQuestions=["What is a Business Rule in ServiceNow?","What is a Client Script?","What is the difference between UI Policy and Client Script?","What is GlideRecord used for?","How would you create a simple ServiceNow application?"];
+roleTips=["Revise tables, forms, lists, Business Rules, Client Scripts, and Flow Designer.","Prepare one project example, such as an onboarding app or healthcare app.","Explain how ServiceNow improves workflow automation."];
 }else if(lowerRole.includes("support") || lowerRole.includes("helpdesk") || lowerRole.includes("service desk")){
-technicalQuestions=[
-"How would you troubleshoot a user unable to log in?",
-"What is Active Directory?",
-"What is the difference between DNS and DHCP?",
-"How would you handle an angry customer?",
-"How do you prioritise multiple support tickets?"
-];
-
-roleTips=[
-"Prepare examples of troubleshooting, customer service, Windows, and Active Directory.",
-"Use STAR method for customer-handling questions.",
-"Show that you can stay calm, document issues, and escalate when needed."
-];
-
+technicalQuestions=["How would you troubleshoot a user unable to log in?","What is Active Directory?","What is the difference between DNS and DHCP?","How would you handle an angry customer?","How do you prioritise multiple support tickets?"];
+roleTips=["Prepare examples of troubleshooting, customer service, Windows, and Active Directory.","Use STAR method for customer-handling questions.","Show that you can stay calm, document issues, and escalate when needed."];
 }else if(lowerRole.includes("qa") || lowerRole.includes("test") || lowerRole.includes("tester")){
-technicalQuestions=[
-"What is the difference between functional and regression testing?",
-"How do you write a good test case?",
-"What should be included in a bug report?",
-"What is severity and priority?",
-"How do you test a login page?"
-];
-
-roleTips=[
-"Prepare examples of test cases, bug reports, and regression testing.",
-"Explain defects clearly using steps to reproduce, expected result, and actual result.",
-"Mention tools such as Jira, Bugzilla, or test management tools if relevant."
-];
-
+technicalQuestions=["What is the difference between functional and regression testing?","How do you write a good test case?","What should be included in a bug report?","What is severity and priority?","How do you test a login page?"];
+roleTips=["Prepare examples of test cases, bug reports, and regression testing.","Explain defects clearly using steps to reproduce, expected result, and actual result.","Mention tools such as Jira, Bugzilla, or test management tools if relevant."];
 }else if(lowerRole.includes("cyber") || lowerRole.includes("security")){
-technicalQuestions=[
-"What is phishing?",
-"What is the difference between vulnerability and threat?",
-"What is multi-factor authentication?",
-"How would you respond to a suspected security incident?",
-"What is the principle of least privilege?"
-];
-
-roleTips=[
-"Revise basic cybersecurity concepts and common security threats.",
-"Prepare examples around awareness, access control, and incident response.",
-"Use clear explanations rather than complex theory."
-];
-
+technicalQuestions=["What is phishing?","What is the difference between vulnerability and threat?","What is multi-factor authentication?","How would you respond to a suspected security incident?","What is the principle of least privilege?"];
+roleTips=["Revise basic cybersecurity concepts and common security threats.","Prepare examples around awareness, access control, and incident response.","Use clear explanations rather than complex theory."];
 }else{
-technicalQuestions=[
-"What skills make you suitable for this role?",
-"What tools or systems have you used that relate to this role?",
-"How would you learn a new system quickly?",
-"Describe a time you solved a problem.",
-"How do you manage deadlines and priorities?"
-];
-
-roleTips=[
-"Prepare examples from your experience that match the job description.",
-"Use the STAR method: Situation, Task, Action, Result.",
-"Read the job description carefully and match your skills to it."
-];
+technicalQuestions=["What skills make you suitable for this role?","What tools or systems have you used that relate to this role?","How would you learn a new system quickly?","Describe a time you solved a problem.","How do you manage deadlines and priorities?"];
+roleTips=["Prepare examples from your experience that match the job description.","Use the STAR method: Situation, Task, Action, Result.","Read the job description carefully and match your skills to it."];
 }
 
-const generalQuestions=[
-"Tell me about yourself.",
-`Why are you interested in the ${role} role?`,
-"What are your strengths?",
-"What is one weakness you are working to improve?",
-"Why should we hire you?"
-];
+const generalQuestions=["Tell me about yourself.",`Why are you interested in the ${role} role?`,"What are your strengths?","What is one weakness you are working to improve?","Why should we hire you?"];
 
 let experienceAdvice="";
+if(level==="Beginner"){experienceAdvice="Focus on your learning, projects, willingness to improve, and transferable skills.";}
+else if(level==="Intermediate"){experienceAdvice="Prepare examples showing practical experience, problem solving, and ownership of tasks.";}
+else{experienceAdvice="Prepare examples showing leadership, decision-making, mentoring, and impact.";}
 
-if(level==="Beginner"){
-experienceAdvice="Focus on your learning, projects, willingness to improve, and transferable skills.";
-}else if(level==="Intermediate"){
-experienceAdvice="Prepare examples showing practical experience, problem solving, and ownership of tasks.";
-}else{
-experienceAdvice="Prepare examples showing leadership, decision-making, mentoring, and impact.";
-}
-
-const result=document.getElementById("result");
-
-result.innerHTML=`
+const html=`
 <h3>Interview Preparation for ${role} (${level})</h3>
-
-<div class="section">
-<h3>✅ General Questions</h3>
-<ol>
-${generalQuestions.map(q=>`<li>${q}</li>`).join("")}
-</ol>
-</div>
-
-<div class="section">
-<h3>🛠 Role-Specific Questions</h3>
-<ol>
-${technicalQuestions.map(q=>`<li>${q}</li>`).join("")}
-</ol>
-</div>
-
-<div class="section">
-<h3>💡 Preparation Tips</h3>
-<ul>
-${roleTips.map(t=>`<li>${t}</li>`).join("")}
-<li>${experienceAdvice}</li>
-</ul>
-</div>
-
-<div class="tip">
-<strong>Tip:</strong> Prepare answers using the STAR method: Situation, Task, Action, Result.
-</div>
+<div class="section"><h3>✅ General Questions</h3><ol>${generalQuestions.map(q=>`<li>${q}</li>`).join("")}</ol></div>
+<div class="section"><h3>🛠 Role-Specific Questions</h3><ol>${technicalQuestions.map(q=>`<li>${q}</li>`).join("")}</ol></div>
+<div class="section"><h3>💡 Preparation Tips</h3><ul>${roleTips.map(t=>`<li>${t}</li>`).join("")}<li>${experienceAdvice}</li></ul></div>
+<div class="tip"><strong>Tip:</strong> Prepare answers using the STAR method: Situation, Task, Action, Result.</div>
+<button class="save-btn" onclick="saveInterviewSession()">💾 Save Interview Session to Dashboard</button>
 `;
 
+const plainText=`Interview Preparation for ${role} (${level})
+
+General Questions:
+${generalQuestions.join("\n")}
+
+Role-Specific Questions:
+${technicalQuestions.join("\n")}
+
+Preparation Tips:
+${roleTips.join("\n")}
+${experienceAdvice}
+
+Tip: Prepare answers using STAR method.`;
+
+latestInterviewSession={date:new Date().toLocaleString(),role,level,content:plainText};
+
+const result=document.getElementById("result");
+result.innerHTML=html;
 result.style.display="block";
+}
+
+function saveInterviewSession(){
+if(!latestInterviewSession){
+alert("Please generate interview questions first.");
+return;
+}
+let sessions=JSON.parse(localStorage.getItem("hirebloomInterviewSessions")) || [];
+sessions.push(latestInterviewSession);
+localStorage.setItem("hirebloomInterviewSessions",JSON.stringify(sessions));
+alert("Interview Session saved to Dashboard.");
 }
 </script>
 

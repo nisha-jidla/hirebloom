@@ -4,217 +4,40 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ATS Score Checker - HireBloom</title>
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-
-body{
-font-family:'Segoe UI',sans-serif;
-background:#f5f0ff;
-}
-
-nav{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:20px 60px;
-background:white;
-box-shadow:0 2px 10px rgba(0,0,0,.08);
-}
-
-.logo{
-font-size:24px;
-font-weight:700;
-color:#6c3fc5;
-text-decoration:none;
-}
-
+body{font-family:'Segoe UI',sans-serif;background:#f5f0ff}
+nav{display:flex;justify-content:space-between;align-items:center;padding:20px 60px;background:white;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.logo{font-size:24px;font-weight:700;color:#6c3fc5;text-decoration:none}
 .logo span{color:#f59e0b}
-
-.home-btn{
-background:#6c3fc5;
-color:white;
-padding:10px 22px;
-border-radius:25px;
-text-decoration:none;
-font-weight:600;
-}
-
-.container{
-max-width:1000px;
-margin:50px auto;
-padding:0 20px;
-}
-
-h1{
-text-align:center;
-font-size:36px;
-color:#1a1a2e;
-margin-bottom:10px;
-}
-
-.subtitle{
-text-align:center;
-color:#666;
-margin-bottom:35px;
-}
-
-.card,.result{
-background:white;
-border-radius:16px;
-padding:30px;
-box-shadow:0 4px 20px rgba(0,0,0,.06);
-margin-bottom:25px;
-}
-
-label{
-display:block;
-font-weight:600;
-color:#1a1a2e;
-margin-bottom:8px;
-}
-
-textarea{
-width:100%;
-padding:14px;
-border:2px solid #e5e7eb;
-border-radius:10px;
-font-size:14px;
-font-family:inherit;
-resize:vertical;
-outline:none;
-margin-bottom:20px;
-}
-
-textarea:focus{
-border-color:#6c3fc5;
-}
-
-.btn{
-width:100%;
-padding:16px;
-background:#6c3fc5;
-color:white;
-border:none;
-border-radius:30px;
-font-size:18px;
-font-weight:600;
-cursor:pointer;
-}
-
-.btn:hover{
-background:#5630a3;
-}
-
-.result{
-display:none;
-}
-
-.score-box{
-background:linear-gradient(135deg,#6c3fc5,#f59e0b);
-color:white;
-padding:30px;
-border-radius:14px;
-text-align:center;
-margin-bottom:25px;
-}
-
-.score{
-font-size:70px;
-font-weight:800;
-}
-
-.score-label{
-font-size:16px;
-opacity:.95;
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:20px;
-margin-bottom:20px;
-}
-
-.section{
-background:#f9f6ff;
-padding:20px;
-border-radius:12px;
-}
-
-.section h3{
-color:#1a1a2e;
-margin-bottom:12px;
-}
-
-ul{
-margin-left:22px;
-line-height:1.8;
-}
-
-.good{color:#166534}
-.bad{color:#991b1b}
-
-.breakdown{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:15px;
-margin-bottom:25px;
-}
-
-.break-card{
-background:#f9f6ff;
-padding:18px;
-border-radius:12px;
-text-align:center;
-}
-
-.break-card h3{
-color:#6c3fc5;
-font-size:26px;
-}
-
-.break-card p{
-color:#666;
-font-size:14px;
-margin-top:5px;
-}
-
-.note{
-background:#fff7ed;
-border-left:5px solid #f59e0b;
-padding:16px;
-border-radius:10px;
-color:#444;
-line-height:1.7;
-}
-
-@media(max-width:800px){
-.grid{
-grid-template-columns:1fr;
-}
-}
-
-@media(max-width:700px){
-nav{
-padding:20px;
-}
-
-h1{
-font-size:30px;
-}
-
-.grid{
-grid-template-columns:1fr;
-}
-
-.breakdown{
-grid-template-columns:1fr 1fr;
-}
-}
+.home-btn{background:#6c3fc5;color:white;padding:10px 22px;border-radius:25px;text-decoration:none;font-weight:600}
+.container{max-width:1000px;margin:50px auto;padding:0 20px}
+h1{text-align:center;font-size:36px;color:#1a1a2e;margin-bottom:10px}
+.subtitle{text-align:center;color:#666;margin-bottom:35px}
+.card,.result{background:white;border-radius:16px;padding:30px;box-shadow:0 4px 20px rgba(0,0,0,.06);margin-bottom:25px}
+label{display:block;font-weight:600;color:#1a1a2e;margin-bottom:8px}
+textarea{width:100%;padding:14px;border:2px solid #e5e7eb;border-radius:10px;font-size:14px;font-family:inherit;resize:vertical;outline:none;margin-bottom:20px}
+textarea:focus{border-color:#6c3fc5}
+.btn{width:100%;padding:16px;background:#6c3fc5;color:white;border:none;border-radius:30px;font-size:18px;font-weight:600;cursor:pointer;margin-top:10px}
+.btn:hover{background:#5630a3}
+.save-btn{background:#f59e0b}
+.result{display:none}
+.score-box{background:linear-gradient(135deg,#6c3fc5,#f59e0b);color:white;padding:30px;border-radius:14px;text-align:center;margin-bottom:25px}
+.score{font-size:70px;font-weight:800}
+.score-label{font-size:16px;opacity:.95}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-bottom:20px}
+.section{background:#f9f6ff;padding:20px;border-radius:12px;margin-bottom:20px}
+.section h3{color:#1a1a2e;margin-bottom:12px}
+ul{margin-left:22px;line-height:1.8}
+.good{color:#166534}.bad{color:#991b1b}
+.breakdown{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:25px}
+.break-card{background:#f9f6ff;padding:18px;border-radius:12px;text-align:center}
+.break-card h3{color:#6c3fc5;font-size:26px}
+.break-card p{color:#666;font-size:14px;margin-top:5px}
+.note{background:#fff7ed;border-left:5px solid #f59e0b;padding:16px;border-radius:10px;color:#444;line-height:1.7}
+@media(max-width:800px){.grid{grid-template-columns:1fr}.breakdown{grid-template-columns:1fr 1fr}nav{padding:20px}h1{font-size:30px}}
 </style>
 </head>
-
 <body>
 
 <nav>
@@ -223,12 +46,10 @@ grid-template-columns:1fr 1fr;
 </nav>
 
 <div class="container">
-
 <h1>🎯 ATS Score Checker</h1>
 <p class="subtitle">Check how well your resume matches a job description using keyword and skill matching.</p>
 
 <div class="card">
-
 <label>📄 Paste Your Resume</label>
 <textarea id="resume" rows="9" placeholder="Paste your resume here..."></textarea>
 
@@ -236,11 +57,9 @@ grid-template-columns:1fr 1fr;
 <textarea id="jobdesc" rows="7" placeholder="Paste the job description here..."></textarea>
 
 <button class="btn" onclick="checkATS()">Check ATS Score</button>
-
 </div>
 
 <div class="result" id="result">
-
 <div class="score-box">
 <div class="score" id="score">0%</div>
 <p class="score-label" id="scoreMessage">ATS Match Score</p>
@@ -254,40 +73,25 @@ grid-template-columns:1fr 1fr;
 </div>
 
 <div class="grid">
-
-<div class="section">
-<h3>✅ Matched Keywords</h3>
-<ul id="matchedList"></ul>
+<div class="section"><h3>✅ Matched Keywords</h3><ul id="matchedList"></ul></div>
+<div class="section"><h3>⚠️ Missing Keywords</h3><ul id="missingList"></ul></div>
 </div>
 
-<div class="section">
-<h3>⚠️ Missing Keywords</h3>
-<ul id="missingList"></ul>
-</div>
+<div class="section"><h3>💡 Recommendations</h3><ul id="suggestionsList"></ul></div>
+<div class="section"><h3>📌 Skill Category Match</h3><ul id="categoryList"></ul></div>
 
-</div>
-
-<div class="section">
-<h3>💡 Recommendations</h3>
-<ul id="suggestionsList"></ul>
-</div>
-
-<div class="section">
-<h3>📌 Skill Category Match</h3>
-<ul id="categoryList"></ul>
-</div>
+<button class="btn save-btn" onclick="saveATSReport()">💾 Save ATS Report to Dashboard</button>
 
 <div class="note">
 <strong>Note:</strong> This ATS score is an estimated guide based on keywords and skill matching. Real ATS systems may also check formatting, job titles, experience level, and education.
 </div>
-
 </div>
-
 </div>
 
 <script>
-function checkATS(){
+let latestATSReport=null;
 
+function checkATS(){
 const resume=document.getElementById("resume").value.toLowerCase();
 const jobdesc=document.getElementById("jobdesc").value.toLowerCase();
 
@@ -304,28 +108,19 @@ const categories={
 "Programming & Data":["python","javascript","sql","html","css","api","database","json"]
 };
 
-let matched=[];
-let missing=[];
-let matchedCategories=0;
-let categoryResults=[];
+let matched=[],missing=[],matchedCategories=0,categoryResults=[];
 
 Object.keys(categories).forEach(category=>{
-let categoryMatched=0;
-let categoryRelevant=0;
+let categoryMatched=0, categoryRelevant=0;
 
 categories[category].forEach(keyword=>{
 if(jobdesc.includes(keyword)){
 categoryRelevant++;
-
 if(resume.includes(keyword)){
-if(!matched.includes(keyword)){
-matched.push(keyword);
-}
+if(!matched.includes(keyword)){matched.push(keyword);}
 categoryMatched++;
 }else{
-if(!missing.includes(keyword)){
-missing.push(keyword);
-}
+if(!missing.includes(keyword)){missing.push(keyword);}
 }
 }
 });
@@ -333,9 +128,7 @@ missing.push(keyword);
 if(categoryRelevant>0){
 let percent=Math.round((categoryMatched/categoryRelevant)*100);
 categoryResults.push(`${category}: ${percent}% match`);
-if(percent>0){
-matchedCategories++;
-}
+if(percent>0){matchedCategories++;}
 }
 });
 
@@ -343,57 +136,67 @@ let total=matched.length+missing.length;
 let score=total===0 ? 50 : Math.round((matched.length/total)*100);
 
 let suggestions=[];
-
 if(missing.length>0){
-missing.forEach(keyword=>{
-suggestions.push(`Add or mention your experience with ${keyword} if you genuinely have it.`);
-});
+missing.forEach(keyword=>suggestions.push(`Add or mention your experience with ${keyword} if you genuinely have it.`));
 }else{
 suggestions.push("Your resume matches the main keywords well.");
 }
 
-if(score<50){
-suggestions.push("Your resume needs stronger alignment with this job description.");
-}else if(score<75){
-suggestions.push("Your resume has a fair match, but adding missing skills could improve your score.");
-}else{
-suggestions.push("Your resume has a strong match for this job description.");
-}
-
-document.getElementById("score").textContent=score+"%";
+if(score<50){suggestions.push("Your resume needs stronger alignment with this job description.");}
+else if(score<75){suggestions.push("Your resume has a fair match, but adding missing skills could improve your score.");}
+else{suggestions.push("Your resume has a strong match for this job description.");}
 
 let message="ATS Match Score";
+if(score>=80){message="Excellent match";}
+else if(score>=60){message="Good match";}
+else if(score>=40){message="Needs improvement";}
+else{message="Low match";}
 
-if(score>=80){
-message="Excellent match";
-}else if(score>=60){
-message="Good match";
-}else if(score>=40){
-message="Needs improvement";
-}else{
-message="Low match";
-}
-
+document.getElementById("score").textContent=score+"%";
 document.getElementById("scoreMessage").textContent=message;
-
 document.getElementById("matchedCount").textContent=matched.length;
 document.getElementById("missingCount").textContent=missing.length;
 document.getElementById("categoryCount").textContent=matchedCategories;
 document.getElementById("recommendationCount").textContent=suggestions.length;
+document.getElementById("matchedList").innerHTML=matched.length ? matched.map(k=>`<li class="good">${k}</li>`).join("") : "<li>No strong matches found</li>";
+document.getElementById("missingList").innerHTML=missing.length ? missing.map(k=>`<li class="bad">${k}</li>`).join("") : "<li>No major missing keywords found</li>";
+document.getElementById("suggestionsList").innerHTML=suggestions.map(s=>`<li>${s}</li>`).join("");
+document.getElementById("categoryList").innerHTML=categoryResults.length ? categoryResults.map(c=>`<li>${c}</li>`).join("") : "<li>No specific skill category detected.</li>";
 
-document.getElementById("matchedList").innerHTML=
-matched.length ? matched.map(k=>`<li class="good">${k}</li>`).join("") : "<li>No strong matches found</li>";
+latestATSReport={
+date:new Date().toLocaleString(),
+score,
+message,
+content:
+`ATS Score: ${score}%
+Status: ${message}
 
-document.getElementById("missingList").innerHTML=
-missing.length ? missing.map(k=>`<li class="bad">${k}</li>`).join("") : "<li>No major missing keywords found</li>";
+Matched Keywords:
+${matched.length ? matched.join(", ") : "None"}
 
-document.getElementById("suggestionsList").innerHTML=
-suggestions.map(s=>`<li>${s}</li>`).join("");
+Missing Keywords:
+${missing.length ? missing.join(", ") : "None"}
 
-document.getElementById("categoryList").innerHTML=
-categoryResults.length ? categoryResults.map(c=>`<li>${c}</li>`).join("") : "<li>No specific skill category detected from the job description.</li>";
+Recommendations:
+${suggestions.join("\n")}
+
+Skill Category Match:
+${categoryResults.length ? categoryResults.join("\n") : "No specific skill category detected."}`
+};
 
 document.getElementById("result").style.display="block";
+}
+
+function saveATSReport(){
+if(!latestATSReport){
+alert("Please check ATS score first.");
+return;
+}
+
+let reports=JSON.parse(localStorage.getItem("hirebloomATSReports")) || [];
+reports.push(latestATSReport);
+localStorage.setItem("hirebloomATSReports",JSON.stringify(reports));
+alert("ATS Report saved to Dashboard.");
 }
 </script>
 

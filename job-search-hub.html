@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job Search Hub - HireBloom</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+font-family:'Segoe UI',sans-serif;
+background:#f5f0ff;
+color:#1a1a2e;
+}
+
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 60px;
+background:white;
+box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+.logo{
+font-size:24px;
+font-weight:700;
+color:#6c3fc5;
+text-decoration:none;
+}
+
+.logo span{
+color:#f59e0b;
+}
+
+.nav-links{
+display:flex;
+gap:12px;
+}
+
+.nav-btn{
+background:#6c3fc5;
+color:white;
+padding:10px 20px;
+border-radius:25px;
+text-decoration:none;
+font-weight:600;
+}
+
+.dash{
+background:#f59e0b;
+}
+
+.container{
+max-width:1150px;
+margin:50px auto;
+padding:0 20px;
+}
+
+h1{
+text-align:center;
+font-size:38px;
+margin-bottom:10px;
+}
+
+.subtitle{
+text-align:center;
+color:#666;
+margin-bottom:35px;
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:18px;
+margin-bottom:30px;
+}
+
+.stat{
+background:white;
+padding:22px;
+border-radius:16px;
+text-align:center;
+box-shadow:0 4px 20px rgba(0,0,0,.06);
+}
+
+.stat h3{
+font-size:30px;
+color:#6c3fc5;
+}
+
+.stat p{
+color:#666;
+font-weight:600;
+}
+
+.card,.table-card{
+background:white;
+border-radius:16px;
+padding:30px;
+box-shadow:0 4px 20px rgba(0,0,0,.06);
+margin-bottom:30px;
+}
+
+.form-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:20px;
+}
+
+label{
+font-weight:600;
+margin-bottom:8px;
+display:block;
+}
+
+input,select,textarea{
+width:100%;
+padding:13px;
+border:2px solid #e5e7eb;
+border-radius:10px;
+font-size:14px;
+font-family:inherit;
+outline:none;
+}
+
+textarea{
+resize:vertical;
+}
+
+input:focus,select:focus,textarea:focus{
+border-color:#6c3fc5;
+}
+
+.btn{
+margin-top:22px;
+width:100%;
+padding:15px;
+border:none;
+border-radius:30px;
+background:#6c3fc5;
+color:white;
+font-size:17px;
+font-weight:600;
+cursor:pointer;
+}
+
+.btn:hover{
+background:#5630a3;
+}
+
+.clear-btn{
+background:#ef4444;
+}
+
+.clear-btn:hover{
+background:#dc2626;
+}
+
+.button-row{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
+}
+
+th,td{
+padding:14px;
+border-bottom:1px solid #eee;
+text-align:left;
+font-size:14px;
+vertical-align:top;
+}
+
+th{
+background:#f9f6ff;
+}
+
+.tag{
+padding:6px 12px;
+border-radius:20px;
+font-size:13px;
+font-weight:700;
+display:inline-block;
+}
+
+.high{background:#fee2e2;color:#991b1b}
+.medium{background:#fef3c7;color:#92400e}
+.low{background:#dcfce7;color:#166534}
+.remote{background:#e0f2fe;color:#0369a1}
+.hybrid{background:#f3e8ff;color:#6b21a8}
+.onsite{background:#f1f5f9;color:#334155}
+
+.edit-btn{
+background:#f59e0b;
+color:white;
+border:none;
+padding:8px 12px;
+border-radius:8px;
+cursor:pointer;
+margin-right:6px;
+}
+
+.delete-btn{
+background:#ef4444;
+color:white;
+border:none;
+padding:8px 12px;
+border-radius:8px;
+cursor:pointer;
+}
+
+.apply-btn{
+background:#16a34a;
+color:white;
+border:none;
+padding:8px 12px;
+border-radius:8px;
+cursor:pointer;
+margin-right:6px;
+}
+
+.empty{
+text-align:center;
+color:#777;
+padding:25px;
+}
+
+a{
+color:#6c3fc5;
+}
+
+@media(max-width:900px){
+.form-grid,.stats,.button-row{
+grid-template-columns:1fr;
+}
+
+nav{
+padding:20px;
+flex-direction:column;
+gap:15px;
+}
+
+.nav-links{
+flex-direction:column;
+width:100%;
+}
+
+.nav-btn{
+text-align:center;
+}
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+<a href="index.html" class="logo">Hire<span>Bloom</span> 🌸</a>
+<div class="nav-links">
+<a href="index.html" class="nav-btn">🏠 Home</a>
+<a href="dashboard.html" class="nav-btn dash">📊 Dashboard</a>
+</div>
+</nav>
+
+<div class="container">
+
+<h1>🔍 Job Search Hub</h1>
+<p class="subtitle">Save interesting jobs before applying and organise them by priority.</p>
+
+<div class="stats">
+<div class="stat"><h3 id="savedCount">0</h3><p>Saved Jobs</p></div>
+<div class="stat"><h3 id="highCount">0</h3><p>High Priority</p></div>
+<div class="stat"><h3 id="remoteCount">0</h3><p>Remote Jobs</p></div>
+<div class="stat"><h3 id="closingSoonCount">0</h3><p>Closing Soon</p></div>
+</div>
+
+<div class="card">
+<div class="form-grid">
+
+<div>
+<label>Company Name</label>
+<input id="company" placeholder="Example: Amazon">
+</div>
+
+<div>
+<label>Job Title</label>
+<input id="jobTitle" placeholder="Example: Junior Software Tester">
+</div>
+
+<div>
+<label>Salary</label>
+<input id="salary" placeholder="Example: £25,000 - £30,000">
+</div>
+
+<div>
+<label>Location</label>
+<input id="location" placeholder="Example: Edinburgh / Remote">
+</div>
+
+<div>
+<label>Work Type</label>
+<select id="workType">
+<option value="Remote">Remote</option>
+<option value="Hybrid">Hybrid</option>
+<option value="Onsite">Onsite</option>
+</select>
+</div>
+
+<div>
+<label>Priority</label>
+<select id="priority">
+<option value="High">High</option>
+<option value="Medium">Medium</option>
+<option value="Low">Low</option>
+</select>
+</div>
+
+<div>
+<label>Closing Date</label>
+<input type="date" id="closingDate">
+</div>
+
+<div>
+<label>Job URL</label>
+<input type="url" id="jobUrl" placeholder="Paste job advert link">
+</div>
+
+<div style="grid-column:1/-1">
+<label>Notes</label>
+<textarea id="notes" rows="4" placeholder="Requirements, recruiter name, reminder..."></textarea>
+</div>
+
+</div>
+
+<div class="button-row">
+<button type="button" class="btn" id="saveBtn">Save Job Lead</button>
+<button type="button" class="btn clear-btn" id="clearBtn">Clear All Saved Jobs</button>
+</div>
+</div>
+
+<div class="table-card">
+<h2>Saved Job Leads</h2>
+
+<table>
+<thead>
+<tr>
+<th>Company</th>
+<th>Job Title</th>
+<th>Salary</th>
+<th>Location</th>
+<th>Type</th>
+<th>Priority</th>
+<th>Closing</th>
+<th>Link</th>
+<th>Notes</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="leadList"></tbody>
+</table>
+
+<div id="emptyMessage" class="empty">No job leads saved yet.</div>
+</div>
+
+</div>
+
+<script>
+let leads=JSON.parse(localStorage.getItem("hirebloomJobLeads")) || [];
+let editIndex=null;
+
+function getValue(id){
+return document.getElementById(id).value.trim();
+}
+
+function saveLeads(){
+localStorage.setItem("hirebloomJobLeads",JSON.stringify(leads));
+}
+
+function saveJobLead(){
+
+const lead={
+company:getValue("company"),
+jobTitle:getValue("jobTitle"),
+salary:getValue("salary"),
+location:getValue("location"),
+workType:document.getElementById("workType").value,
+priority:document.getElementById("priority").value,
+closingDate:document.getElementById("closingDate").value,
+jobUrl:getValue("jobUrl"),
+notes:getValue("notes")
+};
+
+if(!lead.company || !lead.jobTitle){
+alert("Please fill Company Name and Job Title.");
+return;
+}
+
+if(editIndex===null){
+leads.push(lead);
+}else{
+leads[editIndex]=lead;
+editIndex=null;
+document.getElementById("saveBtn").textContent="Save Job Lead";
+}
+
+saveLeads();
+renderLeads();
+clearForm();
+
+alert("Job lead saved successfully.");
+}
+
+function clearForm(){
+document.getElementById("company").value="";
+document.getElementById("jobTitle").value="";
+document.getElementById("salary").value="";
+document.getElementById("location").value="";
+document.getElementById("closingDate").value="";
+document.getElementById("jobUrl").value="";
+document.getElementById("notes").value="";
+document.getElementById("workType").value="Remote";
+document.getElementById("priority").value="High";
+}
+
+function editLead(index){
+const lead=leads[index];
+
+document.getElementById("company").value=lead.company;
+document.getElementById("jobTitle").value=lead.jobTitle;
+document.getElementById("salary").value=lead.salary || "";
+document.getElementById("location").value=lead.location || "";
+document.getElementById("workType").value=lead.workType || "Remote";
+document.getElementById("priority").value=lead.priority || "High";
+document.getElementById("closingDate").value=lead.closingDate || "";
+document.getElementById("jobUrl").value=lead.jobUrl || "";
+document.getElementById("notes").value=lead.notes || "";
+
+editIndex=index;
+document.getElementById("saveBtn").textContent="Update Job Lead";
+window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function deleteLead(index){
+if(confirm("Delete this saved job lead?")){
+leads.splice(index,1);
+saveLeads();
+renderLeads();
+}
+}
+
+function moveToTracker(index){
+const lead=leads[index];
+
+let jobs=JSON.parse(localStorage.getItem("hirebloomJobs")) || [];
+
+jobs.push({
+company:lead.company,
+jobTitle:lead.jobTitle,
+date:new Date().toISOString().split("T")[0],
+status:"Applied",
+jobLink:lead.jobUrl || "",
+notes:lead.notes || ""
+});
+
+localStorage.setItem("hirebloomJobs",JSON.stringify(jobs));
+
+alert("Moved to Job Tracker as Applied.");
+}
+
+function clearAllLeads(){
+if(leads.length===0){
+alert("No saved jobs to clear.");
+return;
+}
+
+if(confirm("Delete all saved job leads?")){
+leads=[];
+saveLeads();
+renderLeads();
+clearForm();
+}
+}
+
+function isClosingSoon(dateStr){
+if(!dateStr){
+return false;
+}
+
+const today=new Date();
+today.setHours(0,0,0,0);
+
+const closing=new Date(dateStr);
+const diff=(closing-today)/(1000*60*60*24);
+
+return diff>=0 && diff<=7;
+}
+
+function updateStats(){
+document.getElementById("savedCount").textContent=leads.length;
+document.getElementById("highCount").textContent=leads.filter(l=>l.priority==="High").length;
+document.getElementById("remoteCount").textContent=leads.filter(l=>l.workType==="Remote").length;
+document.getElementById("closingSoonCount").textContent=leads.filter(l=>isClosingSoon(l.closingDate)).length;
+}
+
+function renderLeads(){
+const leadList=document.getElementById("leadList");
+const emptyMessage=document.getElementById("emptyMessage");
+
+leadList.innerHTML="";
+updateStats();
+
+if(leads.length===0){
+emptyMessage.style.display="block";
+return;
+}
+
+emptyMessage.style.display="none";
+
+leads.forEach((lead,index)=>{
+const row=document.createElement("tr");
+
+row.innerHTML=`
+<td>${lead.company}</td>
+<td>${lead.jobTitle}</td>
+<td>${lead.salary || "Not added"}</td>
+<td>${lead.location || "Not added"}</td>
+<td><span class="tag ${lead.workType.toLowerCase()}">${lead.workType}</span></td>
+<td><span class="tag ${lead.priority.toLowerCase()}">${lead.priority}</span></td>
+<td>${lead.closingDate || "Not added"}</td>
+<td>${lead.jobUrl ? `<a href="${lead.jobUrl}" target="_blank">Open</a>` : "No link"}</td>
+<td>${lead.notes || "No notes"}</td>
+<td>
+<button type="button" class="apply-btn" onclick="moveToTracker(${index})">Apply</button>
+<button type="button" class="edit-btn" onclick="editLead(${index})">Edit</button>
+<button type="button" class="delete-btn" onclick="deleteLead(${index})">Delete</button>
+</td>
+`;
+
+leadList.appendChild(row);
+});
+}
+
+document.getElementById("saveBtn").addEventListener("click",saveJobLead);
+document.getElementById("clearBtn").addEventListener("click",clearAllLeads);
+
+renderLeads();
+</script>
+
+</body>
+</html>

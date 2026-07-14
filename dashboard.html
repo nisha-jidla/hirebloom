@@ -4,334 +4,285 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard - HireBloom</title>
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-
-body{
-font-family:'Segoe UI',sans-serif;
-background:#f5f0ff;
-}
-
-nav{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:20px 60px;
-background:white;
-box-shadow:0 2px 10px rgba(0,0,0,.08);
-}
-
-.logo{
-font-size:24px;
-font-weight:700;
-color:#6c3fc5;
-text-decoration:none;
-}
-
-.logo span{color:#f59e0b}
-
-.nav-links{
-display:flex;
-gap:15px;
-align-items:center;
-}
-
-.nav-links a,button{
-text-decoration:none;
-border:none;
-cursor:pointer;
-font-weight:600;
-}
-
-.home-btn{
-background:#6c3fc5;
-color:white;
-padding:10px 22px;
-border-radius:25px;
-}
-
-.logout-btn{
-background:#ef4444;
-color:white;
-padding:10px 22px;
-border-radius:25px;
-}
-
-.container{
-max-width:1000px;
-margin:50px auto;
-padding:0 20px;
-}
-
-.hero{
-background:white;
-padding:35px;
-border-radius:18px;
-box-shadow:0 4px 20px rgba(0,0,0,.08);
-text-align:center;
-margin-bottom:30px;
-}
-
-.hero h1{
-color:#1a1a2e;
-font-size:36px;
-margin-bottom:10px;
-}
-
-.hero span{
-color:#6c3fc5;
-}
-
-.hero p{
-color:#666;
-}
-
-.cards{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:22px;
-}
-
-.card{
-background:white;
-padding:28px;
-border-radius:16px;
-box-shadow:0 4px 20px rgba(0,0,0,.06);
-text-align:center;
-}
-
-.card h3{
-color:#6c3fc5;
-font-size:32px;
-margin-bottom:8px;
-}
-
-.card p{
-color:#666;
-font-weight:600;
-}
-
-.tools{
-margin-top:30px;
-background:white;
-padding:30px;
-border-radius:16px;
-box-shadow:0 4px 20px rgba(0,0,0,.06);
-}
-
-.tools h2{
-margin-bottom:20px;
-color:#1a1a2e;
-}
-
-.tool-grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:18px;
-}
-
-.tool{
-background:#f9f6ff;
-padding:22px;
-border-radius:14px;
-text-decoration:none;
-color:#1a1a2e;
-font-weight:600;
-}
-
-.tool:hover{
-background:#efe7ff;
-}
-
-.saved-item{
-background:#f9f6ff;
-padding:18px;
-border-radius:12px;
-margin-bottom:15px;
-}
-
-.saved-item h3{
-color:#1a1a2e;
-margin-bottom:6px;
-}
-
-.view-btn{
-margin-top:10px;
-padding:10px 18px;
-border:none;
-border-radius:20px;
-background:#6c3fc5;
-color:white;
-cursor:pointer;
-}
-
-.delete-btn{
-margin-top:10px;
-margin-left:8px;
-padding:10px 18px;
-border:none;
-border-radius:20px;
-background:#ef4444;
-color:white;
-cursor:pointer;
-}
-
-.saved-letter{
-display:none;
-white-space:pre-wrap;
-font-family:'Segoe UI',sans-serif;
-margin-top:15px;
-background:white;
-padding:15px;
-border-radius:10px;
-line-height:1.7;
-}
-
-@media(max-width:700px){
-nav{
-padding:20px;
-flex-direction:column;
-gap:15px;
-}
-
-.cards,.tool-grid{
-grid-template-columns:1fr;
-}
-}
+:root{--purple:#6c3fc5;--orange:#f59e0b;--red:#ef4444;--green:#16a34a;--ink:#1a1a2e;--muted:#666;--page:#f5f0ff;--soft:#f9f6ff}
+body{font-family:'Segoe UI',sans-serif;background:var(--page);color:var(--ink)}
+nav{display:flex;justify-content:space-between;align-items:center;padding:20px 60px;background:white;box-shadow:0 2px 10px rgba(0,0,0,.08);position:sticky;top:0;z-index:20}
+.logo{font-size:24px;font-weight:700;color:var(--purple);text-decoration:none}
+.logo span{color:var(--orange)}
+.nav-links{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.nav-links a,.nav-links button{text-decoration:none;border:none;cursor:pointer;font-weight:600}
+.home-btn{background:var(--purple);color:white;padding:10px 20px;border-radius:25px}
+.logout-btn{background:var(--red);color:white;padding:10px 20px;border-radius:25px}
+.container{max-width:1200px;margin:42px auto;padding:0 20px}
+.hero{background:linear-gradient(135deg,#fff,#f9f6ff);padding:38px;border-radius:22px;box-shadow:0 5px 24px rgba(0,0,0,.08);margin-bottom:28px;display:grid;grid-template-columns:1.4fr .6fr;gap:25px;align-items:center}
+.hero h1{font-size:38px;margin-bottom:8px}
+.hero p{color:var(--muted);line-height:1.7}
+.hero-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.badge{display:inline-block;background:#dcfce7;color:#166534;padding:7px 14px;border-radius:20px;font-weight:700}
+.role-badge{background:#ede9fe;color:#5b21b6}
+.hero-actions{display:flex;flex-direction:column;gap:12px}
+.hero-actions a{display:block;text-align:center;padding:13px 18px;border-radius:28px;text-decoration:none;font-weight:700}
+.plan-btn{background:var(--orange);color:white}
+.profile-btn{background:var(--purple);color:white}
+.overview{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;margin-bottom:28px}
+.metric{background:white;padding:22px;border-radius:16px;box-shadow:0 4px 18px rgba(0,0,0,.06);text-align:center}
+.metric .icon{font-size:26px}
+.metric h3{font-size:30px;color:var(--purple);margin:6px 0}
+.metric p{color:var(--muted);font-weight:600;font-size:14px}
+.smart-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-bottom:28px}
+.panel,.tools{background:white;padding:28px;border-radius:18px;box-shadow:0 4px 20px rgba(0,0,0,.06)}
+.panel h2,.tools h2{font-size:22px;margin-bottom:18px}
+.panel p{color:#555;line-height:1.65}
+.detail-card{background:var(--soft);padding:18px;border-radius:14px}
+.action-link{display:inline-block;margin-top:13px;background:var(--purple);color:white;text-decoration:none;padding:9px 16px;border-radius:22px;font-weight:600}
+.progress-wrap{height:22px;background:#e5e7eb;border-radius:20px;overflow:hidden;margin-top:12px}
+.progress-bar{height:100%;background:linear-gradient(90deg,var(--purple),var(--orange));color:white;text-align:center;line-height:22px;font-size:12px;font-weight:700}
+.missing-list{margin:12px 0 0 20px;color:#555;line-height:1.8}
+.tip{background:#fff7ed;border-left:5px solid var(--orange);padding:18px;border-radius:12px;color:#444;line-height:1.7}
+.tools{margin-bottom:28px}
+.tool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.tool{background:var(--soft);padding:20px;border-radius:14px;text-decoration:none;color:var(--ink);font-weight:700;transition:.2s}
+.tool:hover{transform:translateY(-3px);background:#efe7ff;box-shadow:0 6px 16px rgba(0,0,0,.08)}
+.analytics-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.analytics-box{background:var(--soft);padding:16px;border-radius:12px;text-align:center}
+.analytics-box strong{color:var(--purple)}
+.analytics-note{background:#fff7ed;border-left:5px solid var(--orange);padding:15px;border-radius:10px;margin-top:15px;color:#444;line-height:1.7}
+.saved-item{background:var(--soft);padding:18px;border-radius:12px;margin-bottom:15px}
+.saved-item h3{margin-bottom:6px}.saved-item p{color:#555;margin-bottom:6px}
+.view-btn,.delete-btn{margin-top:10px;padding:10px 18px;border:none;border-radius:20px;color:white;cursor:pointer;font-weight:600}
+.view-btn{background:var(--purple)}.delete-btn{background:var(--red);margin-left:8px}
+.saved-content{display:none;white-space:pre-wrap;font-family:'Segoe UI',sans-serif;margin-top:15px;background:white;padding:15px;border-radius:10px;line-height:1.7}
+.profile-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:12px}
+.profile-box{background:white;padding:14px;border-radius:10px}.profile-box strong{color:var(--purple)}
+@media(max-width:1050px){.overview{grid-template-columns:repeat(3,1fr)}.analytics-grid{grid-template-columns:repeat(3,1fr)}.tool-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){nav{padding:18px;flex-direction:column;gap:14px}.hero{grid-template-columns:1fr}.overview,.analytics-grid,.tool-grid,.smart-grid,.profile-grid{grid-template-columns:1fr}.hero h1{font-size:30px}.container{margin-top:25px}}
 </style>
 </head>
-
 <body>
-
 <nav>
 <a href="index.html" class="logo">Hire<span>Bloom</span> 🌸</a>
-
 <div class="nav-links">
-<a href="index.html" class="home-btn">Home</a>
+<a href="index.html" class="home-btn">🏠 Home</a>
 <button class="logout-btn" onclick="logout()">Logout</button>
 </div>
 </nav>
 
 <div class="container">
-
-<div class="hero">
-<h1>Welcome, <span id="userEmail">User</span></h1>
-<p>Your HireBloom dashboard helps you manage your job search tools in one place.</p>
+<section class="hero">
+<div>
+<h1>Welcome back, <span id="welcomeName">User</span> 👋</h1>
+<p>Your smart HireBloom dashboard brings your profile, applications, resumes, ATS reports, reminders, and saved jobs together.</p>
+<div class="hero-meta">
+<span class="badge role-badge" id="roleBadge">Career Goal</span>
+<span class="badge" id="planBadge">Free Plan</span>
 </div>
-
-<div class="cards">
-
-<div class="card">
-<h3 id="jobCount">0</h3>
-<p>Saved Job Applications</p>
 </div>
-
-<div class="card">
-<h3 id="coverLetterCount">0</h3>
-<p>Saved Cover Letters</p>
+<div class="hero-actions">
+<a href="profile.html" class="profile-btn">Edit Profile</a>
+<a href="pro.html" class="plan-btn">View Plan</a>
 </div>
+</section>
 
-<div class="card">
-<h3>v6.1</h3>
-<p>HireBloom Version</p>
+<section class="overview">
+<div class="metric"><div class="icon">📋</div><h3 id="jobCount">0</h3><p>Applications</p></div>
+<div class="metric"><div class="icon">🤝</div><h3 id="interviewOverview">0</h3><p>Interviews</p></div>
+<div class="metric"><div class="icon">🎯</div><h3 id="atsAverage">0%</h3><p>ATS Average</p></div>
+<div class="metric"><div class="icon">📝</div><h3 id="builtResumeCount">0</h3><p>Built Resumes</p></div>
+<div class="metric"><div class="icon">📅</div><h3 id="upcomingReminderCount">0</h3><p>Upcoming Reminders</p></div>
+<div class="metric"><div class="icon">🏆</div><h3 id="profileCompletion">0%</h3><p>Profile Complete</p></div>
+</section>
+
+<section class="smart-grid">
+<div class="panel"><h2>📅 Next Reminder</h2><div id="nextReminderBox" class="detail-card"></div></div>
+<div class="panel"><h2>💼 Latest Job Lead</h2><div id="latestLeadBox" class="detail-card"></div></div>
+<div class="panel"><h2>📝 Latest Resume</h2><div id="latestResumeBox" class="detail-card"></div></div>
+<div class="panel"><h2>🎯 ATS Performance</h2><div id="atsPerformanceBox" class="detail-card"></div></div>
+<div class="panel">
+<h2>🏆 Profile Completion</h2>
+<p id="profileCompletionText">Complete your profile to improve personalisation.</p>
+<div class="progress-wrap"><div id="profileBar" class="progress-bar" style="width:0%">0%</div></div>
+<ul id="missingProfileFields" class="missing-list"></ul>
 </div>
+<div class="panel"><h2>🔥 Career Tip</h2><div id="careerTip" class="tip"></div></div>
+</section>
 
-</div>
-
-<div class="tools">
-<h2>Quick Access Tools</h2>
-
+<section class="tools">
+<h2>⚡ Quick Access</h2>
 <div class="tool-grid">
+<a href="profile.html" class="tool">👤 Profile</a>
+<a href="resume-builder.html" class="tool">📝 Resume Builder</a>
 <a href="analyzer.html" class="tool">📄 Resume Analyzer</a>
 <a href="ats-score.html" class="tool">🎯 ATS Score Checker</a>
 <a href="cover-letter.html" class="tool">✉️ Cover Letter Generator</a>
 <a href="interview-coach.html" class="tool">🎤 AI Interview Coach</a>
 <a href="job-tracker.html" class="tool">📋 Job Tracker</a>
 <a href="interview-prep.html" class="tool">🧠 Interview Prep</a>
+<a href="job-search-hub.html" class="tool">🔍 Job Search Hub</a>
+<a href="reminders.html" class="tool">📅 Reminder Center</a>
+<a href="pro.html" class="tool">👑 HireBloom Pro</a>
+<a href="settings.html" class="tool">⚙️ Settings</a>
 </div>
-</div>
+</section>
 
-<div class="tools">
-<h2>Saved Cover Letters</h2>
-<div id="coverLettersList"></div>
+<section class="tools">
+<h2>📈 Job Application Analytics</h2>
+<div class="analytics-grid">
+<div class="analytics-box"><strong>Total</strong><br><span id="analyticsTotal">0</span></div>
+<div class="analytics-box"><strong>Applied</strong><br><span id="analyticsApplied">0</span></div>
+<div class="analytics-box"><strong>Interviews</strong><br><span id="analyticsInterview">0</span></div>
+<div class="analytics-box"><strong>Offers</strong><br><span id="analyticsOffer">0</span></div>
+<div class="analytics-box"><strong>Rejected</strong><br><span id="analyticsRejected">0</span></div>
+<div class="analytics-box"><strong>Success Rate</strong><br><span id="analyticsSuccess">0%</span></div>
 </div>
+<div class="progress-wrap"><div id="successBar" class="progress-bar" style="width:0%">0%</div></div>
+<div id="analyticsAdvice" class="analytics-note"></div>
+</section>
 
+<section class="tools"><h2>👤 My Profile</h2><div id="profileSummary"></div></section>
+<section class="tools"><h2>Saved Built Resumes</h2><div id="builtResumesList"></div></section>
+<section class="tools"><h2>Saved Resume Reports</h2><div id="resumeReportsList"></div></section>
+<section class="tools"><h2>Saved Cover Letters</h2><div id="coverLettersList"></div></section>
+<section class="tools"><h2>Saved ATS Reports</h2><div id="atsReportsList"></div></section>
+<section class="tools"><h2>Saved Interview Sessions</h2><div id="interviewSessionsList"></div></section>
 </div>
 
 <script>
 const loggedIn=localStorage.getItem("hirebloomLoggedIn");
-const user=JSON.parse(localStorage.getItem("hirebloomUser"));
+if(loggedIn!=="true"){alert("Please login first.");window.location.href="login.html";}
 
-if(loggedIn!=="true"){
-alert("Please login first.");
-window.location.href="login.html";
+const user=JSON.parse(localStorage.getItem("hirebloomUser"))||{};
+const profile=JSON.parse(localStorage.getItem("hirebloomProfile"))||{};
+const plan=localStorage.getItem("hirebloomPlan")||profile.plan||"Free";
+const jobs=JSON.parse(localStorage.getItem("hirebloomJobs"))||[];
+const jobLeads=JSON.parse(localStorage.getItem("hirebloomJobLeads"))||[];
+const reminders=JSON.parse(localStorage.getItem("hirebloomReminders"))||[];
+let builtResumes=JSON.parse(localStorage.getItem("hirebloomBuiltResumes"))||[];
+let resumeReports=JSON.parse(localStorage.getItem("hirebloomResumeReports"))||[];
+let coverLetters=JSON.parse(localStorage.getItem("hirebloomCoverLetters"))||[];
+let atsReports=JSON.parse(localStorage.getItem("hirebloomATSReports"))||[];
+let interviewSessions=JSON.parse(localStorage.getItem("hirebloomInterviewSessions"))||[];
+
+function safe(v,f="Not added"){return v?v:f}
+function toggleContent(id){const b=document.getElementById(id);if(b)b.style.display=b.style.display==="block"?"none":"block"}
+function reminderStatus(r){if(r.completed)return"Completed";const t=new Date();t.setHours(0,0,0,0);const d=new Date(r.date);d.setHours(0,0,0,0);return d<t?"Overdue":"Upcoming"}
+function formatDate(s){if(!s)return"Not added";const d=new Date(s);return isNaN(d)?s:d.toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"})}
+
+function renderHero(){
+welcomeName.textContent=profile.fullName||user.name||user.email||"User";
+roleBadge.textContent=profile.targetRole||"Career Goal";
+planBadge.textContent=plan+" Plan";
 }
 
-if(user && user.email){
-document.getElementById("userEmail").textContent=user.email;
+function atsData(){
+if(!atsReports.length)return{average:0,latest:null};
+const scores=atsReports.map(r=>Number(r.score)||0);
+return{average:Math.round(scores.reduce((a,b)=>a+b,0)/scores.length),latest:atsReports[atsReports.length-1]};
 }
 
-const jobs=JSON.parse(localStorage.getItem("hirebloomJobs")) || [];
-document.getElementById("jobCount").textContent=jobs.length;
-
-let savedCoverLetters=JSON.parse(localStorage.getItem("hirebloomCoverLetters")) || [];
-document.getElementById("coverLetterCount").textContent=savedCoverLetters.length;
-
-function renderCoverLetters(){
-const coverLettersList=document.getElementById("coverLettersList");
-
-document.getElementById("coverLetterCount").textContent=savedCoverLetters.length;
-
-if(savedCoverLetters.length===0){
-coverLettersList.innerHTML="<p>No cover letters saved yet.</p>";
-return;
+function profileData(){
+const checks=[["Full Name",profile.fullName],["Email",profile.email],["Phone",profile.phone],["Location",profile.location],["Target Role",profile.targetRole],["Career Goal",profile.careerGoal],["Summary",profile.summary],["Skills",profile.skills],["Education",profile.education],["Certifications",profile.certifications],["LinkedIn",profile.linkedin],["GitHub / Portfolio",profile.github||profile.portfolio]];
+const done=checks.filter(([,v])=>String(v||"").trim()).length;
+return{percent:Math.round(done/checks.length*100),missing:checks.filter(([,v])=>!String(v||"").trim()).map(([x])=>x)};
 }
 
-coverLettersList.innerHTML=savedCoverLetters.map((letter,index)=>`
-<div class="saved-item">
-<h3>Cover Letter ${index+1}</h3>
-<p><strong>Date:</strong> ${letter.date}</p>
-
-<button class="view-btn" onclick="toggleLetter(${index})">
-View / Hide
-</button>
-
-<button class="delete-btn" onclick="deleteCoverLetter(${index})">
-Delete
-</button>
-
-<pre id="letter-${index}" class="saved-letter">${letter.content}</pre>
-</div>
-`).join("");
+function renderOverview(){
+const ats=atsData();const pd=profileData();
+jobCount.textContent=jobs.length;
+interviewOverview.textContent=jobs.filter(j=>j.status==="Interview").length;
+atsAverage.textContent=ats.average+"%";
+builtResumeCount.textContent=builtResumes.length;
+upcomingReminderCount.textContent=reminders.filter(r=>reminderStatus(r)==="Upcoming").length;
+profileCompletion.textContent=pd.percent+"%";
+profileBar.style.width=pd.percent+"%";profileBar.textContent=pd.percent+"%";
+profileCompletionText.textContent=pd.percent>=90?"Excellent—your profile is nearly complete.":pd.percent>=60?"Good progress. Complete the remaining fields.":"Add more profile details to improve personalisation.";
+missingProfileFields.innerHTML=pd.missing.length?pd.missing.slice(0,5).map(x=>`<li>${x}</li>`).join(""):"<li>No major fields missing.</li>";
 }
 
-function toggleLetter(index){
-const letterBox=document.getElementById("letter-"+index);
-
-if(letterBox.style.display==="block"){
-letterBox.style.display="none";
-}else{
-letterBox.style.display="block";
-}
+function renderNextReminder(){
+const list=reminders.filter(r=>reminderStatus(r)==="Upcoming").sort((a,b)=>new Date(a.date+"T"+(a.time||"00:00"))-new Date(b.date+"T"+(b.time||"00:00")));
+if(!list.length){nextReminderBox.innerHTML='<p>No upcoming reminders.</p><a class="action-link" href="reminders.html">Add Reminder</a>';return}
+const r=list[0];
+nextReminderBox.innerHTML=`<h3>${safe(r.title)}</h3><p><strong>Type:</strong> ${safe(r.type)}</p><p><strong>Date:</strong> ${formatDate(r.date)} ${r.time?"at "+r.time:""}</p><p><strong>Company:</strong> ${safe(r.company)}</p><a class="action-link" href="reminders.html">View Reminders</a>`;
 }
 
-function deleteCoverLetter(index){
-if(confirm("Are you sure you want to delete this saved cover letter?")){
-savedCoverLetters.splice(index,1);
-localStorage.setItem("hirebloomCoverLetters",JSON.stringify(savedCoverLetters));
-renderCoverLetters();
-}
+function renderLatestLead(){
+if(!jobLeads.length){latestLeadBox.innerHTML='<p>No saved job leads.</p><a class="action-link" href="job-search-hub.html">Save a Job</a>';return}
+const l=jobLeads[jobLeads.length-1];
+latestLeadBox.innerHTML=`<h3>${safe(l.jobTitle)}</h3><p><strong>Company:</strong> ${safe(l.company)}</p><p><strong>Work Type:</strong> ${safe(l.workType)}</p><p><strong>Priority:</strong> ${safe(l.priority)}</p><a class="action-link" href="job-search-hub.html">Open Job Search Hub</a>`;
 }
 
-function logout(){
-localStorage.removeItem("hirebloomLoggedIn");
-alert("Logged out successfully.");
-window.location.href="login.html";
+function renderLatestResume(){
+if(!builtResumes.length){latestResumeBox.innerHTML='<p>No resumes saved yet.</p><a class="action-link" href="resume-builder.html">Build Resume</a>';return}
+const r=builtResumes[builtResumes.length-1];
+latestResumeBox.innerHTML=`<h3>${safe(r.name,"Resume")}</h3><p><strong>Saved:</strong> ${safe(r.date)}</p><a class="action-link" href="resume-builder.html">Open Resume Builder</a>`;
 }
 
-renderCoverLetters();
+function renderATSPerformance(){
+const a=atsData();
+if(!a.latest){atsPerformanceBox.innerHTML='<p>No ATS reports saved yet.</p><a class="action-link" href="ats-score.html">Check ATS Score</a>';return}
+atsPerformanceBox.innerHTML=`<h3>Average ATS: ${a.average}%</h3><p><strong>Latest Score:</strong> ${Number(a.latest.score)||0}%</p><p><strong>Status:</strong> ${safe(a.latest.message)}</p><a class="action-link" href="ats-score.html">Check Another Resume</a>`;
+}
+
+function renderTip(){
+const tips=["Tailor your resume for every job description.","Use measurable achievements instead of only listing duties.","Follow up politely 5–7 days after applying.","Keep your LinkedIn profile aligned with your resume.","Practice interview answers aloud every week.","Prioritise jobs that closely match your real experience."];
+careerTip.textContent=tips[new Date().getDate()%tips.length];
+}
+
+function renderAnalytics(){
+const total=jobs.length,applied=jobs.filter(j=>j.status==="Applied").length,interview=jobs.filter(j=>j.status==="Interview").length,offer=jobs.filter(j=>j.status==="Offer").length,rejected=jobs.filter(j=>j.status==="Rejected").length;
+const success=total?Math.round((interview+offer)/total*100):0;
+analyticsTotal.textContent=total;analyticsApplied.textContent=applied;analyticsInterview.textContent=interview;analyticsOffer.textContent=offer;analyticsRejected.textContent=rejected;analyticsSuccess.textContent=success+"%";successBar.style.width=success+"%";successBar.textContent=success+"%";
+analyticsAdvice.textContent=total===0?"Add job applications to start tracking your progress.":success>=70?"Excellent progress—you are getting strong responses.":success>=40?"Good progress. Keep tailoring your resume and applying consistently.":"Your response rate is still low. Target closer matches and strengthen your applications.";
+}
+
+function renderProfile(){
+if(!profile.fullName&&!profile.email){profileSummary.innerHTML='<div class="saved-item"><p>No profile saved yet.</p><a class="action-link" href="profile.html">Create Profile</a></div>';return}
+profileSummary.innerHTML=`<div class="saved-item"><h3>${safe(profile.fullName,"Profile")}</h3><p><strong>Target Role:</strong> ${safe(profile.targetRole)}</p><p><strong>Email:</strong> ${safe(profile.email)}</p><p><strong>Plan:</strong> ${plan}</p><div class="profile-grid"><div class="profile-box"><strong>Phone</strong><br>${safe(profile.phone)}</div><div class="profile-box"><strong>Location</strong><br>${safe(profile.location)}</div><div class="profile-box"><strong>Experience</strong><br>${safe(profile.experienceLevel)}</div><div class="profile-box"><strong>Job Type</strong><br>${safe(profile.jobType)}</div></div><button class="view-btn" onclick="toggleContent('profile-details')">View / Hide Full Profile</button><a href="profile.html" class="view-btn" style="display:inline-block;text-decoration:none">Edit Profile</a><pre id="profile-details" class="saved-content">Career Goal:
+${safe(profile.careerGoal)}
+
+Professional Summary:
+${safe(profile.summary)}
+
+Skills:
+${safe(profile.skills)}
+
+Education:
+${safe(profile.education)}
+
+Certifications:
+${safe(profile.certifications)}
+
+LinkedIn:
+${safe(profile.linkedin)}
+
+GitHub:
+${safe(profile.github)}
+
+Portfolio:
+${safe(profile.portfolio)}
+
+Salary Expectation:
+${safe(profile.salary)}
+
+Last Updated:
+${safe(profile.updatedAt,"Not saved yet")}</pre></div>`;
+}
+
+function renderList(container,items,kind){
+if(!items.length){container.innerHTML=`<p>No ${kind} saved yet.</p>`;return}
+container.innerHTML=items.map((x,i)=>`<div class="saved-item"><h3>${kind} ${i+1}${x.score!==undefined?" — "+(Number(x.score)||0)+"%":""}</h3><p><strong>Date:</strong> ${safe(x.date)}</p>${x.message?`<p><strong>Status:</strong> ${safe(x.message)}</p>`:""}<button class="view-btn" onclick="toggleContent('${kind.replaceAll(" ","-")}-${i}')">View / Hide</button><pre id="${kind.replaceAll(" ","-")}-${i}" class="saved-content">${safe(x.content,"No content")}</pre></div>`).join("");
+}
+
+renderHero();renderOverview();renderNextReminder();renderLatestLead();renderLatestResume();renderATSPerformance();renderTip();renderAnalytics();renderProfile();
+renderList(builtResumesList,builtResumes,"Built Resume");
+renderList(resumeReportsList,resumeReports,"Resume Report");
+renderList(coverLettersList,coverLetters,"Cover Letter");
+renderList(atsReportsList,atsReports,"ATS Report");
+renderList(interviewSessionsList,interviewSessions,"Interview Session");
+
+function logout(){localStorage.removeItem("hirebloomLoggedIn");alert("Logged out successfully.");window.location.href="login.html"}
 </script>
-
 </body>
 </html>

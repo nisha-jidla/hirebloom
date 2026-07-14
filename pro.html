@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pro Features - HireBloom</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:#f5f0ff;color:#1a1a2e}
+nav{display:flex;justify-content:space-between;align-items:center;padding:20px 60px;background:white;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.logo{font-size:24px;font-weight:700;color:#6c3fc5;text-decoration:none}
+.logo span{color:#f59e0b}
+.nav-links{display:flex;gap:12px;align-items:center}
+.nav-btn{background:#6c3fc5;color:white;padding:10px 20px;border-radius:25px;text-decoration:none;font-weight:600}
+.dashboard-btn{background:#f59e0b}
+.container{max-width:1150px;margin:50px auto;padding:0 20px}
+.hero{text-align:center;background:linear-gradient(135deg,#6c3fc5,#f59e0b);color:white;padding:60px 25px;border-radius:22px;box-shadow:0 6px 25px rgba(0,0,0,.12);margin-bottom:40px}
+.hero h1{font-size:44px;margin-bottom:15px}
+.hero p{font-size:18px;max-width:800px;margin:0 auto 25px;line-height:1.7}
+.badge{display:inline-block;background:white;color:#6c3fc5;padding:8px 18px;border-radius:25px;font-weight:700}
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-bottom:40px}
+.plan-card{background:white;border-radius:18px;padding:32px;box-shadow:0 4px 20px rgba(0,0,0,.07);position:relative}
+.plan-card.pro{border:3px solid #6c3fc5}
+.plan-label{position:absolute;top:-16px;right:25px;background:#6c3fc5;color:white;padding:8px 18px;border-radius:25px;font-weight:700}
+.plan-card h2{font-size:32px;margin-bottom:8px;color:#1a1a2e}
+.price{font-size:38px;font-weight:800;color:#6c3fc5;margin:20px 0}
+.price span{font-size:16px;color:#666;font-weight:500}
+.plan-card ul{list-style:none;margin-top:20px}
+.plan-card li{padding:11px 0;border-bottom:1px solid #eee;color:#333}
+.plan-card li::before{content:"✅ "}
+.pro li::before{content:"🌟 "}
+.btn{width:100%;padding:15px;border:none;border-radius:30px;background:#6c3fc5;color:white;font-size:17px;font-weight:700;cursor:pointer;margin-top:25px}
+.btn:hover{background:#5630a3}
+.free-btn{background:#64748b}
+.free-btn:hover{background:#475569}
+.section{background:white;border-radius:18px;padding:32px;box-shadow:0 4px 20px rgba(0,0,0,.07);margin-bottom:30px}
+.section h2{font-size:28px;margin-bottom:20px;color:#1a1a2e}
+.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.feature{background:#f9f6ff;padding:22px;border-radius:14px}
+.feature h3{color:#6c3fc5;margin-bottom:8px}
+.feature p{color:#555;line-height:1.6}
+.compare-table{width:100%;border-collapse:collapse;margin-top:15px}
+.compare-table th,.compare-table td{padding:15px;border-bottom:1px solid #eee;text-align:left}
+.compare-table th{background:#f9f6ff;color:#1a1a2e}
+.status-yes{color:#166534;font-weight:700}
+.status-no{color:#991b1b;font-weight:700}
+.note{background:#fff7ed;border-left:5px solid #f59e0b;padding:18px;border-radius:12px;line-height:1.7;color:#444}
+@media(max-width:900px){.plans,.feature-grid{grid-template-columns:1fr}nav{padding:20px;flex-direction:column;gap:15px}.nav-links{flex-direction:column;width:100%}.nav-btn{text-align:center;width:100%}.hero h1{font-size:34px}}
+</style>
+</head>
+
+<body>
+
+<nav>
+<a href="index.html" class="logo">Hire<span>Bloom</span> 🌸</a>
+<div class="nav-links">
+<a href="index.html" class="nav-btn">🏠 Home</a>
+<a href="dashboard.html" class="nav-btn dashboard-btn">📊 Dashboard</a>
+</div>
+</nav>
+
+<div class="container">
+
+<section class="hero">
+<h1>👑 HireBloom Pro</h1>
+<p>Upgrade your job search with advanced AI tools, unlimited storage, smarter insights, and professional career support features.</p>
+<span class="badge" id="currentPlanBadge">Current Plan: Free</span>
+</section>
+
+<section class="plans">
+
+<div class="plan-card">
+<h2>Free Plan</h2>
+<p>Perfect for learning, testing, and managing a basic job search.</p>
+<div class="price">£0 <span>/ month</span></div>
+<ul>
+<li>Profile page</li>
+<li>Resume Builder</li>
+<li>Resume Analyzer</li>
+<li>ATS Score Checker</li>
+<li>Cover Letter Generator</li>
+<li>Job Tracker</li>
+<li>Job Search Hub</li>
+<li>Basic Dashboard Analytics</li>
+<li>Local browser storage</li>
+</ul>
+<button class="btn free-btn" onclick="setPlan('Free')">Continue with Free</button>
+</div>
+
+<div class="plan-card pro">
+<div class="plan-label">Recommended</div>
+<h2>Pro Plan</h2>
+<p>Designed for serious job seekers who want deeper AI support.</p>
+<div class="price">£9.99 <span>/ month demo</span></div>
+<ul>
+<li>Everything in Free Plan</li>
+<li>AI Resume Rewrite</li>
+<li>ATS Optimization Suggestions</li>
+<li>AI Cover Letter Personalisation</li>
+<li>Interview Answer Generator</li>
+<li>Unlimited Resume Versions</li>
+<li>Job Match Recommendations</li>
+<li>Advanced Application Insights</li>
+<li>Export / Import Backup</li>
+<li>Priority Support</li>
+</ul>
+<button class="btn" onclick="setPlan('Pro')">Upgrade to Pro Demo</button>
+</div>
+
+</section>
+
+<section class="section">
+<h2>🚀 Pro Feature Highlights</h2>
+<div class="feature-grid">
+<div class="feature"><h3>AI Resume Rewrite</h3><p>Rewrite weak resume sections into stronger professional wording.</p></div>
+<div class="feature"><h3>ATS Optimization</h3><p>Suggest missing keywords, skills, and job-specific improvements.</p></div>
+<div class="feature"><h3>Interview Answer Generator</h3><p>Generate sample answers for common interview questions.</p></div>
+<div class="feature"><h3>Job Match Recommendations</h3><p>Compare saved jobs with your profile and recommend best matches.</p></div>
+<div class="feature"><h3>Advanced Analytics</h3><p>Track applications, interviews, offers, response rate, and progress.</p></div>
+<div class="feature"><h3>Backup & Export</h3><p>Export your HireBloom data and restore it later if needed.</p></div>
+</div>
+</section>
+
+<section class="section">
+<h2>📊 Free vs Pro Comparison</h2>
+<table class="compare-table">
+<thead>
+<tr><th>Feature</th><th>Free</th><th>Pro</th></tr>
+</thead>
+<tbody>
+<tr><td>Profile Page</td><td class="status-yes">Yes</td><td class="status-yes">Yes</td></tr>
+<tr><td>Resume Builder</td><td class="status-yes">Yes</td><td class="status-yes">Yes</td></tr>
+<tr><td>Resume Analyzer</td><td class="status-yes">Basic</td><td class="status-yes">Advanced AI</td></tr>
+<tr><td>ATS Score Checker</td><td class="status-yes">Basic</td><td class="status-yes">AI Optimized</td></tr>
+<tr><td>Cover Letter Generator</td><td class="status-yes">Basic</td><td class="status-yes">Personalised AI</td></tr>
+<tr><td>Job Tracker</td><td class="status-yes">Yes</td><td class="status-yes">Yes</td></tr>
+<tr><td>Job Search Hub</td><td class="status-yes">Yes</td><td class="status-yes">Yes</td></tr>
+<tr><td>Advanced Analytics</td><td class="status-no">No</td><td class="status-yes">Yes</td></tr>
+<tr><td>Interview Answer Generator</td><td class="status-no">No</td><td class="status-yes">Yes</td></tr>
+<tr><td>Backup Export / Import</td><td class="status-no">No</td><td class="status-yes">Yes</td></tr>
+<tr><td>Real Database Storage</td><td class="status-no">Future</td><td class="status-yes">Future</td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="section">
+<h2>🧪 Demo Upgrade Flow</h2>
+<div class="note">
+<strong>Important:</strong> This is currently a demo Pro page. It does not take real payment. When you click “Upgrade to Pro Demo,” HireBloom stores your selected plan in localStorage and updates the plan badge on Dashboard/Profile. Later, Stripe payment can be connected for real subscriptions.
+</div>
+</section>
+
+</div>
+
+<script>
+let currentPlan=localStorage.getItem("hirebloomPlan") || "Free";
+function updatePlanBadge(){
+document.getElementById("currentPlanBadge").textContent="Current Plan: "+currentPlan;
+}
+function setPlan(plan){
+currentPlan=plan;
+localStorage.setItem("hirebloomPlan",plan);
+updatePlanBadge();
+if(plan==="Pro"){
+alert("Pro Demo activated successfully.");
+}else{
+alert("Free Plan selected.");
+}
+}
+updatePlanBadge();
+</script>
+
+</body>
+</html>

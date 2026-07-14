@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings - HireBloom</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:#f5f0ff;color:#1a1a2e}
+nav{display:flex;justify-content:space-between;align-items:center;padding:20px 60px;background:white;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.logo{font-size:24px;font-weight:700;color:#6c3fc5;text-decoration:none}
+.logo span{color:#f59e0b}
+.nav-links{display:flex;gap:12px;align-items:center}
+.nav-btn{background:#6c3fc5;color:white;padding:10px 20px;border-radius:25px;text-decoration:none;font-weight:600}
+.dashboard-btn{background:#f59e0b}
+.container{max-width:1050px;margin:50px auto;padding:0 20px}
+h1{text-align:center;font-size:38px;margin-bottom:10px;color:#1a1a2e}
+.subtitle{text-align:center;color:#666;margin-bottom:35px}
+.card{background:white;border-radius:16px;padding:30px;box-shadow:0 4px 20px rgba(0,0,0,.06);margin-bottom:28px}
+.card h2{font-size:24px;color:#6c3fc5;margin-bottom:20px;border-bottom:2px solid #f5f0ff;padding-bottom:10px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+label{display:block;font-weight:600;margin-bottom:8px}
+input,select,textarea{width:100%;padding:13px;border:2px solid #e5e7eb;border-radius:10px;font-size:14px;font-family:inherit;outline:none}
+textarea{resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:#6c3fc5}
+.btn{width:100%;padding:15px;border:none;border-radius:30px;background:#6c3fc5;color:white;font-size:16px;font-weight:700;cursor:pointer;margin-top:18px}
+.btn:hover{background:#5630a3}
+.orange{background:#f59e0b}.orange:hover{background:#d97706}
+.red{background:#ef4444}.red:hover{background:#dc2626}
+.green{background:#16a34a}.green:hover{background:#15803d}
+.grey{background:#64748b}.grey:hover{background:#475569}
+.button-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.warning{background:#fff7ed;border-left:5px solid #f59e0b;padding:16px;border-radius:10px;line-height:1.7;color:#444;margin-top:15px}
+.danger-box{background:#fff0f0;border-left:5px solid #ef4444;padding:16px;border-radius:10px;line-height:1.7;color:#444;margin-top:15px}
+.status-box{background:#f9f6ff;border-radius:12px;padding:18px;margin-top:18px;line-height:1.8}
+.status-box strong{color:#6c3fc5}
+@media(max-width:800px){
+nav{padding:20px;flex-direction:column;gap:15px}
+.nav-links{flex-direction:column;width:100%}
+.nav-btn{width:100%;text-align:center}
+.grid,.button-grid{grid-template-columns:1fr}
+h1{font-size:30px}
+}
+</style>
+</head>
+<body>
+<nav>
+<a href="index.html" class="logo">Hire<span>Bloom</span> 🌸</a>
+<div class="nav-links">
+<a href="index.html" class="nav-btn">🏠 Home</a>
+<a href="dashboard.html" class="nav-btn dashboard-btn">📊 Dashboard</a>
+</div>
+</nav>
+
+<div class="container">
+<h1>⚙️ Settings</h1>
+<p class="subtitle">Manage your HireBloom account, plan, backups, and saved data.</p>
+
+<div class="card">
+<h2>👤 Account Settings</h2>
+<div class="grid">
+<div><label>Full Name</label><input id="settingsName" placeholder="Your name"></div>
+<div><label>Email</label><input id="settingsEmail" placeholder="Your email"></div>
+<div><label>Target Role</label><input id="settingsRole" placeholder="Example: Software Tester"></div>
+<div><label>Location</label><input id="settingsLocation" placeholder="Example: Livingston"></div>
+</div>
+<label style="margin-top:20px;">Career Goal</label>
+<textarea id="settingsGoal" rows="4" placeholder="Write your career goal..."></textarea>
+<button class="btn" onclick="saveAccountSettings()">Save Account Settings</button>
+<div class="status-box" id="accountStatus">Account settings will appear here.</div>
+</div>
+
+<div class="card">
+<h2>👑 Plan Settings</h2>
+<label>Current Plan</label>
+<select id="planSelect">
+<option value="Free">Free</option>
+<option value="Pro">Pro</option>
+</select>
+<div class="button-grid">
+<button class="btn orange" onclick="savePlan()">Save Plan</button>
+<a href="pro.html" class="btn grey" style="text-align:center;text-decoration:none;display:block;">View Pro Page</a>
+</div>
+<div class="warning"><strong>Note:</strong> This is a demo plan setting. No payment is taken. Later, this can be connected to Stripe for real subscriptions.</div>
+</div>
+
+<div class="card">
+<h2>💾 Backup & Restore</h2>
+<p>You can export all your HireBloom local data as a backup file and import it again later.</p>
+<div class="button-grid">
+<button class="btn green" onclick="exportBackup()">Export HireBloom Backup</button>
+<button class="btn orange" onclick="document.getElementById('importFile').click()">Import Backup</button>
+</div>
+<input type="file" id="importFile" accept=".json" style="display:none;" onchange="importBackup(event)">
+<div class="warning"><strong>Important:</strong> Export creates a JSON backup file from your browser storage. Importing a backup will overwrite matching saved HireBloom data.</div>
+</div>
+
+<div class="card">
+<h2>🧹 Clear Individual Data</h2>
+<div class="grid">
+<button class="btn red" onclick="clearDataKey('hirebloomJobs','Job Tracker data')">Clear Job Tracker</button>
+<button class="btn red" onclick="clearDataKey('hirebloomJobLeads','Job Search Hub data')">Clear Job Search Hub</button>
+<button class="btn red" onclick="clearDataKey('hirebloomBuiltResumes','Built Resumes')">Clear Built Resumes</button>
+<button class="btn red" onclick="clearDataKey('hirebloomResumeReports','Resume Reports')">Clear Resume Reports</button>
+<button class="btn red" onclick="clearDataKey('hirebloomCoverLetters','Cover Letters')">Clear Cover Letters</button>
+<button class="btn red" onclick="clearDataKey('hirebloomATSReports','ATS Reports')">Clear ATS Reports</button>
+<button class="btn red" onclick="clearDataKey('hirebloomInterviewSessions','Interview Sessions')">Clear Interview Sessions</button>
+<button class="btn red" onclick="clearDataKey('hirebloomProfile','Profile')">Clear Profile</button>
+</div>
+<div class="danger-box"><strong>Warning:</strong> These buttons remove saved data from your browser. Use backup export before clearing important data.</div>
+</div>
+
+<div class="card">
+<h2>🚨 Reset Entire HireBloom Account</h2>
+<p>This will remove all saved HireBloom local data, including profile, resumes, reports, cover letters, jobs, job leads, interview sessions, plan, and login session.</p>
+<button class="btn red" onclick="resetEverything()">Reset Entire Account</button>
+<div class="danger-box"><strong>Danger:</strong> This action cannot be undone unless you exported a backup before resetting.</div>
+</div>
+
+<div class="card">
+<h2>📊 Current Saved Data Summary</h2>
+<div class="status-box" id="dataSummary"></div>
+</div>
+</div>
+
+<script>
+const HIREBLOOM_KEYS=[
+"hirebloomLoggedIn",
+"hirebloomUser",
+"hirebloomProfile",
+"hirebloomPlan",
+"hirebloomJobs",
+"hirebloomJobLeads",
+"hirebloomBuiltResumes",
+"hirebloomResumeReports",
+"hirebloomCoverLetters",
+"hirebloomATSReports",
+"hirebloomInterviewSessions"
+];
+
+function loadSettings(){
+const user=JSON.parse(localStorage.getItem("hirebloomUser")) || {};
+const profile=JSON.parse(localStorage.getItem("hirebloomProfile")) || {};
+const plan=localStorage.getItem("hirebloomPlan") || "Free";
+document.getElementById("settingsName").value=profile.fullName || user.name || "";
+document.getElementById("settingsEmail").value=profile.email || user.email || "";
+document.getElementById("settingsRole").value=profile.targetRole || "";
+document.getElementById("settingsLocation").value=profile.location || "";
+document.getElementById("settingsGoal").value=profile.careerGoal || "";
+document.getElementById("planSelect").value=plan;
+renderAccountStatus();
+renderDataSummary();
+}
+
+function saveAccountSettings(){
+const existingProfile=JSON.parse(localStorage.getItem("hirebloomProfile")) || {};
+const profile={
+...existingProfile,
+fullName:document.getElementById("settingsName").value.trim(),
+email:document.getElementById("settingsEmail").value.trim(),
+targetRole:document.getElementById("settingsRole").value.trim(),
+location:document.getElementById("settingsLocation").value.trim(),
+careerGoal:document.getElementById("settingsGoal").value.trim(),
+updatedAt:new Date().toLocaleString()
+};
+if(!profile.fullName || !profile.email){
+alert("Please enter name and email.");
+return;
+}
+localStorage.setItem("hirebloomProfile",JSON.stringify(profile));
+const user=JSON.parse(localStorage.getItem("hirebloomUser")) || {};
+user.email=profile.email;
+user.name=profile.fullName;
+localStorage.setItem("hirebloomUser",JSON.stringify(user));
+renderAccountStatus();
+renderDataSummary();
+alert("Account settings saved.");
+}
+
+function savePlan(){
+const plan=document.getElementById("planSelect").value;
+localStorage.setItem("hirebloomPlan",plan);
+const profile=JSON.parse(localStorage.getItem("hirebloomProfile")) || {};
+profile.plan=plan;
+profile.updatedAt=new Date().toLocaleString();
+localStorage.setItem("hirebloomProfile",JSON.stringify(profile));
+renderAccountStatus();
+renderDataSummary();
+alert("Plan updated to "+plan+".");
+}
+
+function renderAccountStatus(){
+const profile=JSON.parse(localStorage.getItem("hirebloomProfile")) || {};
+const plan=localStorage.getItem("hirebloomPlan") || "Free";
+document.getElementById("accountStatus").innerHTML=`
+<p><strong>Name:</strong> ${profile.fullName || "Not added"}</p>
+<p><strong>Email:</strong> ${profile.email || "Not added"}</p>
+<p><strong>Target Role:</strong> ${profile.targetRole || "Not added"}</p>
+<p><strong>Location:</strong> ${profile.location || "Not added"}</p>
+<p><strong>Plan:</strong> ${plan}</p>
+`;
+}
+
+function getArrayCount(key){
+const value=JSON.parse(localStorage.getItem(key) || "[]");
+return Array.isArray(value) ? value.length : 0;
+}
+
+function renderDataSummary(){
+const profile=localStorage.getItem("hirebloomProfile") ? "Saved" : "Not saved";
+const plan=localStorage.getItem("hirebloomPlan") || "Free";
+document.getElementById("dataSummary").innerHTML=`
+<p><strong>Profile:</strong> ${profile}</p>
+<p><strong>Plan:</strong> ${plan}</p>
+<p><strong>Job Tracker Applications:</strong> ${getArrayCount("hirebloomJobs")}</p>
+<p><strong>Saved Job Leads:</strong> ${getArrayCount("hirebloomJobLeads")}</p>
+<p><strong>Built Resumes:</strong> ${getArrayCount("hirebloomBuiltResumes")}</p>
+<p><strong>Resume Reports:</strong> ${getArrayCount("hirebloomResumeReports")}</p>
+<p><strong>Cover Letters:</strong> ${getArrayCount("hirebloomCoverLetters")}</p>
+<p><strong>ATS Reports:</strong> ${getArrayCount("hirebloomATSReports")}</p>
+<p><strong>Interview Sessions:</strong> ${getArrayCount("hirebloomInterviewSessions")}</p>
+`;
+}
+
+function exportBackup(){
+const backup={};
+HIREBLOOM_KEYS.forEach(key=>{backup[key]=localStorage.getItem(key);});
+backup.exportedAt=new Date().toLocaleString();
+backup.app="HireBloom";
+const blob=new Blob([JSON.stringify(backup,null,2)],{type:"application/json"});
+const url=URL.createObjectURL(blob);
+const a=document.createElement("a");
+a.href=url;
+a.download="hirebloom-backup.json";
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+URL.revokeObjectURL(url);
+alert("Backup exported successfully.");
+}
+
+function importBackup(event){
+const file=event.target.files[0];
+if(!file){return;}
+const reader=new FileReader();
+reader.onload=function(e){
+try{
+const backup=JSON.parse(e.target.result);
+if(!backup.app || backup.app!=="HireBloom"){
+if(!confirm("This file may not be a HireBloom backup. Import anyway?")){return;}
+}
+HIREBLOOM_KEYS.forEach(key=>{
+if(backup[key]!==undefined && backup[key]!==null){
+localStorage.setItem(key,backup[key]);
+}
+});
+alert("Backup imported successfully. Refreshing page now.");
+location.reload();
+}catch(error){
+alert("Import failed. Please choose a valid JSON backup file.");
+}
+};
+reader.readAsText(file);
+}
+
+function clearDataKey(key,label){
+if(!confirm("Are you sure you want to clear "+label+"?")){return;}
+localStorage.removeItem(key);
+renderAccountStatus();
+renderDataSummary();
+alert(label+" cleared.");
+}
+
+function resetEverything(){
+const confirmText=prompt("Type RESET to confirm full account reset.");
+if(confirmText!=="RESET"){
+alert("Reset cancelled.");
+return;
+}
+HIREBLOOM_KEYS.forEach(key=>{localStorage.removeItem(key);});
+alert("All HireBloom data cleared. You will be redirected to login.");
+window.location.href="login.html";
+}
+
+loadSettings();
+</script>
+</body>
+</html>

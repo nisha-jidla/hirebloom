@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reminder Center - HireBloom</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+font-family:'Segoe UI',sans-serif;
+background:#f5f0ff;
+color:#1a1a2e;
+}
+
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 60px;
+background:white;
+box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+.logo{
+font-size:24px;
+font-weight:700;
+color:#6c3fc5;
+text-decoration:none;
+}
+
+.logo span{
+color:#f59e0b;
+}
+
+.nav-links{
+display:flex;
+gap:12px;
+align-items:center;
+}
+
+.nav-btn{
+background:#6c3fc5;
+color:white;
+padding:10px 20px;
+border-radius:25px;
+text-decoration:none;
+font-weight:600;
+}
+
+.dashboard-btn{
+background:#f59e0b;
+}
+
+.container{
+max-width:1150px;
+margin:50px auto;
+padding:0 20px;
+}
+
+h1{
+text-align:center;
+font-size:38px;
+margin-bottom:10px;
+}
+
+.subtitle{
+text-align:center;
+color:#666;
+margin-bottom:35px;
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:18px;
+margin-bottom:30px;
+}
+
+.stat{
+background:white;
+padding:22px;
+border-radius:16px;
+text-align:center;
+box-shadow:0 4px 20px rgba(0,0,0,.06);
+}
+
+.stat h3{
+font-size:30px;
+color:#6c3fc5;
+}
+
+.stat p{
+color:#666;
+font-weight:600;
+}
+
+.card,.table-card{
+background:white;
+border-radius:16px;
+padding:30px;
+box-shadow:0 4px 20px rgba(0,0,0,.06);
+margin-bottom:30px;
+}
+
+.form-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:20px;
+}
+
+label{
+font-weight:600;
+margin-bottom:8px;
+display:block;
+}
+
+input,select,textarea{
+width:100%;
+padding:13px;
+border:2px solid #e5e7eb;
+border-radius:10px;
+font-size:14px;
+font-family:inherit;
+outline:none;
+}
+
+textarea{
+resize:vertical;
+}
+
+input:focus,select:focus,textarea:focus{
+border-color:#6c3fc5;
+}
+
+.btn{
+margin-top:22px;
+width:100%;
+padding:15px;
+border:none;
+border-radius:30px;
+background:#6c3fc5;
+color:white;
+font-size:17px;
+font-weight:600;
+cursor:pointer;
+}
+
+.btn:hover{
+background:#5630a3;
+}
+
+.clear-btn{
+background:#ef4444;
+}
+
+.clear-btn:hover{
+background:#dc2626;
+}
+
+.button-row{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
+}
+
+th,td{
+padding:14px;
+border-bottom:1px solid #eee;
+text-align:left;
+font-size:14px;
+vertical-align:top;
+}
+
+th{
+background:#f9f6ff;
+}
+
+.tag{
+padding:6px 12px;
+border-radius:20px;
+font-size:13px;
+font-weight:700;
+display:inline-block;
+}
+
+.interview{background:#e0f2fe;color:#0369a1}
+.deadline{background:#fee2e2;color:#991b1b}
+.followup{background:#fef3c7;color:#92400e}
+.networking{background:#f3e8ff;color:#6b21a8}
+.certification{background:#dcfce7;color:#166534}
+
+.upcoming{background:#e0f2fe;color:#0369a1}
+.overdue{background:#fee2e2;color:#991b1b}
+.completed{background:#dcfce7;color:#166534}
+
+.edit-btn{
+background:#f59e0b;
+color:white;
+border:none;
+padding:8px 12px;
+border-radius:8px;
+cursor:pointer;
+margin-right:6px;
+}
+
+.delete-btn{
+background:#ef4444;
+color:white;
+border:none;
+padding:8px 12px;
+border-radius:8px;
+cursor:pointer;
+}
+
+.done-btn{
+background:#16a34a;
+color:white;
+border:none;
+padding:8px 12px;
+border-radius:8px;
+cursor:pointer;
+margin-right:6px;
+}
+
+.empty{
+text-align:center;
+color:#777;
+padding:25px;
+}
+
+.note{
+background:#fff7ed;
+border-left:5px solid #f59e0b;
+padding:15px;
+border-radius:10px;
+line-height:1.7;
+color:#444;
+margin-top:15px;
+}
+
+@media(max-width:900px){
+.form-grid,.stats,.button-row{
+grid-template-columns:1fr;
+}
+
+nav{
+padding:20px;
+flex-direction:column;
+gap:15px;
+}
+
+.nav-links{
+flex-direction:column;
+width:100%;
+}
+
+.nav-btn{
+text-align:center;
+width:100%;
+}
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+<a href="index.html" class="logo">Hire<span>Bloom</span> 🌸</a>
+
+<div class="nav-links">
+<a href="index.html" class="nav-btn">🏠 Home</a>
+<a href="dashboard.html" class="nav-btn dashboard-btn">📊 Dashboard</a>
+</div>
+</nav>
+
+<div class="container">
+
+<h1>📅 Reminder Center</h1>
+<p class="subtitle">Track interviews, application deadlines, follow-ups, networking events, and certification reminders.</p>
+
+<div class="stats">
+<div class="stat"><h3 id="totalCount">0</h3><p>Total Reminders</p></div>
+<div class="stat"><h3 id="upcomingCount">0</h3><p>Upcoming</p></div>
+<div class="stat"><h3 id="overdueCount">0</h3><p>Overdue</p></div>
+<div class="stat"><h3 id="completedCount">0</h3><p>Completed</p></div>
+</div>
+
+<div class="card">
+
+<div class="form-grid">
+
+<div>
+<label>Reminder Title</label>
+<input id="title" placeholder="Example: Meta Interview">
+</div>
+
+<div>
+<label>Reminder Type</label>
+<select id="type">
+<option value="Interview">Interview</option>
+<option value="Application Deadline">Application Deadline</option>
+<option value="Follow Up">Recruiter Follow-up</option>
+<option value="Networking">Networking Event</option>
+<option value="Certification">Certification Renewal</option>
+</select>
+</div>
+
+<div>
+<label>Reminder Date</label>
+<input type="date" id="date">
+</div>
+
+<div>
+<label>Reminder Time</label>
+<input type="time" id="time">
+</div>
+
+<div>
+<label>Company / Contact</label>
+<input id="company" placeholder="Example: Meta / Recruiter Name">
+</div>
+
+<div>
+<label>Priority</label>
+<select id="priority">
+<option value="High">High</option>
+<option value="Medium">Medium</option>
+<option value="Low">Low</option>
+</select>
+</div>
+
+<div style="grid-column:1/-1;">
+<label>Notes</label>
+<textarea id="notes" rows="4" placeholder="Add interview link, location, preparation notes, follow-up message, or deadline details..."></textarea>
+</div>
+
+</div>
+
+<div class="button-row">
+<button class="btn" id="saveBtn" onclick="saveReminder()">Save Reminder</button>
+<button class="btn clear-btn" onclick="clearAllReminders()">Clear All Reminders</button>
+</div>
+
+<div class="note">
+<strong>Tip:</strong> This reminder center saves your reminders locally in your browser. Later, it can be connected to email/calendar notifications.
+</div>
+
+</div>
+
+<div class="table-card">
+<h2>My Reminders</h2>
+
+<table>
+<thead>
+<tr>
+<th>Title</th>
+<th>Type</th>
+<th>Date</th>
+<th>Time</th>
+<th>Company</th>
+<th>Priority</th>
+<th>Status</th>
+<th>Notes</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="reminderList"></tbody>
+</table>
+
+<div id="emptyMessage" class="empty">No reminders saved yet.</div>
+</div>
+
+</div>
+
+<script>
+let reminders=JSON.parse(localStorage.getItem("hirebloomReminders")) || [];
+let editIndex=null;
+
+function saveReminders(){
+localStorage.setItem("hirebloomReminders",JSON.stringify(reminders));
+}
+
+function getValue(id){
+return document.getElementById(id).value.trim();
+}
+
+function saveReminder(){
+
+const reminder={
+title:getValue("title"),
+type:document.getElementById("type").value,
+date:document.getElementById("date").value,
+time:document.getElementById("time").value,
+company:getValue("company"),
+priority:document.getElementById("priority").value,
+notes:getValue("notes"),
+completed:false,
+createdAt:new Date().toLocaleString()
+};
+
+if(!reminder.title || !reminder.date){
+alert("Please fill Reminder Title and Reminder Date.");
+return;
+}
+
+if(editIndex===null){
+reminders.push(reminder);
+}else{
+reminder.completed=reminders[editIndex].completed || false;
+reminders[editIndex]=reminder;
+editIndex=null;
+document.getElementById("saveBtn").textContent="Save Reminder";
+}
+
+saveReminders();
+renderReminders();
+clearForm();
+
+alert("Reminder saved successfully.");
+}
+
+function clearForm(){
+document.getElementById("title").value="";
+document.getElementById("type").value="Interview";
+document.getElementById("date").value="";
+document.getElementById("time").value="";
+document.getElementById("company").value="";
+document.getElementById("priority").value="High";
+document.getElementById("notes").value="";
+}
+
+function editReminder(index){
+const r=reminders[index];
+
+document.getElementById("title").value=r.title;
+document.getElementById("type").value=r.type;
+document.getElementById("date").value=r.date;
+document.getElementById("time").value=r.time || "";
+document.getElementById("company").value=r.company || "";
+document.getElementById("priority").value=r.priority || "High";
+document.getElementById("notes").value=r.notes || "";
+
+editIndex=index;
+document.getElementById("saveBtn").textContent="Update Reminder";
+window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function deleteReminder(index){
+if(confirm("Delete this reminder?")){
+reminders.splice(index,1);
+saveReminders();
+renderReminders();
+}
+}
+
+function markCompleted(index){
+reminders[index].completed=true;
+saveReminders();
+renderReminders();
+}
+
+function clearAllReminders(){
+if(reminders.length===0){
+alert("No reminders to clear.");
+return;
+}
+
+if(confirm("Delete all reminders?")){
+reminders=[];
+saveReminders();
+renderReminders();
+clearForm();
+}
+}
+
+function getTypeClass(type){
+if(type==="Application Deadline"){
+return "deadline";
+}
+
+if(type==="Follow Up"){
+return "followup";
+}
+
+return type.toLowerCase();
+}
+
+function getReminderStatus(reminder){
+if(reminder.completed){
+return "Completed";
+}
+
+const today=new Date();
+today.setHours(0,0,0,0);
+
+const reminderDate=new Date(reminder.date);
+reminderDate.setHours(0,0,0,0);
+
+if(reminderDate<today){
+return "Overdue";
+}
+
+return "Upcoming";
+}
+
+function getStatusClass(status){
+return status.toLowerCase();
+}
+
+function updateStats(){
+const total=reminders.length;
+const upcoming=reminders.filter(r=>getReminderStatus(r)==="Upcoming").length;
+const overdue=reminders.filter(r=>getReminderStatus(r)==="Overdue").length;
+const completed=reminders.filter(r=>getReminderStatus(r)==="Completed").length;
+
+document.getElementById("totalCount").textContent=total;
+document.getElementById("upcomingCount").textContent=upcoming;
+document.getElementById("overdueCount").textContent=overdue;
+document.getElementById("completedCount").textContent=completed;
+}
+
+function renderReminders(){
+const reminderList=document.getElementById("reminderList");
+const emptyMessage=document.getElementById("emptyMessage");
+
+reminderList.innerHTML="";
+updateStats();
+
+if(reminders.length===0){
+emptyMessage.style.display="block";
+return;
+}
+
+emptyMessage.style.display="none";
+
+reminders.forEach((r,index)=>{
+const status=getReminderStatus(r);
+const row=document.createElement("tr");
+
+row.innerHTML=`
+<td>${r.title}</td>
+<td><span class="tag ${getTypeClass(r.type)}">${r.type}</span></td>
+<td>${r.date}</td>
+<td>${r.time || "Not added"}</td>
+<td>${r.company || "Not added"}</td>
+<td>${r.priority}</td>
+<td><span class="tag ${getStatusClass(status)}">${status}</span></td>
+<td>${r.notes || "No notes"}</td>
+<td>
+${status!=="Completed" ? `<button class="done-btn" onclick="markCompleted(${index})">Done</button>` : ""}
+<button class="edit-btn" onclick="editReminder(${index})">Edit</button>
+<button class="delete-btn" onclick="deleteReminder(${index})">Delete</button>
+</td>
+`;
+
+reminderList.appendChild(row);
+});
+}
+
+renderReminders();
+</script>
+
+</body>
+</html>

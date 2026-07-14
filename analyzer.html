@@ -7,174 +7,33 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-
-body{
-font-family:'Segoe UI',sans-serif;
-background:#f5f0ff;
-}
-
-nav{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:20px 60px;
-background:white;
-box-shadow:0 2px 10px rgba(0,0,0,.08);
-}
-
-.logo{
-font-size:24px;
-font-weight:700;
-color:#6c3fc5;
-text-decoration:none;
-}
-
+body{font-family:'Segoe UI',sans-serif;background:#f5f0ff}
+nav{display:flex;justify-content:space-between;align-items:center;padding:20px 60px;background:white;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.logo{font-size:24px;font-weight:700;color:#6c3fc5;text-decoration:none}
 .logo span{color:#f59e0b}
-
-.home-btn{
-background:#6c3fc5;
-color:white;
-padding:10px 22px;
-border-radius:25px;
-text-decoration:none;
-font-weight:600;
-}
-
-.container{
-max-width:850px;
-margin:50px auto;
-padding:0 20px;
-}
-
-h1{
-text-align:center;
-font-size:36px;
-color:#1a1a2e;
-margin-bottom:10px;
-}
-
-.subtitle{
-text-align:center;
-color:#666;
-margin-bottom:40px;
-}
-
-.card,.result{
-background:white;
-border-radius:16px;
-padding:32px;
-margin-bottom:24px;
-box-shadow:0 4px 20px rgba(0,0,0,.06);
-}
-
-label{
-display:block;
-font-weight:600;
-color:#1a1a2e;
-margin-bottom:8px;
-}
-
-textarea{
-width:100%;
-padding:14px;
-border:2px solid #e5e7eb;
-border-radius:10px;
-font-size:14px;
-font-family:inherit;
-resize:vertical;
-outline:none;
-}
-
-textarea:focus{
-border-color:#6c3fc5;
-}
-
-.btn{
-width:100%;
-padding:16px;
-background:#6c3fc5;
-color:white;
-border:none;
-border-radius:30px;
-font-size:18px;
-font-weight:600;
-cursor:pointer;
-margin-top:20px;
-}
-
-.btn:disabled{
-background:#999;
-cursor:not-allowed;
-}
-
-.result{
-display:none;
-}
-
-.score-box{
-background:linear-gradient(135deg,#6c3fc5,#f59e0b);
-border-radius:12px;
-padding:24px;
-text-align:center;
-color:white;
-margin-bottom:25px;
-}
-
-.score{
-font-size:64px;
-font-weight:800;
-}
-
-.feedback{
-background:#f9f6ff;
-border-radius:12px;
-padding:24px;
-color:#333;
-line-height:1.8;
-}
-
-.feedback h3{
-margin-top:20px;
-margin-bottom:10px;
-color:#1a1a2e;
-}
-
-.feedback ul{
-margin-left:22px;
-margin-bottom:16px;
-}
-
-.feedback li{
-margin-bottom:8px;
-}
-
-.loading{
-display:none;
-text-align:center;
-padding:30px;
-color:#6c3fc5;
-font-size:18px;
-}
-
-.error{
-display:none;
-background:#fff0f0;
-border:2px solid #ffcccc;
-border-radius:10px;
-padding:20px;
-color:#cc0000;
-margin-top:20px;
-}
-
-@media(max-width:700px){
-nav{
-padding:20px;
-}
-
-h1{
-font-size:30px;
-}
-}
+.home-btn{background:#6c3fc5;color:white;padding:10px 22px;border-radius:25px;text-decoration:none;font-weight:600}
+.container{max-width:950px;margin:50px auto;padding:0 20px}
+h1{text-align:center;font-size:36px;color:#1a1a2e;margin-bottom:10px}
+.subtitle{text-align:center;color:#666;margin-bottom:40px}
+.card,.result{background:white;border-radius:16px;padding:32px;margin-bottom:24px;box-shadow:0 4px 20px rgba(0,0,0,.06)}
+label{display:block;font-weight:600;color:#1a1a2e;margin-bottom:8px}
+textarea{width:100%;padding:14px;border:2px solid #e5e7eb;border-radius:10px;font-size:14px;font-family:inherit;resize:vertical;outline:none}
+textarea:focus{border-color:#6c3fc5}
+.btn{width:100%;padding:16px;background:#6c3fc5;color:white;border:none;border-radius:30px;font-size:18px;font-weight:600;cursor:pointer;margin-top:20px}
+.btn:hover{background:#5630a3}
+.save-btn{background:#f59e0b}
+.result{display:none}
+.score-box{background:linear-gradient(135deg,#6c3fc5,#f59e0b);border-radius:12px;padding:24px;text-align:center;color:white;margin-bottom:25px}
+.score{font-size:64px;font-weight:800}
+.feedback{background:#f9f6ff;border-radius:12px;padding:24px;color:#333;line-height:1.8;margin-bottom:18px}
+.feedback h3{margin-top:18px;margin-bottom:10px;color:#1a1a2e}
+.feedback ul{margin-left:22px;margin-bottom:16px}
+.feedback li{margin-bottom:8px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-bottom:20px}
+.mini-card{background:#f9f6ff;border-radius:12px;padding:18px;text-align:center}
+.mini-card h3{font-size:28px;color:#6c3fc5}
+.mini-card p{color:#666;font-weight:600}
+@media(max-width:700px){nav{padding:20px}.grid{grid-template-columns:1fr}h1{font-size:30px}}
 </style>
 </head>
 
@@ -187,114 +46,182 @@ font-size:30px;
 
 <div class="container">
 
-<h1>🎯 Resume Analyzer</h1>
-<p class="subtitle">Paste your resume and job description to get your ATS match score.</p>
+<h1>📄 Resume Analyzer</h1>
+<p class="subtitle">Paste your resume to check its quality, missing sections, and improvement areas.</p>
 
 <div class="card">
+<label>📄 Paste Your Resume</label>
+<textarea id="resume" rows="14" placeholder="Paste your full resume here..."></textarea>
 
-<label>📄 Your Resume</label>
-<textarea id="resume" rows="10" placeholder="Paste your resume here..."></textarea>
-
-<label style="margin-top:20px;">💼 Job Description</label>
-<textarea id="jobdesc" rows="6" placeholder="Paste the job description here..."></textarea>
-
-<button class="btn" id="analyzeBtn" onclick="analyzeResume()">
-🚀 Analyze My Resume
-</button>
-
-<div class="error" id="errorBox"></div>
-
-</div>
-
-<div class="loading" id="loading">
-⏳ Analyzing your resume...
+<button class="btn" onclick="analyzeResume()">🚀 Analyze My Resume</button>
 </div>
 
 <div class="result" id="result">
-<h2>📊 Your Results</h2>
+<h2>📊 Resume Quality Report</h2>
 
 <div class="score-box">
-<div class="score" id="score">--</div>
-<p>ATS Match Score</p>
+<div class="score" id="score">0%</div>
+<p id="scoreMessage">Resume Quality Score</p>
+</div>
+
+<div class="grid">
+<div class="mini-card"><h3 id="strengthCount">0</h3><p>Strengths</p></div>
+<div class="mini-card"><h3 id="missingCount">0</h3><p>Missing Sections</p></div>
 </div>
 
 <div class="feedback" id="feedback"></div>
+
+<button class="btn save-btn" onclick="saveResumeReport()">💾 Save Resume Report to Dashboard</button>
 </div>
 
 </div>
 
 <script>
-async function analyzeResume(){
+let latestResumeReport=null;
+
+function analyzeResume(){
 
 const resume=document.getElementById("resume").value.trim();
-const jobdesc=document.getElementById("jobdesc").value.trim();
-const btn=document.getElementById("analyzeBtn");
-const errorBox=document.getElementById("errorBox");
+const lower=resume.toLowerCase();
 
-errorBox.style.display="none";
-
-if(!resume || !jobdesc){
-alert("Please paste both resume and job description.");
+if(!resume){
+alert("Please paste your resume first.");
 return;
 }
 
-btn.disabled=true;
-btn.textContent="⏳ Analyzing...";
-document.getElementById("loading").style.display="block";
-document.getElementById("result").style.display="none";
+let score=0;
+let strengths=[];
+let missing=[];
+let improvements=[];
 
-try{
-
-const response=await fetch("/.netlify/functions/analyze",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({resume,jobdesc})
-});
-
-const data=await response.json();
-
-if(!response.ok){
-throw new Error(data.error || "Analysis failed");
+if(resume.length>300){
+score+=15;
+strengths.push("Resume has enough detail for initial review.");
+}else{
+missing.push("More resume content needed.");
+improvements.push("Add more details about your experience, projects, and achievements.");
 }
 
-document.getElementById("score").textContent=(data.score || 75)+"%";
+if(lower.includes("@") || lower.includes("email")){
+score+=10;
+strengths.push("Contact/email information appears to be included.");
+}else{
+missing.push("Contact details or email.");
+improvements.push("Add your email and phone number at the top.");
+}
+
+if(lower.includes("summary") || lower.includes("profile") || lower.includes("objective")){
+score+=10;
+strengths.push("Professional summary/profile section found.");
+}else{
+missing.push("Professional summary.");
+improvements.push("Add a short professional summary at the top.");
+}
+
+if(lower.includes("skills")){
+score+=15;
+strengths.push("Skills section found.");
+}else{
+missing.push("Skills section.");
+improvements.push("Add a clear skills section with tools, technologies, and soft skills.");
+}
+
+if(lower.includes("experience") || lower.includes("work history") || lower.includes("employment")){
+score+=15;
+strengths.push("Experience section found.");
+}else{
+missing.push("Experience section.");
+improvements.push("Add work experience with job titles, company names, dates, and duties.");
+}
+
+if(lower.includes("education") || lower.includes("degree") || lower.includes("college") || lower.includes("university")){
+score+=10;
+strengths.push("Education details found.");
+}else{
+missing.push("Education section.");
+improvements.push("Add your education or relevant training.");
+}
+
+if(lower.includes("project") || lower.includes("portfolio") || lower.includes("github")){
+score+=10;
+strengths.push("Projects/portfolio details found.");
+}else{
+missing.push("Projects or portfolio.");
+improvements.push("Add project examples, GitHub links, or portfolio work.");
+}
+
+if(lower.includes("certification") || lower.includes("certificate") || lower.includes("certified")){
+score+=8;
+strengths.push("Certification/training details found.");
+}else{
+missing.push("Certifications or training.");
+improvements.push("Add any relevant certificates, courses, or training.");
+}
+
+if(/\d+%|\d+\+|increased|reduced|improved|saved|achieved/.test(lower)){
+score+=12;
+strengths.push("Some achievement-focused wording or metrics found.");
+}else{
+missing.push("Measurable achievements.");
+improvements.push("Add measurable results such as percentages, numbers, or impact.");
+}
+
+if(score>100){score=100;}
+
+let message="Needs improvement";
+if(score>=80){message="Strong Resume";}
+else if(score>=60){message="Good Resume";}
+else if(score>=40){message="Basic Resume";}
+else{message="Needs More Detail";}
+
+document.getElementById("score").textContent=score+"%";
+document.getElementById("scoreMessage").textContent=message;
+document.getElementById("strengthCount").textContent=strengths.length;
+document.getElementById("missingCount").textContent=missing.length;
 
 document.getElementById("feedback").innerHTML=`
 <h3>✅ Strengths</h3>
-<ul>
-${(data.strengths || []).map(item=>`<li>${item}</li>`).join("")}
-</ul>
+<ul>${strengths.length ? strengths.map(s=>`<li>${s}</li>`).join("") : "<li>No strong sections detected yet.</li>"}</ul>
 
-<h3>🔧 Improvements</h3>
-<ul>
-${(data.improvements || []).map(item=>`<li>${item}</li>`).join("")}
-</ul>
+<h3>⚠️ Missing Sections</h3>
+<ul>${missing.length ? missing.map(m=>`<li>${m}</li>`).join("") : "<li>No major missing sections detected.</li>"}</ul>
 
-<h3>🎯 Keywords Matched</h3>
-<ul>
-${(data.keywords_matched || []).map(item=>`<li>${item}</li>`).join("")}
-</ul>
-
-<h3>⚠️ Keywords Missing</h3>
-<ul>
-${(data.keywords_missing || []).map(item=>`<li>${item}</li>`).join("")}
-</ul>
+<h3>🔧 Suggested Improvements</h3>
+<ul>${improvements.length ? improvements.map(i=>`<li>${i}</li>`).join("") : "<li>Your resume looks well structured. Review grammar and customise it for each job.</li>"}</ul>
 `;
 
+latestResumeReport={
+date:new Date().toLocaleString(),
+score,
+message,
+content:
+`Resume Quality Score: ${score}%
+Status: ${message}
+
+Strengths:
+${strengths.length ? strengths.join("\n") : "No strong sections detected yet."}
+
+Missing Sections:
+${missing.length ? missing.join("\n") : "No major missing sections detected."}
+
+Suggested Improvements:
+${improvements.length ? improvements.join("\n") : "Your resume looks well structured. Review grammar and customise it for each job."}`
+};
+
 document.getElementById("result").style.display="block";
-
-}catch(error){
-
-errorBox.textContent="❌ Error: "+error.message;
-errorBox.style.display="block";
-
-}finally{
-
-document.getElementById("loading").style.display="none";
-btn.disabled=false;
-btn.textContent="🚀 Analyze My Resume";
-
 }
+
+function saveResumeReport(){
+if(!latestResumeReport){
+alert("Please analyze your resume first.");
+return;
+}
+
+let reports=JSON.parse(localStorage.getItem("hirebloomResumeReports")) || [];
+reports.push(latestResumeReport);
+localStorage.setItem("hirebloomResumeReports",JSON.stringify(reports));
+
+alert("Resume Report saved to Dashboard.");
 }
 </script>
 

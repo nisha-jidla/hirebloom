@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resume Builder - HireBloom</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:#f5f0ff;color:#1a1a2e}
+nav{display:flex;justify-content:space-between;align-items:center;padding:20px 60px;background:white;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.logo{font-size:24px;font-weight:700;color:#6c3fc5;text-decoration:none}
+.logo span{color:#f59e0b}.home-btn{background:#6c3fc5;color:white;padding:10px 22px;border-radius:25px;text-decoration:none;font-weight:600}
+.container{max-width:1200px;margin:50px auto;padding:0 20px}
+h1{text-align:center;font-size:38px;margin-bottom:10px}.subtitle{text-align:center;color:#666;margin-bottom:35px}
+.layout{display:grid;grid-template-columns:1fr 1fr;gap:25px;align-items:start}
+.card,.preview-card{background:white;border-radius:16px;padding:28px;box-shadow:0 4px 20px rgba(0,0,0,.06);margin-bottom:25px}
+.section-title{font-size:22px;color:#6c3fc5;margin-bottom:18px;border-bottom:2px solid #f5f0ff;padding-bottom:10px}
+label{display:block;font-weight:600;margin-top:15px;margin-bottom:7px}
+input,textarea{width:100%;padding:13px;border:2px solid #e5e7eb;border-radius:10px;font-size:14px;font-family:inherit;outline:none}
+textarea{resize:vertical}input:focus,textarea:focus{border-color:#6c3fc5}
+.btn{width:100%;padding:15px;border:none;border-radius:30px;background:#6c3fc5;color:white;font-size:17px;font-weight:600;cursor:pointer;margin-top:18px}
+.btn:hover{background:#5630a3}.btn-secondary{background:#f59e0b}.btn-dark{background:#1a1a2e}.btn-danger{background:#ef4444}
+.button-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.preview{background:#fff;padding:30px;border:1px solid #ddd;border-radius:12px;line-height:1.7}
+.preview h2{font-size:30px;margin-bottom:8px}.preview .contact{font-size:14px;color:#555;margin-bottom:20px}
+.preview h3{font-size:18px;color:#6c3fc5;margin-top:22px;margin-bottom:8px;border-bottom:1px solid #eee;padding-bottom:5px}
+.preview ul{margin-left:20px;margin-bottom:10px}
+.saved-note{background:#fff7ed;border-left:5px solid #f59e0b;padding:14px;border-radius:10px;margin-top:18px;color:#444;line-height:1.7}
+@media(max-width:900px){.layout{grid-template-columns:1fr}nav{padding:20px}.button-grid{grid-template-columns:1fr}}
+@media print{body{background:white}nav,.card,.subtitle,h1,.saved-note,.button-grid,.btn{display:none!important}.container{max-width:100%;margin:0;padding:0}.layout{display:block}.preview-card{box-shadow:none;margin:0;padding:0}.preview{border:none;border-radius:0;padding:20px}}
+</style>
+</head>
+<body>
+<nav><a href="index.html" class="logo">Hire<span>Bloom</span> 🌸</a><a href="index.html" class="home-btn">← Home</a></nav>
+<div class="container">
+<h1>📄 Resume Builder</h1>
+<p class="subtitle">Create, preview, save, and download a professional resume.</p>
+<div class="layout">
+<div>
+<div class="card">
+<h2 class="section-title">Personal Information</h2>
+<label>Full Name</label><input id="fullName" placeholder="Example: Nisha Jidla">
+<label>Email</label><input id="email" placeholder="Example: nisha@email.com">
+<label>Phone</label><input id="phone" placeholder="Example: 07700 000000">
+<label>Location</label><input id="location" placeholder="Example: Livingston, Scotland">
+<label>LinkedIn</label><input id="linkedin" placeholder="Paste LinkedIn URL">
+<label>GitHub / Portfolio</label><input id="github" placeholder="Paste GitHub or portfolio URL">
+</div>
+<div class="card">
+<h2 class="section-title">Professional Summary</h2>
+<label>Summary</label><textarea id="summary" rows="5" placeholder="Write a short professional summary..."></textarea>
+</div>
+<div class="card">
+<h2 class="section-title">Skills</h2>
+<label>Technical Skills</label><textarea id="technicalSkills" rows="4" placeholder="Example: HTML, CSS, JavaScript, Jira, SQL, ServiceNow"></textarea>
+<label>Soft Skills</label><textarea id="softSkills" rows="3" placeholder="Example: Communication, teamwork, problem solving"></textarea>
+</div>
+<div class="card">
+<h2 class="section-title">Work Experience</h2>
+<label>Job Title</label><input id="jobTitle" placeholder="Example: Software Tester">
+<label>Company</label><input id="company" placeholder="Example: ABC Technologies">
+<label>Dates</label><input id="workDates" placeholder="Example: Jan 2022 - Present">
+<label>Description</label><textarea id="workDescription" rows="5" placeholder="Describe your responsibilities and achievements..."></textarea>
+</div>
+<div class="card">
+<h2 class="section-title">Education</h2>
+<label>Qualification</label><input id="qualification" placeholder="Example: MSc Business Analytics">
+<label>Institution</label><input id="institution" placeholder="Example: University Name">
+<label>Year</label><input id="educationYear" placeholder="Example: 2023">
+</div>
+<div class="card">
+<h2 class="section-title">Certifications</h2>
+<label>Certifications / Training</label><textarea id="certifications" rows="4" placeholder="Example: ServiceNow Fundamentals, AWS Cloud Practitioner"></textarea>
+</div>
+<div class="card">
+<h2 class="section-title">Projects</h2>
+<label>Projects</label><textarea id="projects" rows="5" placeholder="Example: HireBloom career platform, Active Directory lab, ServiceNow app..."></textarea>
+</div>
+<div class="card">
+<div class="button-grid">
+<button class="btn" onclick="generateResume()">Preview Resume</button>
+<button class="btn btn-secondary" onclick="saveResume()">Save Resume</button>
+</div>
+<button class="btn btn-dark" onclick="downloadResumePDF()">Download / Save as PDF</button>
+<button class="btn btn-danger" onclick="clearForm()">Clear Form</button>
+<div class="saved-note"><strong>Tip:</strong> Use Preview before saving. Download PDF opens your browser print window. Select “Save as PDF” or “Microsoft Print to PDF”.</div>
+</div>
+</div>
+<div class="preview-card">
+<h2 class="section-title">Live Resume Preview</h2>
+<div class="preview" id="resumePreview"><p>Your resume preview will appear here after clicking <strong>Preview Resume</strong>.</p></div>
+</div>
+</div>
+</div>
+<script>
+let latestResume=null;
+function getValue(id){return document.getElementById(id).value.trim();}
+function listFromText(text){return text.split(/[,\n]/).map(item=>item.trim()).filter(item=>item);}
+function generateResume(){
+const fullName=getValue("fullName"),email=getValue("email"),phone=getValue("phone"),location=getValue("location"),linkedin=getValue("linkedin"),github=getValue("github"),summary=getValue("summary"),technicalSkills=getValue("technicalSkills"),softSkills=getValue("softSkills"),jobTitle=getValue("jobTitle"),company=getValue("company"),workDates=getValue("workDates"),workDescription=getValue("workDescription"),qualification=getValue("qualification"),institution=getValue("institution"),educationYear=getValue("educationYear"),certifications=getValue("certifications"),projects=getValue("projects");
+if(!fullName||!email||!summary||!technicalSkills){alert("Please fill at least Full Name, Email, Summary, and Technical Skills.");return;}
+const techList=listFromText(technicalSkills),softList=listFromText(softSkills),certList=listFromText(certifications),projectList=listFromText(projects);
+const html=`<h2>${fullName}</h2><div class="contact">${email}${phone ? " | "+phone : ""}${location ? " | "+location : ""}<br>${linkedin ? "LinkedIn: "+linkedin+"<br>" : ""}${github ? "Portfolio/GitHub: "+github : ""}</div><h3>Professional Summary</h3><p>${summary}</p><h3>Technical Skills</h3><ul>${techList.length ? techList.map(s=>`<li>${s}</li>`).join("") : "<li>No technical skills added.</li>"}</ul><h3>Soft Skills</h3><ul>${softList.length ? softList.map(s=>`<li>${s}</li>`).join("") : "<li>No soft skills added.</li>"}</ul><h3>Work Experience</h3><p><strong>${jobTitle || "Job Title"}</strong>${company ? " - "+company : ""}</p><p>${workDates || ""}</p><p>${workDescription || "No work experience description added."}</p><h3>Education</h3><p><strong>${qualification || "Qualification"}</strong>${institution ? " - "+institution : ""}</p><p>${educationYear || ""}</p><h3>Certifications</h3><ul>${certList.length ? certList.map(c=>`<li>${c}</li>`).join("") : "<li>No certifications added.</li>"}</ul><h3>Projects</h3><ul>${projectList.length ? projectList.map(p=>`<li>${p}</li>`).join("") : "<li>No projects added.</li>"}</ul>`;
+const plainText=`${fullName}\n${email}${phone ? " | "+phone : ""}${location ? " | "+location : ""}\n\nProfessional Summary:\n${summary}\n\nTechnical Skills:\n${techList.join(", ")}\n\nSoft Skills:\n${softList.join(", ")}\n\nWork Experience:\n${jobTitle}${company ? " - "+company : ""}\n${workDates}\n${workDescription}\n\nEducation:\n${qualification}${institution ? " - "+institution : ""}\n${educationYear}\n\nCertifications:\n${certList.join("\n")}\n\nProjects:\n${projectList.join("\n")}`;
+document.getElementById("resumePreview").innerHTML=html;
+latestResume={date:new Date().toLocaleString(),name:fullName,content:plainText};
+}
+function saveResume(){
+if(!latestResume){generateResume();}
+if(!latestResume){return;}
+let resumes=JSON.parse(localStorage.getItem("hirebloomBuiltResumes")) || [];
+resumes.push(latestResume);
+localStorage.setItem("hirebloomBuiltResumes",JSON.stringify(resumes));
+alert("Resume saved successfully.");
+}
+function downloadResumePDF(){
+const preview=document.getElementById("resumePreview").innerHTML;
+if(preview.includes("Your resume preview will appear")){alert("Please preview your resume first.");return;}
+const printWindow=window.open("","","width=850,height=1000");
+printWindow.document.write(`<html><head><title>Resume</title><style>body{font-family:Arial,sans-serif;padding:40px;line-height:1.7;color:#222}h2{font-size:28px;margin-bottom:5px}.contact{font-size:14px;color:#555;margin-bottom:18px}h3{font-size:18px;color:#333;border-bottom:1px solid #ddd;padding-bottom:5px;margin-top:22px}ul{margin-left:22px}</style></head><body>${preview}</body></html>`);
+printWindow.document.close();
+printWindow.print();
+}
+function clearForm(){
+if(!confirm("Clear all resume builder fields?")){return;}
+document.querySelectorAll("input, textarea").forEach(field=>field.value="");
+document.getElementById("resumePreview").innerHTML="<p>Your resume preview will appear here after clicking <strong>Preview Resume</strong>.</p>";
+latestResume=null;
+}
+</script>
+</body>
+</html>
